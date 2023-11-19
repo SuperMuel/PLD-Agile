@@ -1,6 +1,14 @@
 # Custom entries
 
 .idea
+.attach_pid*
+
+# Exclude IntelliJ Java IDE settings!
+*.iml
+
+
+
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/java,maven,macos,linux,windows,eclipse,netbeans,visualstudiocode,visualstudio,intellij
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,maven,macos,linux,windows,eclipse,netbeans,visualstudiocode,visualstudio,intellij
