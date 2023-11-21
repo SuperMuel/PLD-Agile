@@ -135,7 +135,7 @@ public class HelloApplication extends Application {
         group.getChildren().addAll(lineList);
 
         List<Circle> circleList = new ArrayList<>();
-        for(Map.Entry mapentry : intersectionList.entrySet()){
+        for(Map.Entry<Long, Intersection> mapentry : intersectionList.entrySet()){
             Intersection temp = (Intersection) mapentry.getValue();
             float x = (temp.getLatitude()-minLatitude)*800/(maxLatitude-minLatitude);
             float y = (temp.getLongitude()-maxLongitude)*800/(minLongitude-maxLongitude);
