@@ -7,7 +7,6 @@ import javafx.scene.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -34,7 +33,7 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();*/
 
-        File file = new File("src/main/resources/fr/insalyon/heptabits/pldagile/ExamplesMap/largeMap.xml");
+        File file = new File("src/main/resources/fr/insalyon/heptabits/pldagile/ExamplesMap/smallMap.xml");
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         //an instance of builder to parse the specified xml file
@@ -121,8 +120,15 @@ public class HelloApplication extends Application {
             float latOrigin = (intersectionList.get(idOrigin).getLatitude()-minLatitude)*800/(maxLatitude-minLatitude);
             float longOrigin = (intersectionList.get(idOrigin).getLongitude()-maxLongitude)*800/(minLongitude-maxLongitude);
 
+            // On crée 2 lignes : 1 pour le remplissage et 1 pour le contour
             Line line = new Line(latOrigin, longOrigin, latDestination, longDestination);
+            Line stroke = new Line(latOrigin, longOrigin, latDestination, longDestination);
+            stroke.setStrokeWidth(5);
+            line.setStrokeWidth(3);
+            stroke.setStroke(Color.BLACK);
+            line.setStroke(Color.WHITE);
 
+            lineList.add(stroke);
             lineList.add(line);
         }
 
@@ -147,6 +153,8 @@ public class HelloApplication extends Application {
 
         //Creating a scene object
         Scene scene = new Scene(group, 800, 800);
+
+        scene.setFill(Color.web("#F5F5DC"));
 
         //Setting title to the Stage
         stage.setTitle("Drawing many circles");
