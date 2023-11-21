@@ -25,6 +25,7 @@ import java.util.Map;
 
 
 public class HelloApplication extends Application {
+    // on a enlevé throws IOException après start(Stage stage) parce que ça met un warning
     @Override
     public void start(Stage stage) {
         /*FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
