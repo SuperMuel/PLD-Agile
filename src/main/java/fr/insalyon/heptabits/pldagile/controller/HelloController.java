@@ -1,4 +1,4 @@
-package fr.insalyon.heptabits.pldagile;
+package fr.insalyon.heptabits.pldagile.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
