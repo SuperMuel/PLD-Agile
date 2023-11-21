@@ -110,15 +110,15 @@ public class HelloApplication extends Application {
         Group group = new Group();
 
         List<Line> lineList = new ArrayList<>();
-        for(int i=0; i<segmentList.size(); i++){
-            Long idDestination = segmentList.get(i).getDestination();
-            Long idOrigin = segmentList.get(i).getOrigin();
+        for (Segment segment : segmentList) {
+            Long idDestination = segment.getDestination();
+            Long idOrigin = segment.getOrigin();
 
-            float latDestination = (intersectionList.get(idDestination).getLatitude()-minLatitude)*800/(maxLatitude-minLatitude);
-            float longDestination = (intersectionList.get(idDestination).getLongitude()-maxLongitude)*800/(minLongitude-maxLongitude);
+            float latDestination = (intersectionList.get(idDestination).getLatitude() - minLatitude) * 800 / (maxLatitude - minLatitude);
+            float longDestination = (intersectionList.get(idDestination).getLongitude() - maxLongitude) * 800 / (minLongitude - maxLongitude);
 
-            float latOrigin = (intersectionList.get(idOrigin).getLatitude()-minLatitude)*800/(maxLatitude-minLatitude);
-            float longOrigin = (intersectionList.get(idOrigin).getLongitude()-maxLongitude)*800/(minLongitude-maxLongitude);
+            float latOrigin = (intersectionList.get(idOrigin).getLatitude() - minLatitude) * 800 / (maxLatitude - minLatitude);
+            float longOrigin = (intersectionList.get(idOrigin).getLongitude() - maxLongitude) * 800 / (minLongitude - maxLongitude);
 
             // On crée 2 lignes : 1 pour le remplissage et 1 pour le contour
             Line line = new Line(latOrigin, longOrigin, latDestination, longDestination);
