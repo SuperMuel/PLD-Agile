@@ -64,8 +64,8 @@ public class HelloApplication extends Application {
         NodeList intersectionListTemp = doc.getElementsByTagName("intersection");
         NodeList segmentListTemp = doc.getElementsByTagName("segment");
 
-        HashMap<Long, Intersection> intersectionList = new HashMap<Long, Intersection>();
-        List<Segment> segmentList = new ArrayList<Segment>();
+        HashMap<Long, Intersection> intersectionList = new HashMap<>();
+        List<Segment> segmentList = new ArrayList<>();
         Long warehouseAddress = Long.parseLong(doc.getElementsByTagName("warehouse").item(0).getAttributes().getNamedItem("address").getNodeValue());
         float minLatitude = 1000000.00f;
         float minLongitude = 1000000.0f;
