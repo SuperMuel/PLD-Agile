@@ -136,7 +136,7 @@ public class HelloApplication extends Application {
 
         List<Circle> circleList = new ArrayList<>();
         for(Map.Entry<Long, Intersection> mapentry : intersectionList.entrySet()){
-            Intersection temp = (Intersection) mapentry.getValue();
+            Intersection temp = mapentry.getValue();
             float x = (temp.getLatitude()-minLatitude)*800/(maxLatitude-minLatitude);
             float y = (temp.getLongitude()-maxLongitude)*800/(minLongitude-maxLongitude);
             Circle circle = new Circle(x, y, 3, Color.rgb(255,0,0));
