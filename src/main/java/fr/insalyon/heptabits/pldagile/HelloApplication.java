@@ -52,9 +52,7 @@ public class HelloApplication extends Application {
         {
             try {
                 doc = db.parse(file);
-            } catch (SAXException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
+            } catch (SAXException | IOException e) {
                 throw new RuntimeException(e);
             }
         }
