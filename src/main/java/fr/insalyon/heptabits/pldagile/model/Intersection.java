@@ -22,4 +22,5 @@ public class Intersection extends BaseEntity {
     public float getLongitude() {
         return longitude;
     }
+
 }
