@@ -1,4 +1,4 @@
-package fr.insalyon.heptabits.pldagile;
+package fr.insalyon.heptabits.pldagile.controller;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
