@@ -15,7 +15,8 @@ class SegmentTest {
     void setUp() {
         origin = new Intersection(0, 0, 1);
         destination = new Intersection(1, 2, 3);
-        segment = new Segment(0, origin.getId(), destination.getId(), "Rue 1");
+
+        segment = new Segment(0, origin.getId(), destination.getId(), "Rue 1", 12.1);
     }
 
     @AfterEach
@@ -35,5 +36,10 @@ class SegmentTest {
     @Test
     void getName() {
         assertEquals("Rue 1", segment.getName());
+    }
+
+    @Test
+    void getLength() {
+        assertEquals(12.1, segment.getLength());
     }
 }
