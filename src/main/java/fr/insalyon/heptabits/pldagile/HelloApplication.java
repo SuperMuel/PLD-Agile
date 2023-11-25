@@ -2,12 +2,17 @@ package fr.insalyon.heptabits.pldagile;
 
 import fr.insalyon.heptabits.pldagile.model.Intersection;
 import fr.insalyon.heptabits.pldagile.model.Segment;
+import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.scene.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -122,10 +127,10 @@ public class HelloApplication extends Application {
             // On crée 2 lignes : 1 pour le remplissage et 1 pour le contour
             Line line = new Line(latOrigin, longOrigin, latDestination, longDestination);
             Line stroke = new Line(latOrigin, longOrigin, latDestination, longDestination);
-            stroke.setStrokeWidth(5);
+            stroke.setStrokeWidth(4);
             line.setStrokeWidth(3);
-            stroke.setStroke(Color.BLACK);
-            line.setStroke(Color.WHITE);
+            stroke.setStroke(Color.web("#bdc8d0"));
+            line.setStroke(Color.web("#d8e0e7"));
 
             lineList.add(stroke);
             lineList.add(line);
@@ -133,35 +138,81 @@ public class HelloApplication extends Application {
 
         group.getChildren().addAll(lineList);
 
+        final Color CIRCLE_COLOR = Color.web("#de1c24");
+        final Color CIRCLE_COLOR_CLICKED = Color.web("#ab151b");
+        final double CIRCLE_OPACITY = 0.5;
+        final double CIRCLE_OPACITY_HOVERED = 0.8;
+
         List<Circle> circleList = new ArrayList<>();
         for(Map.Entry<Long, Intersection> mapentry : intersectionList.entrySet()){
             Intersection temp = mapentry.getValue();
             float x = (temp.getLatitude()-minLatitude)*800/(maxLatitude-minLatitude);
             float y = (temp.getLongitude()-maxLongitude)*800/(minLongitude-maxLongitude);
-            Circle circle = new Circle(x, y, 3, Color.rgb(255,0,0));
+
+            Circle circle = new Circle(x, y, 3, CIRCLE_COLOR);
+            circle.setOpacity(CIRCLE_OPACITY);
             circleList.add(circle);
+
+            // Animation pour survol de la souris
+            ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.15), circle);
+            scaleIn.setToX(3);
+            scaleIn.setToY(3);
+
+            // Animation pour sortie de la souris
+            ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.15), circle);
+            scaleOut.setToX(1);
+            scaleOut.setToY(1);
+
+            circle.addEventHandler(MouseEvent.MOUSE_ENTERED, (e) -> {
+                scaleIn.playFromStart(); // Jouer l'animation du survol
+                circle.setOpacity(CIRCLE_OPACITY_HOVERED);
+            });
+
+            circle.addEventHandler(MouseEvent.MOUSE_EXITED, (e) -> {
+                scaleOut.playFromStart(); // Jouer l'animation de sortie
+                circle.setOpacity(CIRCLE_OPACITY);
+            });
+
+            circle.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
+                circle.setFill(CIRCLE_COLOR_CLICKED);
+            });
+
+            circle.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
+                System.out.println("Clic sur l'intersection : Latitude : " + temp.getLatitude() + " | Longitude : " + temp.getLongitude());
+                circle.setFill(CIRCLE_COLOR);
+            });
+
         }
 
         group.getChildren().addAll(circleList);
 
+        // Warehouse Pin display
+
         float latWareHouse = (intersectionList.get(warehouseAddress).getLatitude()-minLatitude)*800/(maxLatitude-minLatitude);
         float longWareHouse = (intersectionList.get(warehouseAddress).getLongitude()-maxLongitude)*800/(minLongitude-maxLongitude);
-        Circle circleWareHouse = new Circle(latWareHouse, longWareHouse, 10, Color.rgb(0,255,0));
 
-        group.getChildren().add(circleWareHouse);
+        //Circle circleWareHouse = new Circle(latWareHouse, longWareHouse, 10, Color.rgb(0,255,0));
+        //group.getChildren().add(circleWareHouse);
 
-        //Creating a scene object
+        final int PIN_SIZE = 40;
+
+        Image image = new Image(new File("src/main/resources/warehouse-location-pin.png").toURI().toString(), PIN_SIZE, PIN_SIZE, false, false);
+
+        ImageView imageView = new ImageView(image);
+        imageView.setX(latWareHouse- PIN_SIZE/2.0);
+        imageView.setY(longWareHouse- PIN_SIZE);
+        group.getChildren().add(imageView);
+
+        // Final scene
         Scene scene = new Scene(group, 800, 800);
 
-        scene.setFill(Color.web("#F5F5DC"));
-
-        //Setting title to the Stage
+        scene.setFill(Color.web("#f6f5f5"));
         stage.setTitle("Drawing many circles");
 
-        //Adding scene to the stage
+        // Adding scene to the stage
         stage.setScene(scene);
 
-        //Displaying the contents of the stage
+        // Displaying the contents of the stage
         stage.show();
     }
 
