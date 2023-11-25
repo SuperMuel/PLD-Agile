@@ -18,10 +18,10 @@ class MapTest {
         Intersection i2 = new Intersection(1, 0, 1);
         Intersection i3 = new Intersection(2, 1, 0);
         Intersection i4 = new Intersection(3, 1, 1);
-        Segment s1 = new Segment(0, i1.getId(), i2.getId(), "Street 1");
-        Segment s2 = new Segment(1, i1.getId(), i3.getId(), "Street 2");
-        Segment s3 = new Segment(2, i2.getId(), i4.getId(), "Street 3");
-        Segment s4 = new Segment(3, i3.getId(), i4.getId(), "Street 4");
+        Segment s1 = new Segment(0, i1.getId(), i2.getId(), "Street 1", 1.1);
+        Segment s2 = new Segment(1, i1.getId(), i3.getId(), "Street 2", 2.2);
+        Segment s3 = new Segment(2, i2.getId(), i4.getId(), "Street 3", 3.3);
+        Segment s4 = new Segment(3, i3.getId(), i4.getId(), "Street 4", 4.4);
 
         map.addIntersection(i1);
         map.addIntersection(i2);
@@ -50,14 +50,14 @@ class MapTest {
 
     @Test
     void addSegment() {
-        Segment s5 = new Segment(4, 0, 3, "Street 5");
+        Segment s5 = new Segment(4, 0, 3, "Street 5", 5.5);
         map.addSegment(s5);
         assertEquals(5, map.getSegments().size());
     }
 
     @Test
     void addDuplicateSegment() {
-        Segment s5 = new Segment(4, 0, 3, "Street 5");
+        Segment s5 = new Segment(4, 0, 3, "Street 5", 5.5);
         map.addSegment(s5);
         assertThrows(IllegalArgumentException.class, () -> map.addSegment(s5));
     }
