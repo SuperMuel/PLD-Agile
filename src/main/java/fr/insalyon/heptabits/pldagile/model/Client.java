@@ -19,6 +19,16 @@ public class Client extends BaseEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + getId() +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
+
+
 
 }
 

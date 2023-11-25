@@ -1,14 +1,41 @@
 package fr.insalyon.heptabits.pldagile.model;
 
 public class Segment extends BaseEntity {
-    private final float lengthMeters;
 
-    public Segment(long id, float lengthMeters) {
+    // has a origin and destination intersection ids, and a name
+    private final long originId;
+    private final long destinationId;
+    private final String name;
+
+
+    public Segment(long id, long originId, long destinationId, String name) {
         super(id);
-        this.lengthMeters = lengthMeters;
+        this.originId = originId;
+        this.destinationId = destinationId;
+        this.name = name;
     }
 
-    public float getLengthMeters() {
-        return lengthMeters;
+    public long getOriginId() {
+        return originId;
     }
+
+    public long getDestinationId() {
+        return destinationId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Segment{" +
+                "id=" + getId() +
+                ", originId=" + originId +
+                ", destinationId=" + destinationId +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+
 }
