@@ -20,4 +20,16 @@ public class Delivery extends BaseEntity {
     public LocalTime getScheduledTime() {
         return scheduledTime;
     }
+
+
+    @Override
+    public String toString() {
+        return "Delivery{" +
+                "id=" + getId() +
+                ", scheduledTime=" + scheduledTime +
+                ", destination=" + destination +
+                '}';
+    }
+
+
 }

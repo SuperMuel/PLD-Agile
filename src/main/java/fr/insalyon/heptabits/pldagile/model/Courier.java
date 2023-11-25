@@ -13,5 +13,12 @@ public class Courier extends BaseEntity {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "Courier{" +
+                "id=" + getId() +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
 }
