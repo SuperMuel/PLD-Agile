@@ -6,16 +6,19 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 class DeliveryTest {
 
     Delivery delivery;
     Intersection destination;
+
+    LocalDateTime nowDt;
     @BeforeEach
     void setUp() {
+        nowDt = LocalDateTime.now();
         destination = new Intersection(0, 0, 0);
-        delivery = new Delivery(0,LocalTime.of(12,10,0) , destination);
+        delivery = new Delivery(0, nowDt, destination, 12);
     }
 
     @AfterEach
@@ -29,6 +32,16 @@ class DeliveryTest {
 
     @Test
     void getScheduledTime() {
-        assertEquals(LocalTime.of(12,10,0), delivery.getScheduledTime());
+        assertEquals(nowDt, delivery.getScheduledDateTime());
+    }
+
+    @Test
+    void getScheduledDateTime() {
+        assertEquals(nowDt, delivery.getScheduledDateTime());
+    }
+
+    @Test
+    void getCourierId() {
+        assertEquals(12, delivery.getCourierId());
     }
 }
