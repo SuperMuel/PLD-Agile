@@ -29,12 +29,8 @@ public class RoadMap extends BaseEntity {
      */
     public void addDelivery(Delivery delivery) {
         int insertIndex = 0;
-        for (Delivery d : deliveries) {
-            if (delivery.getScheduledTime().isAfter(d.getScheduledTime())) {
-                insertIndex++;
-            } else {
-                break;
-            }
+        while (insertIndex < this.deliveries.size() && this.deliveries.get(insertIndex).getScheduledDateTime().isBefore(delivery.getScheduledDateTime())) {
+            insertIndex++;
         }
         this.deliveries.add(insertIndex, delivery);
     }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,6 +13,10 @@ class RoadMapTest {
     Intersection intersection1;
     Intersection intersection2;
     RoadMap roadMap;
+
+    LocalDateTime firstDeliveryDt;
+    LocalDateTime secondDeliveryDt;
+    LocalDateTime thirdDeliveryDt;
 
     Delivery firstDelivery;
     Delivery secondDelivery;
@@ -23,9 +28,13 @@ class RoadMapTest {
         intersection1 = new Intersection(1, 40, 40);
         intersection2 = new Intersection(2, 30, 30);
 
-        firstDelivery = new Delivery(1, LocalTime.of(1, 0, 0), intersection1);
-        secondDelivery = new Delivery(2, LocalTime.of(2, 0, 0), intersection2);
-        thirdDelivery = new Delivery(3, LocalTime.of(3, 0, 0), intersection2);
+        firstDeliveryDt =  LocalDateTime.of(2020, 1, 1, 1, 0, 0);
+        secondDeliveryDt = LocalDateTime.of(2020, 1, 1, 2, 0, 0);
+        thirdDeliveryDt = LocalDateTime.of(2020, 1, 1, 3, 0, 0);
+
+        firstDelivery = new Delivery(1, firstDeliveryDt , intersection1, 0);
+        secondDelivery = new Delivery(2, secondDeliveryDt, intersection2, 0);
+        thirdDelivery = new Delivery(3, thirdDeliveryDt, intersection1, 0);
 
     }
 

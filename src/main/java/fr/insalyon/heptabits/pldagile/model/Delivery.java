@@ -1,15 +1,22 @@
 package fr.insalyon.heptabits.pldagile.model;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 public class Delivery extends BaseEntity {
-    private final LocalTime scheduledTime;
+    private final LocalDateTime scheduledDateTime;
+
+    // It's okay to directly reference an Intersection object because
+    // the Intersection properties never change.
     private final Intersection destination;
 
-    public Delivery(long id, LocalTime scheduledTime, Intersection destination) {
+    // Using id here because the courier's properties can change.
+    private final long courierId;
+
+    public Delivery(long id, LocalDateTime scheduledDateTime, Intersection destination, long courierId) {
         super(id);
-        this.scheduledTime = scheduledTime;
+        this.scheduledDateTime = scheduledDateTime;
         this.destination = destination;
+        this.courierId = courierId;
     }
 
 
@@ -17,19 +24,22 @@ public class Delivery extends BaseEntity {
         return destination;
     }
 
-    public LocalTime getScheduledTime() {
-        return scheduledTime;
+    public LocalDateTime getScheduledDateTime() {
+        return scheduledDateTime;
     }
-
 
     @Override
     public String toString() {
         return "Delivery{" +
                 "id=" + getId() +
-                ", scheduledTime=" + scheduledTime +
+                ", scheduledDateTime=" + scheduledDateTime +
                 ", destination=" + destination +
+                ", courierId=" + courierId +
                 '}';
     }
 
 
+    public long getCourierId() {
+        return courierId;
+    }
 }
