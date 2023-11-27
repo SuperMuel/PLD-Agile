@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class IntersectionTest {
 
     Intersection intersection;
+
     @BeforeEach
     void setUp() {
         intersection = new Intersection(0, 0, 1);

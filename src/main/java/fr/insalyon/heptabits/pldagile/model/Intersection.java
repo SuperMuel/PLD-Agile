@@ -22,7 +22,7 @@ public class Intersection extends BaseEntity {
         return longitude;
     }
 
-    
+
     @Override
     public String toString() {
         return "Intersection{" +
