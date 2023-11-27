@@ -1,47 +1,49 @@
 package fr.insalyon.heptabits.pldagile.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class Map extends  BaseEntity{
-    private final List<Intersection> intersections;
+public class Map extends BaseEntity {
+
+    private final HashMap<Long, Intersection> intersections;
 
     private final List<Segment> segments;
 
-    /**
-     * Constructor
-     * @param id the id of the map
-     */
-    public Map(long id){
-        super(id);
-        this.intersections = new ArrayList<>();
-        this.segments = new ArrayList<>();
-    }
+    private final long warehouseId;
+
+    private final MapBoundaries boundaries;
 
     /**
      * Constructor
-     * @param id the id of the map
+     *
+     * @param id            the id of the map
      * @param intersections the list of intersections
-     * @param segments the list of segments
+     * @param segments      the list of segments
+     * @param warehouseId   the id of the warehouse
      */
-    public Map(long id, List<Intersection> intersections, List<Segment> segments) {
+    public Map(long id, HashMap<Long, Intersection> intersections, List<Segment> segments, long warehouseId) {
         super(id);
         this.intersections = intersections;
         this.segments = segments;
+        this.warehouseId = warehouseId;
+
+        if (!intersections.containsKey(warehouseId)) {
+            throw new IllegalArgumentException("Warehouse id must be an intersection");
+        }
+
+        this.boundaries = computeBoundaries();
+
     }
 
 
-    /**
-     * Get an immutable view of intersections
-     * @return the list of intersections
-     */
-    public List<Intersection> getIntersections() {
+    public HashMap<Long, Intersection> getIntersections() {
         //immutable view
-        return List.copyOf(intersections);
+        return new HashMap<>(intersections);
     }
 
     /**
      * Get an immutable view of segments
+     *
      * @return the list of segments
      */
     public List<Segment> getSegments() {
@@ -50,36 +52,68 @@ public class Map extends  BaseEntity{
     }
 
 
-    /**
-     * Add a segment to the map
-     * @param segment the segment to add
-     * @throws IllegalArgumentException if the segment id already exists
-     */
-    public void addSegment(Segment segment){
-        // check if segment id isn't already in the list
-        for (Segment s : segments) {
-            if (s.getId() == segment.getId()) {
-                throw new IllegalArgumentException("Segment id already exists");
-            }
-        }
-        segments.add(segment);
+    public long getWarehouseId() {
+        return warehouseId;
     }
 
-    /**
-     * Add an intersection to the map
-     * @param intersection the intersection to add
-     * @throws IllegalArgumentException if the intersection id already exists
-     */
-    public void addIntersection(Intersection intersection){
-        // check if intersection id isn't already in the list
-        for (Intersection i : intersections) {
-            if (i.getId() == intersection.getId()) {
-                throw new IllegalArgumentException("Intersection id already exists");
-            }
-        }
-        intersections.add(intersection);
+    public Intersection getWarehouse() {
+        return intersections.get(warehouseId);
     }
 
+
+    private MapBoundaries computeBoundaries() {
+        // compute boundaries in one loop
+        float minLatitude = Float.MAX_VALUE;
+        float minLongitude = Float.MAX_VALUE;
+        float maxLatitude = Float.MIN_VALUE;
+        float maxLongitude = Float.MIN_VALUE;
+
+        for (Intersection i : intersections.values()) {
+            if (i.getLatitude() < minLatitude) {
+                minLatitude = i.getLatitude();
+            }
+            if (i.getLatitude() > maxLatitude) {
+                maxLatitude = i.getLatitude();
+            }
+            if (i.getLongitude() < minLongitude) {
+                minLongitude = i.getLongitude();
+            }
+            if (i.getLongitude() > maxLongitude) {
+                maxLongitude = i.getLongitude();
+            }
+        }
+
+        return new MapBoundaries(minLatitude, maxLatitude, minLongitude, maxLongitude);
+    }
+
+    public MapBoundaries getBoundaries() {
+        return boundaries;
+    }
+
+    public float getMinLatitude() {
+        return boundaries.getMinLatitude();
+    }
+
+    public float getMinLongitude() {
+        return boundaries.getMinLongitude();
+    }
+
+    public float getMaxLatitude() {
+    return boundaries.getMaxLatitude();
+    }
+
+    public float getMaxLongitude() {
+      return boundaries.getMaxLongitude();
+    }
+
+    @Override
+    public String toString() {
+        return "Map{" +
+                "intersections=" + intersections +
+                ", segments=" + segments +
+                ", warehouseId=" + warehouseId +
+                '}';
+    }
 
 
 }

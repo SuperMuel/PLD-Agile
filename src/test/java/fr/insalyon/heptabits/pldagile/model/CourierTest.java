@@ -1,5 +1,6 @@
 package fr.insalyon.heptabits.pldagile.model;
 
+import fr.insalyon.heptabits.pldagile.model.Courier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

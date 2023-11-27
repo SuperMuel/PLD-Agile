@@ -1,5 +1,8 @@
 package fr.insalyon.heptabits.pldagile.model;
 
+import fr.insalyon.heptabits.pldagile.model.Delivery;
+import fr.insalyon.heptabits.pldagile.model.Intersection;
+import fr.insalyon.heptabits.pldagile.model.RoadMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
