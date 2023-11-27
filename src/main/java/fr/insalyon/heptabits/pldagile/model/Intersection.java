@@ -13,14 +13,6 @@ public class Intersection extends BaseEntity {
         this.longitude = longitude;
     }
 
-    public float distance(Intersection other) {
-
-        // if other is null thorw exception
-        if (other == null) {
-            throw new IllegalArgumentException("other is null");
-        }
-        throw new UnsupportedOperationException();
-    }
 
     public float getLatitude() {
         return latitude;
