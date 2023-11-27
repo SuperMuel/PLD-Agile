@@ -63,10 +63,6 @@ class MapTest {
         assertThrows(IllegalArgumentException.class, () -> new Map(0, intersections, segments, 42));
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void getIntersections() {
         assertEquals(4, map.getIntersections().size());

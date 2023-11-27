@@ -23,10 +23,6 @@ class DeliveryTest {
         delivery = new Delivery(0, nowDt, destination, 12);
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void getDestination() {
         assertEquals(destination, delivery.getDestination());

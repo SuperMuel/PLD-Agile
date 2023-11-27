@@ -15,10 +15,6 @@ class ClientTest {
         client = new Client(0, "Client 1", "0123456789");
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void getName() {
         assertEquals("Client 1", client.getName());

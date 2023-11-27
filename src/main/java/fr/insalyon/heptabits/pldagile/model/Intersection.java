@@ -1,7 +1,5 @@
 package fr.insalyon.heptabits.pldagile.model;
 
-import java.util.Objects;
-
 public class Intersection extends BaseEntity {
 
     private final float latitude;
