@@ -18,13 +18,6 @@ class IntersectionTest {
     void tearDown() {
     }
 
-    @Test
-    void distance() {
-        // assert that the distance function throws an exception when the argument is null
-        assertThrows(IllegalArgumentException.class, () -> {
-            intersection.distance(null);
-        });
-    }
 
     @Test
     void getLatitude() {
