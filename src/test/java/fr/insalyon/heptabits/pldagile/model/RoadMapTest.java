@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,10 +38,6 @@ class RoadMapTest {
         secondDelivery = new Delivery(2, secondDeliveryDt, intersection2, 0);
         thirdDelivery = new Delivery(3, thirdDeliveryDt, intersection1, 0);
 
-    }
-
-    @AfterEach
-    void tearDown() {
     }
 
     @Test

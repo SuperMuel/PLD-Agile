@@ -2,8 +2,8 @@ module fr.insalyon.heptabits.pldagile {
     requires javafx.controls;
     requires javafx.fxml;
 
-    requires org.controlsfx.controls;
-    requires org.kordamp.bootstrapfx.core;
+    requires javafx.graphics;
+    requires javafx.base;
     requires java.xml;
 
     opens fr.insalyon.heptabits.pldagile to javafx.fxml;

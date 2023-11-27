@@ -16,10 +16,6 @@ class IntersectionTest {
         intersection = new Intersection(0, 0, 1);
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
 
     @Test
     void getLatitude() {

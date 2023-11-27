@@ -9,14 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 //Example test class
 class HelloControllerTest {
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void onHelloButtonClick() {
     assertTrue(true);

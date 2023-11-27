@@ -91,19 +91,19 @@ public class Map extends BaseEntity {
     }
 
     public float getMinLatitude() {
-        return boundaries.getMinLatitude();
+        return boundaries.minLatitude();
     }
 
     public float getMinLongitude() {
-        return boundaries.getMinLongitude();
+        return boundaries.minLongitude();
     }
 
     public float getMaxLatitude() {
-    return boundaries.getMaxLatitude();
+    return boundaries.maxLatitude();
     }
 
     public float getMaxLongitude() {
-      return boundaries.getMaxLongitude();
+      return boundaries.maxLongitude();
     }
 
     @Override

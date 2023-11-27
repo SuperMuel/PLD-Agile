@@ -21,10 +21,6 @@ class SegmentTest {
         segment = new Segment(0, origin.getId(), destination.getId(), "Rue 1", 12.1);
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void getOriginId() {
         assertEquals(0, segment.getOriginId());
