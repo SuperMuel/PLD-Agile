@@ -11,6 +11,8 @@ public class Map extends BaseEntity {
 
     private final long warehouseId;
 
+    private final MapBoundaries boundaries;
+
     /**
      * Constructor
      *
@@ -28,6 +30,9 @@ public class Map extends BaseEntity {
         if (!intersections.containsKey(warehouseId)) {
             throw new IllegalArgumentException("Warehouse id must be an intersection");
         }
+
+        this.boundaries = computeBoundaries();
+
     }
 
 
@@ -55,44 +60,50 @@ public class Map extends BaseEntity {
         return intersections.get(warehouseId);
     }
 
-    public float getMinLatitude() {
-        float min = Float.MAX_VALUE;
+
+    private MapBoundaries computeBoundaries() {
+        // compute boundaries in one loop
+        float minLatitude = Float.MAX_VALUE;
+        float minLongitude = Float.MAX_VALUE;
+        float maxLatitude = Float.MIN_VALUE;
+        float maxLongitude = Float.MIN_VALUE;
+
         for (Intersection i : intersections.values()) {
-            if (i.getLatitude() < min) {
-                min = i.getLatitude();
+            if (i.getLatitude() < minLatitude) {
+                minLatitude = i.getLatitude();
+            }
+            if (i.getLatitude() > maxLatitude) {
+                maxLatitude = i.getLatitude();
+            }
+            if (i.getLongitude() < minLongitude) {
+                minLongitude = i.getLongitude();
+            }
+            if (i.getLongitude() > maxLongitude) {
+                maxLongitude = i.getLongitude();
             }
         }
-        return min;
+
+        return new MapBoundaries(minLatitude, maxLatitude, minLongitude, maxLongitude);
+    }
+
+    public MapBoundaries getBoundaries() {
+        return boundaries;
+    }
+
+    public float getMinLatitude() {
+        return boundaries.getMinLatitude();
     }
 
     public float getMinLongitude() {
-        float min = Float.MAX_VALUE;
-        for (Intersection i : intersections.values()) {
-            if (i.getLongitude() < min) {
-                min = i.getLongitude();
-            }
-        }
-        return min;
+        return boundaries.getMinLongitude();
     }
 
     public float getMaxLatitude() {
-        float max = Float.MIN_VALUE;
-        for (Intersection i : intersections.values()) {
-            if (i.getLatitude() > max) {
-                max = i.getLatitude();
-            }
-        }
-        return max;
+    return boundaries.getMaxLatitude();
     }
 
     public float getMaxLongitude() {
-        float max = Float.MIN_VALUE;
-        for (Intersection i : intersections.values()) {
-            if (i.getLongitude() > max) {
-                max = i.getLongitude();
-            }
-        }
-        return max;
+      return boundaries.getMaxLongitude();
     }
 
     @Override
