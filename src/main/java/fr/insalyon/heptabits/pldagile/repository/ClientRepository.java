@@ -1,14 +1,14 @@
 package fr.insalyon.heptabits.pldagile.repository;
 
-
 import fr.insalyon.heptabits.pldagile.model.Client;
 
 import java.util.List;
 
 public interface ClientRepository {
-    Client create(String name, String phoneNumber);
-    Client findById(Long id);
+    Client create(String name, String surname, String phoneNumber);
+    Client findById(long id);
+    List<Client> findByName(String name, String lastName);
     List<Client> findAll();
-    void update(Client client);
+    Client update(Client client);
     void delete(Client client);
 }

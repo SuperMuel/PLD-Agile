@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 public class Delivery extends BaseEntity {
     private final LocalDateTime scheduledDateTime;
 
-    // It's okay to directly reference an Intersection object because
-    // the Intersection properties never change.
     private final Intersection destination;
 
     // Using id here because the courier's properties can change.

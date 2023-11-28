@@ -125,7 +125,6 @@ public class MapView {
         circle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> circle.setFill(clickedColor));
 
         circle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-            // Add logic here if needed when the mouse is released
             circle.setFill(circleColor);
         });
     }
