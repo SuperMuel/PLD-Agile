@@ -41,7 +41,11 @@
       <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="862.0" prefWidth="751.0" style="-fx-border-color: black;">
         <VBox.margin>
           <Insets right="10.0" top="25.0" />
-        </VBox.margin></Pane>
+        </VBox.margin>
+        <StackPane fx:id="mapContainer">
+          <!-- Other UI elements if needed -->
+        </StackPane>
+      </Pane>
     </VBox>
   </right>
   <bottom>
@@ -61,7 +65,9 @@
         </cursor>
       </Button>
     </HBox>
+
   </bottom>
+
   <left>
     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="596.0" prefWidth="550.0" BorderPane.alignment="TOP_LEFT">
       <Label alignment="CENTER" prefHeight="70.0" prefWidth="373.0" text="Livraison prévues">

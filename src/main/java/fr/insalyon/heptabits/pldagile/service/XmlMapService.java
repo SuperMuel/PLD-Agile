@@ -4,16 +4,38 @@ import fr.insalyon.heptabits.pldagile.model.Map;
 
 import java.nio.file.Path;
 
-public class XmlMapService implements  MapService {
+import javax.xml.parsers.DocumentBuilder;
 
-    Map currentMap;
+import org.w3c.dom.Document;
 
-    void loadMap(Path xmlPath) {
+import java.io.IOException;
+
+import org.xml.sax.SAXException;
+
+
+public class XmlMapService implements MapService {
+
+    private Map currentMap;
+    private final IXmlMapParser parser;
+    private final DocumentBuilder documentBuilder;
+
+
+    public XmlMapService(IXmlMapParser parser, DocumentBuilder documentBuilder) {
+        this.parser = parser;
+        this.documentBuilder = documentBuilder;
+    }
+
+    public void loadMap(Path xmlPath) {
         if (xmlPath == null) {
             throw new IllegalArgumentException("xmlPath cannot be null");
         }
+        try {
+            Document doc = documentBuilder.parse(xmlPath.toFile());
+            currentMap = parser.parse(doc, 0);
 
-        // TODO
+        } catch (IOException | SAXException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -26,5 +48,4 @@ public class XmlMapService implements  MapService {
         }
         return currentMap;
     }
-
 }

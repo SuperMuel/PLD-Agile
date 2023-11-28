@@ -1,5 +1,6 @@
 package fr.insalyon.heptabits.pldagile.model;
 
+import fr.insalyon.heptabits.pldagile.model.Client;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,10 +13,6 @@ class ClientTest {
     @BeforeEach
     void setUp() {
         client = new Client(0, "Client 1", "0123456789");
-    }
-
-    @AfterEach
-    void tearDown() {
     }
 
     @Test

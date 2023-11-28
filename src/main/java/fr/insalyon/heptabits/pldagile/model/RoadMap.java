@@ -56,7 +56,7 @@ public class RoadMap extends BaseEntity {
 
     /**
      * Returns an unmodifiable list of all deliveries.
-     * This ensures that the list cannot be modified outside of the RoadMap class.
+     * This ensures that the list cannot be modified outside the RoadMap class.
      *
      * @return An unmodifiable list of deliveries.
      */

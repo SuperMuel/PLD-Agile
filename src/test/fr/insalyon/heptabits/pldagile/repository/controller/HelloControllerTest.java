@@ -1,4 +1,4 @@
-package fr.insalyon.heptabits.pldagile;
+package fr.insalyon.heptabits.pldagile.controller;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,20 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 //Example test class
-class HelloApplicationTest {
-
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
+class HelloControllerTest {
 
     @Test
-    void start() {
-        assertTrue(true);
+    void onHelloButtonClick() {
+    assertTrue(true);
     }
 }

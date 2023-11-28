@@ -1,12 +1,18 @@
 package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.HelloApplication;
+import fr.insalyon.heptabits.pldagile.model.Map;
+import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.InputEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+
+
 
 import java.io.IOException;
 
@@ -67,4 +73,16 @@ public class HelloController {
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
+
+    @FXML
+    private StackPane mapContainer;
+
+    public void initializeMap(Map map, int width) {
+        MapView mapView = new MapView(map, width);
+        Group mapGroup = mapView.createView();
+
+        mapContainer.getChildren().clear(); // Clear existing content if necessary
+        mapContainer.getChildren().add(mapGroup); // Add the map to the pane
+    }
+
 }
