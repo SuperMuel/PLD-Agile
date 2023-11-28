@@ -4,6 +4,8 @@ import fr.insalyon.heptabits.pldagile.IdGenerator;
 import fr.insalyon.heptabits.pldagile.model.Delivery;
 import fr.insalyon.heptabits.pldagile.model.Intersection;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -51,4 +53,7 @@ public class InMemoryDeliveryRepository implements DeliveryRepository {
     public void delete(Delivery delivery) {
         hashMapDeliveries.remove(delivery.getId());
     }
+
+
+
 }
