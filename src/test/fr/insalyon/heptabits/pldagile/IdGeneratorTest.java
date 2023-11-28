@@ -1,4 +1,4 @@
-package fr.insalyon.heptabits.pldagile.repository;
+package fr.insalyon.heptabits.pldagile;
 
 import fr.insalyon.heptabits.pldagile.IdGenerator;
 import org.junit.jupiter.api.Test;
