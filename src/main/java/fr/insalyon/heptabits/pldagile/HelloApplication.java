@@ -4,10 +4,12 @@ import fr.insalyon.heptabits.pldagile.service.XmlMapParser;
 import fr.insalyon.heptabits.pldagile.service.XmlMapService;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
 import fr.insalyon.heptabits.pldagile.model.Map;
@@ -17,13 +19,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class HelloApplication extends Application {
-
-
-
-
-
-
-
 
 
     @Override
@@ -44,16 +39,16 @@ public class HelloApplication extends Application {
 
         MapView mapView = new MapView(map, 800);
         Group group = mapView.createView();
+        // TODO : add the map view to the scene
 
+        //Scene scene = new Scene(group, 800, 800);
+
+        stage.setTitle("Map visualization");
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-
-        // Final scene setup
-        //Scene scene = new Scene(group, 800, 800);
-        //scene.setFill(Color.web("#f6f5f5"));
-        //stage.setTitle("Map visualization");
+        scene.setFill(Color.web("#f6f5f5"));
 
 
 
