@@ -31,9 +31,9 @@ import static org.mockito.Mockito.when;
 
 class XmlDeliveriesServiceTest {
 
-    IXmlMapParser mockParser;
-    DocumentBuilder mockDocumentBuilder;
-    XmlMapService service;
+    IXmlMapParser parser;
+    DocumentBuilderFactory documentBuilderFactory;
+    DocumentBuilder documentBuilder;
     IdGenerator idGenerator;
     InMemoryDeliveryRepository repo;
     XmlDeliveriesService xmlDeliveriesService;
@@ -59,16 +59,21 @@ class XmlDeliveriesServiceTest {
     @BeforeEach
     void setUp() throws ParserConfigurationException, IOException, SAXException {
 
-        map = createExampleMap();
-
-        mockParser = Mockito.mock(IXmlMapParser.class);
-        mockDocumentBuilder = Mockito.mock(DocumentBuilder.class);
-        service = new XmlMapService(mockParser, mockDocumentBuilder);
+        XmlMapParser mapParser = new XmlMapParser();
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder;
+        try {
+            documentBuilder = factory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        }
+        XmlMapService mapService = new XmlMapService(mapParser, documentBuilder);
+        mapService.loadMap(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/ExamplesMap/smallMap.xml"));
 
         idGenerator = new IdGenerator();
         repo = new InMemoryDeliveryRepository(idGenerator);
 
-        xmlDeliveriesService = new XmlDeliveriesService(repo, service, mockDocumentBuilder);
+        xmlDeliveriesService = new XmlDeliveriesService(repo, mapService, documentBuilder);
     }
 
     @Test
@@ -82,11 +87,8 @@ class XmlDeliveriesServiceTest {
     }
     @Test
     void importDeliveriesFromXml() throws IOException, SAXException {
-        Document mockDocument = Mockito.mock(Document.class);
-
-        when(mockDocumentBuilder.parse(any(File.class))).thenReturn(mockDocument);
-
         xmlDeliveriesService.importDeliveriesFromXml("src/test/resources/testImport.xml");
         assertEquals(xmlDeliveriesService.getDeliveryRepository().findAll().size(), 3);
+        assertEquals(xmlDeliveriesService.getDeliveryRepository().findAll().get(0).getDestination().getId(), 459797860L);
     }
 }

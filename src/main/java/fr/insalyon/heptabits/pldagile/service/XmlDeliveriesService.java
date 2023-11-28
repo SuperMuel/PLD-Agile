@@ -2,6 +2,7 @@ package fr.insalyon.heptabits.pldagile.service;
 
 import fr.insalyon.heptabits.pldagile.model.Delivery;
 import fr.insalyon.heptabits.pldagile.model.Intersection;
+import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.model.Segment;
 import fr.insalyon.heptabits.pldagile.repository.DeliveryRepository;
 import org.w3c.dom.Document;
@@ -59,7 +60,6 @@ public class XmlDeliveriesService implements IXmlDeliveriesService {
         Path file = Path.of(filePath);
         document = this.documentBuilder.parse(file.toFile());
         NodeList deliveryList = document.getElementsByTagName("delivery");
-
         for (int i = 0; i < deliveryList.getLength(); i++) {
             Node node = deliveryList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
