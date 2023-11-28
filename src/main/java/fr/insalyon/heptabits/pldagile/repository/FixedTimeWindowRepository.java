@@ -3,7 +3,6 @@ package fr.insalyon.heptabits.pldagile.repository;
 import fr.insalyon.heptabits.pldagile.model.TimeWindow;
 
 public class FixedTimeWindowRepository {
-
     public FixedTimeWindowRepository() {
     }
 
