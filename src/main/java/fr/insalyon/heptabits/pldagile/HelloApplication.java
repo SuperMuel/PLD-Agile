@@ -22,6 +22,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) {
+        final IdGenerator idGenerator = new IdGenerator();
         XmlMapParser mapParser = new XmlMapParser();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
