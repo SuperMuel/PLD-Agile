@@ -29,6 +29,5 @@ public class Client extends BaseEntity {
     }
 
 
-
 }
 
