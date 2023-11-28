@@ -1,5 +1,6 @@
 package fr.insalyon.heptabits.pldagile;
 
+import fr.insalyon.heptabits.pldagile.controller.HelloController;
 import fr.insalyon.heptabits.pldagile.service.XmlMapParser;
 import fr.insalyon.heptabits.pldagile.service.XmlMapService;
 import fr.insalyon.heptabits.pldagile.view.MapView;
@@ -37,25 +38,24 @@ public class HelloApplication extends Application {
         mapService.loadMap(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/ExamplesMap/smallMap.xml"));
         Map map = mapService.getCurrentMap();
 
-        MapView mapView = new MapView(map, 800);
-        Group group = mapView.createView();
-        // TODO : add the map view to the scene
-
-        //Scene scene = new Scene(group, 800, 800);
-
         stage.setTitle("Map visualization");
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
 
+        Parent root = fxmlLoader.load();
+        HelloController controller = fxmlLoader.getController();
+
+
+        controller.initializeMap(map, 500);
+
+
+        Scene scene = new Scene(root);
         scene.setFill(Color.web("#f6f5f5"));
-
-
-
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
     }
+
 
     public static void main(String[] args) {
         launch();
