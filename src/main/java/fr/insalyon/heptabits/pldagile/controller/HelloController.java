@@ -54,6 +54,17 @@ public class HelloController {
     }
 
     @FXML
+    protected void onNewClientButtonClick() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(HelloApplication.class.getResource("NewClient.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setTitle("INFAT'IFGABLES");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
     protected void onValidateNewDeliveryButtonClick(InputEvent e) throws IOException {
         final Node source = (Node) e.getSource();
         final Stage stage = (Stage) source.getScene().getWindow();
@@ -75,6 +86,12 @@ public class HelloController {
     }
 
     @FXML
+    protected void onValidateNewClientButtonClick(InputEvent e) throws IOException {
+        final Node source = (Node) e.getSource();
+        final Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+   }
+    @FXML
     private StackPane mapContainer;
 
     public void initializeMap(Map map, int width) {
@@ -84,5 +101,4 @@ public class HelloController {
         mapContainer.getChildren().clear(); // Clear existing content if necessary
         mapContainer.getChildren().add(mapGroup); // Add the map to the pane
     }
-
 }

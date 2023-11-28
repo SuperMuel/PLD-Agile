@@ -19,16 +19,16 @@
     </top>
     <center>
         <VBox alignment="CENTER" prefHeight="563.0" prefWidth="1080.0">
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="49.0" prefWidth="528.0" text="Créer un nouveau livreur">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="49.0" prefWidth="528.0" text="Créer un nouveau client">
                 <font>
                     <Font name="Inter Semi Bold" size="40.0" />
                 </font>
                 <VBox.margin>
                     <Insets bottom="50.0" top="-70.0" />
                 </VBox.margin></Label>
-            <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="1030.0">
+            <HBox alignment="CENTER" prefHeight="90.0" prefWidth="900.0">
                 <VBox.margin>
-                    <Insets left="50.0"/>
+                    <Insets right="100.0"/>
                 </VBox.margin>
                 <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="190.0" text="Nom :">
                     <HBox.margin>
@@ -38,11 +38,15 @@
                         <Font name="Inter Semi Bold" size="20.0"/>
                     </font>
                 </Label>
-                <TextField prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;"/>
+                <TextField prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;">
+                    <HBox.margin>
+                        <Insets left="20.0"/>
+                    </HBox.margin>
+                </TextField>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="1030.0">
+            <HBox alignment="CENTER" prefHeight="90.0" prefWidth="900.0">
                 <VBox.margin>
-                    <Insets left="50.0"/>
+                    <Insets right="100.0"/>
                 </VBox.margin>
                 <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="190.0" text="Prénom :">
                     <HBox.margin>
@@ -54,27 +58,13 @@
                 </Label>
                 <TextField prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;">
                     <HBox.margin>
-                        <Insets right="40.0"/>
+                        <Insets left="20.0"/>
                     </HBox.margin>
                 </TextField>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="1030.0">
+            <HBox alignment="CENTER" prefHeight="90.0" prefWidth="900.0">
                 <VBox.margin>
-                    <Insets left="50.0"/>
-                </VBox.margin>
-                <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="190.0" text="Adresse email :">
-                    <HBox.margin>
-                        <Insets right="10.0"/>
-                    </HBox.margin>
-                    <font>
-                        <Font name="Inter Semi Bold" size="20.0"/>
-                    </font>
-                </Label>
-                <TextField prefHeight="40.0" prefWidth="340.0" style="-fx-background-color: B2C8BA;"/>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="1030.0">
-                <VBox.margin>
-                    <Insets left="50.0"/>
+                    <Insets right="100.0"/>
                 </VBox.margin>
                 <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="190.0" text="Téléphone :">
                     <HBox.margin>
@@ -84,9 +74,13 @@
                         <Font name="Inter Semi Bold" size="20.0"/>
                     </font>
                 </Label>
-                <TextField prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;"/>
+                <TextField prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;">
+                    <HBox.margin>
+                        <Insets left="20.0"/>
+                    </HBox.margin>
+                </TextField>
             </HBox>
-            <Button mnemonicParsing="false" onMouseClicked="#onValidateNewCourierButtonClick" prefHeight="40.0" prefWidth="215.0" style="-fx-background-color: #2A482D;" text="Valider" textFill="WHITE">
+            <Button mnemonicParsing="false" onMouseClicked="#onValidateNewClientButtonClick" prefHeight="40.0" prefWidth="215.0" style="-fx-background-color: #2A482D;" text="Valider" textFill="WHITE">
                 <font>
                     <Font name="Inter Semi Bold" size="20.0" />
                 </font>
