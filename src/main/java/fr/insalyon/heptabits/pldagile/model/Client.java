@@ -9,13 +9,16 @@ public class Client extends BaseEntity {
         return phoneNumber;
     }
 
+    public String getLastName() { return lastName; }
+
     private final String name;
+    private final String lastName;
     private final String phoneNumber;
 
-
-    public Client(long id, String name, String phoneNumber) {
+    public Client(long id, String name, String lastName, String phoneNumber) {
         super(id);
         this.name = name;
+        this.lastName = lastName;
         this.phoneNumber = phoneNumber;
     }
 
@@ -24,10 +27,9 @@ public class Client extends BaseEntity {
         return "Client{" +
                 "id=" + getId() +
                 ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
-
-
 }
 

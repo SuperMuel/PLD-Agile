@@ -1,7 +1,5 @@
 package fr.insalyon.heptabits.pldagile.model;
 
-import fr.insalyon.heptabits.pldagile.model.Client;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +10,16 @@ class ClientTest {
     Client client;
     @BeforeEach
     void setUp() {
-        client = new Client(0, "Client 1", "0123456789");
+        client = new Client(0, "Chloé", "CHABAL", "0123456789");
+    }
+    @Test
+    void getName() {
+        assertEquals("Chloé", client.getName());
     }
 
     @Test
-    void getName() {
-        assertEquals("Client 1", client.getName());
+    void getLastName() {
+        assertEquals("CHABAL", client.getLastName());
     }
 
     @Test
