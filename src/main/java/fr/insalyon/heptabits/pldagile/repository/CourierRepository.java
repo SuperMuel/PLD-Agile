@@ -5,9 +5,9 @@ import fr.insalyon.heptabits.pldagile.model.Courier;
 import java.util.List;
 
 public interface CourierRepository {
-    Courier create(String name);
+    Courier create(String firstName, String lastName, String email, String phoneNumber);
     Courier findById(Long id);
     List<Courier> findAll();
-    void update(Courier courier);
-    void delete(Courier courier);
+    Courier update(Courier courier);
+    void deleteById(long id);
 }
