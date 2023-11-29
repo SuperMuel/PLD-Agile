@@ -164,6 +164,13 @@
                         <Font name="Inter Semi Bold" size="20.0"/>
                     </font>
                 </Label>
+                <VBox prefHeight="200.0" prefWidth="250.0">
+                    <HBox.margin>
+                        <Insets right="40.0" top="10.0"/>
+                    </HBox.margin>
+                    <ChoiceBox fx:id="intersectionChoiceBox" prefHeight="40.0" prefWidth="150.0"
+                               style="-fx-background-color: B2C8BA;"/>
+                </VBox>
                 <Pane prefHeight="254.0" prefWidth="450.0"/>
                 <Button mnemonicParsing="false" onMouseClicked="#onValidateNewDeliveryButtonClick" prefHeight="40.0"
                         prefWidth="205.0" style="-fx-background-color: #2A482D;" text="Valider" textFill="WHITE">

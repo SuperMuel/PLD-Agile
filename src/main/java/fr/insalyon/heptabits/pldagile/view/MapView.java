@@ -29,15 +29,25 @@ public class MapView {
 
     private final int size;
 
+    public interface OnIntersectionClicked {
+        void onIntersectionClicked(Intersection intersection);
+    }
+
+    final OnIntersectionClicked onIntersectionClicked;
+
 
     public MapView(Map map, int size) {
+        this(map, size, null);
+    }
+
+    public MapView(Map map, int size, OnIntersectionClicked onIntersectionClicked) {
         this.map = map;
         this.minLatitude = map.getMinLatitude();
         this.minLongitude = map.getMinLongitude();
         this.maxLatitude = map.getMaxLatitude();
         this.maxLongitude = map.getMaxLongitude();
-
         this.size = size;
+        this.onIntersectionClicked = onIntersectionClicked;
     }
 
     public Group createView() {
@@ -94,7 +104,7 @@ public class MapView {
             Circle circle = new Circle(x, y, CIRCLE_RADIUS, CIRCLE_COLOR);
             circle.setOpacity(CIRCLE_OPACITY);
 
-            addCircleEventHandlers(circle, CIRCLE_COLOR_CLICKED, CIRCLE_OPACITY_HOVERED, CIRCLE_OPACITY, CIRCLE_COLOR);
+            addCircleEventHandlers(temp, circle, CIRCLE_COLOR_CLICKED, CIRCLE_OPACITY_HOVERED, CIRCLE_OPACITY, CIRCLE_COLOR);
 
             circleList.add(circle);
         }
@@ -102,7 +112,7 @@ public class MapView {
         return circleList;
     }
 
-    private void addCircleEventHandlers(Circle circle, Color clickedColor, double hoveredOpacity, double circleOpacity, Color circleColor) {
+    private void addCircleEventHandlers(Intersection intersection, Circle circle, Color clickedColor, double hoveredOpacity, double circleOpacity, Color circleColor) {
         // Animation for mouse hover
         ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.15), circle);
         scaleIn.setToX(3);
@@ -122,11 +132,18 @@ public class MapView {
             circle.setOpacity(circleOpacity);
         });
 
-        circle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> circle.setFill(clickedColor));
+        circle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+            circle.setFill(clickedColor);
+            onIntersectionClicked.onIntersectionClicked(intersection);
+        });
 
         circle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
             circle.setFill(circleColor);
         });
+
+
+
+
     }
 
 

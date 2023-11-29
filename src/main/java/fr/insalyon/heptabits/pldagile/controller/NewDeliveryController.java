@@ -42,6 +42,9 @@ public class NewDeliveryController {
     @FXML
     private AnchorPane mapAnchorPane;
 
+    @FXML
+    private ChoiceBox<Intersection> intersectionChoiceBox;
+
     private final DependencyManager dependencyManager;
 
     private Intersection chosenIntersection;
@@ -74,7 +77,13 @@ public class NewDeliveryController {
 
         // Add the map to the mapAnchorPane
         final MapService mapService = dependencyManager.getMapService();
-        final MapView mapView = new MapView(mapService.getCurrentMap(), 500);
+
+        MapView.OnIntersectionClicked onIntersectionClicked = intersection -> {
+            chosenIntersection = intersection;
+            intersectionChoiceBox.setValue(intersection);
+            System.out.println("Intersection clicked: " + intersection);
+        };
+        final MapView mapView = new MapView(mapService.getCurrentMap(), 500, onIntersectionClicked);
         mapAnchorPane.getChildren().add(mapView.createView()); //TODO add onclick listeners
 
     }
