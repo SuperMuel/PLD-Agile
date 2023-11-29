@@ -9,7 +9,9 @@ public class Client extends BaseEntity {
         return phoneNumber;
     }
 
-    public String getLastName() { return lastName; }
+    public String getLastName() {
+        return lastName;
+    }
 
     private final String name;
     private final String lastName;
@@ -24,12 +26,7 @@ public class Client extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Client{" +
-                "id=" + getId() +
-                ", name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+        return name + " " + lastName;
     }
 }
 

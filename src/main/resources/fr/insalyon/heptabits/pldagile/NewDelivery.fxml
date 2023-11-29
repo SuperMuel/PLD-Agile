@@ -7,12 +7,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ebf3e8" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.insalyon.heptabits.pldagile.controller.HelloController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ebf3e8"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
     <top>
-        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #86a789; -fx-font-size: 50">
+        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              style="-fx-background-color: #86a789; -fx-font-size: 50">
             <Text text="INFAT'IFGABLES">
                 <font>
-                    <Font name="Inter Semi Bold" size="40.0" />
+                    <Font name="Inter Semi Bold" size="40.0"/>
                 </font>
             </Text>
         </VBox>
@@ -21,11 +24,12 @@
         <VBox alignment="CENTER" prefHeight="563.0" prefWidth="1080.0">
             <Label prefHeight="49.0" prefWidth="542.0" text="Créer une nouvelle livraison">
                 <font>
-                    <Font name="Inter Semi Bold" size="40.0" />
+                    <Font name="Inter Semi Bold" size="40.0"/>
                 </font>
                 <VBox.margin>
-                    <Insets bottom="50.0" top="35.0" />
-                </VBox.margin></Label>
+                    <Insets bottom="50.0" top="35.0"/>
+                </VBox.margin>
+            </Label>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="1030.0">
                 <VBox.margin>
                     <Insets left="50.0"/>
@@ -47,7 +51,8 @@
                             <Font name="Inter Semi Bold" size="12.0"/>
                         </font>
                     </Label>
-                    <DatePicker prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #B2C8BA;"/>
+                    <DatePicker fx:id="datePicker" prefHeight="40.0" prefWidth="150.0"
+                                style="-fx-background-color: #B2C8BA;"/>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="150.0">
                     <HBox.margin>
@@ -58,7 +63,8 @@
                             <Font name="Inter Semi Bold" size="12.0"/>
                         </font>
                     </Label>
-                    <ChoiceBox prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: B2C8BA;"/>
+                    <ChoiceBox fx:id="timeWindowChoiceBox" prefHeight="40.0" prefWidth="150.0"
+                               style="-fx-background-color: B2C8BA;"/>
                 </VBox>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="160.0" prefWidth="1030.0">
@@ -98,8 +104,8 @@
                             <TextField prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;"/>
                         </VBox>
                     </HBox>
-                    <TextField maxWidth="340.0" prefHeight="40.0" prefWidth="330.0"
-                               style="-fx-background-color: B2C8BA;"/>
+                    <ChoiceBox fx:id="clientChoiceBox"></ChoiceBox>
+
                 </VBox>
                 <Button mnemonicParsing="false" onMouseClicked="#onNewClientButtonClick" prefHeight="40.0"
                         prefWidth="215.0" style="-fx-background-color: #2A482D;" text="Ajouter client +"
@@ -127,7 +133,8 @@
                         <Font name="Inter Semi Bold" size="20.0"/>
                     </font>
                 </Label>
-                <ChoiceBox prefHeight="40.0" prefWidth="340.0" style="-fx-background-color: B2C8BA;">
+                <ChoiceBox fx:id="courierChoiceBox" prefHeight="40.0" prefWidth="340.0"
+                           style="-fx-background-color: B2C8BA;">
                     <HBox.margin>
                         <Insets right="130.0"/>
                     </HBox.margin>
@@ -180,14 +187,20 @@
 
         </VBox>
 
+
     </center>
     <right>
 
     </right>
     <bottom>
+        <AnchorPane fx:id="mapAnchorPane" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+                    AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+
+        </AnchorPane>
     </bottom>
     <left>
 
     </left>
+
 
 </BorderPane>

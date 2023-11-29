@@ -1,5 +1,6 @@
 package fr.insalyon.heptabits.pldagile.controller;
 
+import fr.insalyon.heptabits.pldagile.DependencyManager;
 import fr.insalyon.heptabits.pldagile.HelloApplication;
 import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.view.MapView;
@@ -19,6 +20,12 @@ import java.io.IOException;
 
 public class HelloController {
 
+    private  final DependencyManager dependencyManager;
+
+    public HelloController(DependencyManager dependencyManager) {
+        this.dependencyManager = dependencyManager;
+    }
+
     @FXML
     protected void onHistoryButtonClick() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -34,41 +41,13 @@ public class HelloController {
     @FXML
     protected void onNewDeliveryButtonClick() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setController(new NewDeliveryController(dependencyManager));
         fxmlLoader.setLocation(HelloApplication.class.getResource("NewDelivery.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
         stage.setTitle("INFAT'IFGABLES");
         stage.setScene(scene);
         stage.show();
-    }
-
-    @FXML
-    protected void onNewCourierButtonClick() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(HelloApplication.class.getResource("NewCourier.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.setTitle("INFAT'IFGABLES");
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
-    protected void onNewClientButtonClick() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(HelloApplication.class.getResource("NewClient.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.setTitle("INFAT'IFGABLES");
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
-    protected void onValidateNewDeliveryButtonClick(InputEvent e) throws IOException {
-        final Node source = (Node) e.getSource();
-        final Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
     }
 
     @FXML
@@ -93,6 +72,7 @@ public class HelloController {
    }
     @FXML
     private StackPane mapContainer;
+
 
     public void initializeMap(Map map, int width) {
         MapView mapView = new MapView(map, width);

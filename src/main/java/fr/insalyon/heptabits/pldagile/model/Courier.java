@@ -34,4 +34,9 @@ public class Courier extends BaseEntity {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
 }
