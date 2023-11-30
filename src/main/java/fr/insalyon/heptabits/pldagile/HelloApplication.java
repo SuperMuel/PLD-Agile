@@ -34,7 +34,7 @@ public class HelloApplication extends Application {
 
         Scene scene = new Scene(root);
         scene.setFill(Color.web("#f6f5f5"));
-        stage.setTitle("Hello!");
+        stage.setTitle("DEL'IFEROO");
         stage.setScene(scene);
         stage.show();
     }

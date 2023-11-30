@@ -37,6 +37,8 @@ public class HelloController {
     private TableColumn<Delivery, Long> courierId;
     @FXML
     private TableColumn<Delivery, Intersection> address;
+    @FXML
+    private StackPane mapContainer;
 
     public HelloController(DependencyManager dependencyManager) {
         this.dependencyManager = dependencyManager;
@@ -45,6 +47,16 @@ public class HelloController {
     @FXML
     public void initialize() {
         displayDeliveries();
+        Map map = dependencyManager.getMapService().getCurrentMap();
+        initializeMap(map, 500);
+    }
+
+    public void initializeMap(Map map, int width) {
+        MapView mapView = new MapView(map, width);
+        Group mapGroup = mapView.createView();
+
+        mapContainer.getChildren().clear(); // Clear existing content if necessary
+        mapContainer.getChildren().add(mapGroup); // Add the map to the pane
     }
     @FXML
     protected void onHistoryButtonClick() throws IOException {
@@ -113,14 +125,7 @@ public class HelloController {
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
    }
-    @FXML
-    private StackPane mapContainer;
 
-    public void initializeMap(Map map, int width) {
-        MapView mapView = new MapView(map, width);
-        Group mapGroup = mapView.createView();
 
-        mapContainer.getChildren().clear(); // Clear existing content if necessary
-        mapContainer.getChildren().add(mapGroup); // Add the map to the pane
-    }
+
 }

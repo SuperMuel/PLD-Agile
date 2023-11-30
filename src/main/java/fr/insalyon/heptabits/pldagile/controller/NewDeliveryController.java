@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -45,7 +46,7 @@ public class NewDeliveryController {
     private AnchorPane mapAnchorPane;
 
     @FXML
-    private ChoiceBox<Intersection> intersectionChoiceBox;
+    private TextField intersectionTextField;
 
     private final DependencyManager dependencyManager;
 
@@ -81,7 +82,7 @@ public class NewDeliveryController {
 
         MapView.OnIntersectionClicked onIntersectionClicked = intersection -> {
             chosenIntersection = intersection;
-            intersectionChoiceBox.setValue(intersection);
+            intersectionTextField.setText(chosenIntersection.toString());
             System.out.println("Intersection clicked: " + intersection);
         };
         final MapView mapView = new MapView(mapService.getCurrentMap(), 500, onIntersectionClicked);
