@@ -11,7 +11,6 @@ import fr.insalyon.heptabits.pldagile.repository.CourierRepository;
 import fr.insalyon.heptabits.pldagile.repository.TimeWindowRepository;
 import fr.insalyon.heptabits.pldagile.service.MapService;
 import fr.insalyon.heptabits.pldagile.view.MapView;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -20,7 +19,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.InputEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -91,21 +89,31 @@ public class NewDeliveryController {
     }
 
 
-    public void onNewClientButtonClick(MouseEvent mouseEvent) throws IOException {
+    public void onNewClientButtonClick(InputEvent e) throws IOException {
+        Node source = (Node) e.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+
         FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setController(new NewClientController(dependencyManager));
         fxmlLoader.setLocation(HelloApplication.class.getResource("NewClient.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
+        stage = new Stage();
         stage.setTitle("INFAT'IFGABLES");
         stage.setScene(scene);
         stage.show();
     }
 
-    public void onNewCourierButtonClick(ActionEvent actionEvent) throws IOException {
+    public void onNewCourierButtonClick(InputEvent e) throws IOException {
+        Node source = (Node) e.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+
         FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setController(new NewCourierController(dependencyManager));
         fxmlLoader.setLocation(HelloApplication.class.getResource("NewCourier.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
+        stage = new Stage();
         stage.setTitle("INFAT'IFGABLES");
         stage.setScene(scene);
         stage.show();

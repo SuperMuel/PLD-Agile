@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.InputEvent;
@@ -105,26 +104,16 @@ public class HelloController {
         stage.show();
     }
 
+
+
     @FXML
-    protected void onValidateNewCourierButtonClick(InputEvent e) throws IOException {
+    protected void onReturnButtonClick(InputEvent e) {
         final Node source = (Node) e.getSource();
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
-    @FXML
-    protected void onReturnButtonClick(InputEvent e) throws IOException {
-        final Node source = (Node) e.getSource();
-        final Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
-    }
 
-    @FXML
-    protected void onValidateNewClientButtonClick(InputEvent e) throws IOException {
-        final Node source = (Node) e.getSource();
-        final Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
-   }
 
 
 

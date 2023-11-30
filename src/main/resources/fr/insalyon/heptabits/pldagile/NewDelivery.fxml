@@ -76,7 +76,7 @@
                <Font name="Inter Semi Bold" size="20.0" />
             </font></Label>
             <ChoiceBox fx:id="clientChoiceBox" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: B2C8BA;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <Button fx:id="newClientButton" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #2a482d;" styleClass="form-button" text="+ Ajouter client" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Button fx:id="newClientButton" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #2a482d;" styleClass="form-button" onMouseClicked="#onNewClientButtonClick" text="+ Ajouter client" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
             <font>
                <Font name="Inter Semi Bold" size="13.0" />
             </font>
@@ -92,7 +92,7 @@
                <Font name="Inter Semi Bold" size="20.0" />
             </font></Label>
             <ChoiceBox fx:id="courierChoiceBox" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: B2C8BA;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-            <Button fx:id="newCourierButton" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #2a482d;" styleClass="form-button" text="+ Ajouter livreur" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Button fx:id="newCourierButton" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #2a482d;" styleClass="form-button" onMouseClicked="#onNewCourierButtonClick" text="+ Ajouter livreur" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
             <font>
                <Font name="Inter Semi Bold" size="13.0" />
             </font>

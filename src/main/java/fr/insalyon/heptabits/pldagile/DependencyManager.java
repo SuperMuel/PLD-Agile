@@ -24,9 +24,9 @@ public class DependencyManager {
 
     public DependencyManager() {
         idGenerator = new IdGenerator();
-        courierRepository = new MockCourierRepository();
+        courierRepository = new InMemoryCourierRepository(getIdGenerator());
         deliveryRepository = new InMemoryDeliveryRepository(getIdGenerator());
-        clientRepository = new MockClientRepository();
+        clientRepository = new InMemoryClientRepository(getIdGenerator());
         timeWindowRepository = new FixedTimeWindowRepository();
 
         // MapService initialization
