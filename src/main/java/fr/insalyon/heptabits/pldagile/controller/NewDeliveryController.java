@@ -15,9 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -121,19 +119,32 @@ public class NewDeliveryController {
 
     @FXML
     public void onValidateNewDeliveryButtonClick(InputEvent e) throws IOException {
+        final boolean isValid;
+        LocalTime chosenTime = null;
+        LocalDateTime chosenDateTime = null;
         final Courier chosenCourier = courierChoiceBox.getValue();
         final Client chosenClient = clientChoiceBox.getValue();
         final LocalDate chosenDate = datePicker.getValue();
-        final LocalTime chosenTime = timeWindowChoiceBox.getValue().getStart(); // TODO in the future, use TimeWindow to create a DeliveryRequest
 
-        final LocalDateTime chosenDateTime = LocalDateTime.of(chosenDate, chosenTime);
-
-        final boolean isValid = chosenCourier != null && chosenClient != null  && chosenIntersection != null;
+        if(timeWindowChoiceBox.getValue() != null){ // TODO in the future, use TimeWindow to create a DeliveryRequest
+            chosenTime = timeWindowChoiceBox.getValue().getStart();
+            chosenDateTime = LocalDateTime.of(chosenDate, chosenTime);
+            isValid = chosenCourier != null && chosenClient != null  && chosenIntersection != null;
+        } else {
+            isValid = false;
+        }
 
         if (!isValid) {
             System.out.println("Invalid delivery");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Validation échouée");
+            alert.setContentText("Veuillez remplir tous les champs");
+
+            alert.showAndWait();
             return;
         }
+
         // TODO check if delivery is possible, and if so, add it to the courier's roadmap
         dependencyManager.getDeliveryRepository().create(chosenDateTime, chosenIntersection, chosenCourier.getId());
         System.out.println("New delivery created");

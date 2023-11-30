@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.input.InputEvent;
 import javafx.stage.Stage;
@@ -42,7 +43,12 @@ public class NewCourierController {
         final boolean isValid = lastName != null && firstName != null  && phoneNumber != null && email != null;
 
         if (!isValid) {
-            System.out.println("Invalid client");
+            System.out.println("Invalid Client");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Validation échouée");
+            alert.setContentText("Veuillez remplir tous les champs");
+            alert.showAndWait();
             return;
         }
 

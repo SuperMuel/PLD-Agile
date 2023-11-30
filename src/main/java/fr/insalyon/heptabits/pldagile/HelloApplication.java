@@ -18,10 +18,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         DependencyManager dependencyManager = new DependencyManager();
 
-        stage.setTitle("Home");
-
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-
         HelloController controller = new HelloController(dependencyManager);
         fxmlLoader.setController(controller);
 
@@ -30,10 +27,7 @@ public class HelloApplication extends Application {
         Map map = dependencyManager.getMapService().getCurrentMap();
         controller.initializeMap(map, 500);
 
-
-
         Scene scene = new Scene(root);
-        scene.setFill(Color.web("#f6f5f5"));
         stage.setTitle("DEL'IFEROO");
         stage.setScene(scene);
         stage.show();
