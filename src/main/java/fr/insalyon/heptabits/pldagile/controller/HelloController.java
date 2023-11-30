@@ -73,7 +73,6 @@ public class HelloController {
     @FXML
     private StackPane mapContainer;
 
-
     public void initializeMap(Map map, int width) {
         MapView mapView = new MapView(map, width);
         Group mapGroup = mapView.createView();

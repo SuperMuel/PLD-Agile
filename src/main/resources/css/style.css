@@ -1,0 +1,21 @@
+.form-label {
+    -fx-font-size: 20;
+    -fx-font-family: "Inter Semi Bold";
+    -fx-text-fill: #2A482D;
+    -fx-padding: 5;
+}
+
+.form-button {
+    -fx-font-family: "Inter Semi Bold";
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-background-color: #2A482D;
+    -fx-cursor: hand;
+    -fx-padding: 5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+/* You can further style your DatePicker and ChoiceBox if needed */
+.date-picker, .choice-box {
+    -fx-background-color: B2C8BA;
+}

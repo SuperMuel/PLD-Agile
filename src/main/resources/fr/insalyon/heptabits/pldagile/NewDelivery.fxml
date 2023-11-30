@@ -7,206 +7,93 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ebf3e8"
             xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
     <top>
-        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-              style="-fx-background-color: #86a789; -fx-font-size: 50">
-            <Text text="INFAT'IFGABLES">
-                <font>
-                    <Font name="Inter Semi Bold" size="40.0"/>
-                </font>
-            </Text>
+        <VBox>
+            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                  style="-fx-background-color: #86a789; -fx-font-size: 50">
+                <Text text="DELIFROO">
+                    <font>
+                        <Font name="Inter Semi Bold" size="40.0"/>
+                    </font>
+                </Text>
+            </VBox>
+            <VBox alignment="CENTER">
+
+                <Label  text="Créer une nouvelle livraison" alignment="CENTER">
+                    <font>
+                        <Font name="Inter Semi Bold" size="40.0"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="50.0" top="35.0"/>
+                    </VBox.margin>
+                </Label>
+            </VBox>
+
+
         </VBox>
+
+
+
+
     </top>
     <center>
-        <VBox alignment="CENTER" prefHeight="563.0" prefWidth="1080.0">
-            <Label prefHeight="49.0" prefWidth="542.0" text="Créer une nouvelle livraison">
-                <font>
-                    <Font name="Inter Semi Bold" size="40.0"/>
-                </font>
-                <VBox.margin>
-                    <Insets bottom="50.0" top="35.0"/>
-                </VBox.margin>
-            </Label>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="1030.0">
-                <VBox.margin>
-                    <Insets left="50.0"/>
-                </VBox.margin>
-                <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="190.0" text="Date de livraison :">
-                    <HBox.margin>
-                        <Insets right="10.0"/>
-                    </HBox.margin>
-                    <font>
-                        <Font name="Inter Semi Bold" size="20.0"/>
-                    </font>
-                </Label>
-                <VBox prefHeight="200.0" prefWidth="150.0">
-                    <HBox.margin>
-                        <Insets right="40.0" top="10.0"/>
-                    </HBox.margin>
-                    <Label text="Le :">
-                        <font>
-                            <Font name="Inter Semi Bold" size="12.0"/>
-                        </font>
-                    </Label>
-                    <DatePicker fx:id="datePicker" prefHeight="40.0" prefWidth="150.0"
-                                style="-fx-background-color: #B2C8BA;"/>
-                </VBox>
-                <VBox prefHeight="200.0" prefWidth="150.0">
-                    <HBox.margin>
-                        <Insets top="10.0"/>
-                    </HBox.margin>
-                    <Label text="À :">
-                        <font>
-                            <Font name="Inter Semi Bold" size="12.0"/>
-                        </font>
-                    </Label>
-                    <ChoiceBox fx:id="timeWindowChoiceBox" prefHeight="40.0" prefWidth="150.0"
-                               style="-fx-background-color: B2C8BA;"/>
-                </VBox>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="160.0" prefWidth="1030.0">
-                <VBox.margin>
-                    <Insets left="50.0" top="10.0"/>
-                </VBox.margin>
-                <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="190.0" text="Client :">
-                    <HBox.margin>
-                        <Insets right="10.0"/>
-                    </HBox.margin>
-                    <font>
-                        <Font name="Inter Semi Bold" size="20.0"/>
-                    </font>
-                </Label>
-                <VBox prefHeight="133.0" prefWidth="470.0">
-                    <HBox prefHeight="71.0" prefWidth="521.0">
-                        <VBox maxHeight="80.0" prefHeight="64.0" prefWidth="150.0">
-                            <HBox.margin>
-                                <Insets right="40.0"/>
-                            </HBox.margin>
-                            <Label text="Nom :">
-                                <font>
-                                    <Font name="Inter Semi Bold" size="12.0"/>
-                                </font>
-                            </Label>
-                            <TextField prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: B2C8BA;"/>
-                        </VBox>
-                        <VBox maxHeight="80.0" prefHeight="71.0" prefWidth="150.0">
-                            <HBox.margin>
-                                <Insets/>
-                            </HBox.margin>
-                            <Label text="Prénom :">
-                                <font>
-                                    <Font name="Inter Semi Bold" size="12.0"/>
-                                </font>
-                            </Label>
-                            <TextField prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;"/>
-                        </VBox>
-                    </HBox>
-                    <ChoiceBox fx:id="clientChoiceBox"></ChoiceBox>
+       <!--=====   Form   =======-->
+        <GridPane stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+            <padding>
+                <Insets top="50" right="50" bottom="50" left="50"/>
+            </padding>
 
-                </VBox>
-                <Button mnemonicParsing="false" onMouseClicked="#onNewClientButtonClick" prefHeight="40.0"
-                        prefWidth="215.0" style="-fx-background-color: #2A482D;" text="Ajouter client +"
-                        textFill="WHITE">
-                    <font>
-                        <Font name="Inter Semi Bold" size="20.0"/>
-                    </font>
-                    <effect>
-                        <DropShadow/>
-                    </effect>
-                    <cursor>
-                        <Cursor fx:constant="HAND"/>
-                    </cursor>
-                </Button>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                <VBox.margin>
-                    <Insets left="50.0"/>
-                </VBox.margin>
-                <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="190.0" text="Livreurs proposés :">
-                    <HBox.margin>
-                        <Insets right="10.0"/>
-                    </HBox.margin>
-                    <font>
-                        <Font name="Inter Semi Bold" size="20.0"/>
-                    </font>
-                </Label>
-                <ChoiceBox fx:id="courierChoiceBox" prefHeight="40.0" prefWidth="340.0"
-                           style="-fx-background-color: B2C8BA;">
-                    <HBox.margin>
-                        <Insets right="130.0"/>
-                    </HBox.margin>
-                </ChoiceBox>
-                <Button mnemonicParsing="false" onAction="#onNewCourierButtonClick" prefHeight="40.0" prefWidth="215.0"
-                        style="-fx-background-color: #2A482D;" text="Ajouter un livreur +" textFill="WHITE">
-                    <font>
-                        <Font name="Inter Semi Bold" size="20.0"/>
-                    </font>
-                    <effect>
-                        <DropShadow/>
-                    </effect>
-                    <cursor>
-                        <Cursor fx:constant="HAND"/>
-                    </cursor>
-                </Button>
-            </HBox>
-            <HBox prefHeight="284.0" prefWidth="1030.0">
-                <VBox.margin>
-                    <Insets left="50.0"/>
-                </VBox.margin>
-                <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="190.0" text="Adresse :">
-                    <HBox.margin>
-                        <Insets right="10.0"/>
-                    </HBox.margin>
-                    <font>
-                        <Font name="Inter Semi Bold" size="20.0"/>
-                    </font>
-                </Label>
-                <VBox prefHeight="200.0" prefWidth="250.0">
-                    <HBox.margin>
-                        <Insets right="40.0" top="10.0"/>
-                    </HBox.margin>
-                    <ChoiceBox fx:id="intersectionChoiceBox" prefHeight="40.0" prefWidth="150.0"
-                               style="-fx-background-color: B2C8BA;"/>
-                </VBox>
-                <Pane prefHeight="254.0" prefWidth="450.0"/>
-                <Button mnemonicParsing="false" onMouseClicked="#onValidateNewDeliveryButtonClick" prefHeight="40.0"
-                        prefWidth="205.0" style="-fx-background-color: #2A482D;" text="Valider" textFill="WHITE">
-                    <font>
-                        <Font name="Inter Semi Bold" size="20.0"/>
-                    </font>
-                    <HBox.margin>
-                        <Insets left="30.0" top="200.0"/>
-                    </HBox.margin>
-                    <effect>
-                        <DropShadow/>
-                    </effect>
-                    <opaqueInsets>
-                        <Insets/>
-                    </opaqueInsets>
-                    <cursor>
-                        <Cursor fx:constant="HAND"/>
-                    </cursor>
-                </Button>
-            </HBox>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <!-- Form Elements -->
+            <Label text="Date : " styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-        </VBox>
+            <Label text="Créneau : " styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="timeWindowChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
+            <Label text="Client : " styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="clientChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="newClientButton" text="Ajouter client +" styleClass="form-button" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
+            <Label text="Livreurs proposés : " styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="courierChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="newCourierButton" text="Ajouter livreur +" styleClass="form-button" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+
+            <Label text="Adresse : " styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <ChoiceBox fx:id="intersectionChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button fx:id="validateNewDeliveryButton" text="Valider" styleClass="form-button" GridPane.columnIndex="2" GridPane.rowIndex="4"  onAction="#onValidateNewDeliveryButtonClick"/>
+        </GridPane>
     </center>
     <right>
 
-    </right>
-    <bottom>
+
         <AnchorPane fx:id="mapAnchorPane" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
-                    AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                    AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" >
+            <padding>
+                <Insets top="50" right="50" bottom="50" left="50"/>
+            </padding>
 
         </AnchorPane>
+    </right>
+    <bottom>
+
     </bottom>
     <left>
-
     </left>
 
 

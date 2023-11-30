@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class NewDeliveryController {
@@ -74,8 +75,7 @@ public class NewDeliveryController {
         final TimeWindowRepository timeWindowRepository = dependencyManager.getTimeWindowRepository();
         timeWindowChoiceBox.getItems().addAll(timeWindowRepository.getAll());
 
-
-        // Add the map to the mapAnchorPane
+        // Add the map to the mapAnchorPanechosenTime
         final MapService mapService = dependencyManager.getMapService();
 
         MapView.OnIntersectionClicked onIntersectionClicked = intersection -> {
@@ -84,7 +84,7 @@ public class NewDeliveryController {
             System.out.println("Intersection clicked: " + intersection);
         };
         final MapView mapView = new MapView(mapService.getCurrentMap(), 500, onIntersectionClicked);
-        mapAnchorPane.getChildren().add(mapView.createView()); //TODO add onclick listeners
+        mapAnchorPane.getChildren().add(mapView.createView());
 
     }
 
@@ -110,24 +110,25 @@ public class NewDeliveryController {
     }
 
     @FXML
-    public void onValidateNewDeliveryButtonClick(MouseEvent mouseEvent) {
+    public void onValidateNewDeliveryButtonClick(ActionEvent actionEvent) {
         final Courier chosenCourier = courierChoiceBox.getValue();
         final Client chosenClient = clientChoiceBox.getValue();
         final LocalDate chosenDate = datePicker.getValue();
+        final LocalTime chosenTime = timeWindowChoiceBox.getValue().getStart(); // TODO in the future, use TimeWindow to create a DeliveryRequest
 
-        final boolean isValid = chosenCourier != null && chosenClient != null && chosenDate != null && chosenIntersection != null;
+        final LocalDateTime chosenDateTime = LocalDateTime.of(chosenDate, chosenTime);
+
+        final boolean isValid = chosenCourier != null && chosenClient != null  && chosenIntersection != null;
 
         if (!isValid) {
             System.out.println("Invalid delivery");
             return;
         }
-        //TODO check if delivery is possible
-
-        dependencyManager.getDeliveryRepository().create(LocalDateTime.now(), chosenIntersection, chosenCourier.getId());
+        // TODO check if delivery is possible, and if so, add it to the courier's roadmap
+        dependencyManager.getDeliveryRepository().create(chosenDateTime, chosenIntersection, chosenCourier.getId());
         System.out.println("New delivery created");
-        // TODO handle the roadmap computation
 
-        final Node source = (Node) mouseEvent.getSource();
+        final Node source = (Node) actionEvent.getSource();
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }

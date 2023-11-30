@@ -23,11 +23,10 @@ public class DependencyManager {
     private final MapService mapService;
 
     public DependencyManager() {
-        // Initialize your dependencies here, or inject them from an IoC container
-        courierRepository = new MockCourierRepository();
-        deliveryRepository = new MockDeliveryRepository();
-        clientRepository = new MockClientRepository();
         idGenerator = new IdGenerator();
+        courierRepository = new MockCourierRepository();
+        deliveryRepository = new InMemoryDeliveryRepository(getIdGenerator());
+        clientRepository = new MockClientRepository();
         timeWindowRepository = new FixedTimeWindowRepository();
 
         // MapService initialization
