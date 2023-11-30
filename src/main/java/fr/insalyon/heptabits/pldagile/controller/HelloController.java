@@ -2,12 +2,18 @@ package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
 import fr.insalyon.heptabits.pldagile.HelloApplication;
+import fr.insalyon.heptabits.pldagile.model.Delivery;
+import fr.insalyon.heptabits.pldagile.model.Intersection;
 import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.view.MapView;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.InputEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -16,16 +22,30 @@ import javafx.scene.layout.StackPane;
 
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class HelloController {
 
     private  final DependencyManager dependencyManager;
 
+    @FXML
+    private TableView<Delivery> deliveryTable;
+    @FXML
+    private TableColumn<Delivery, Long> deliveryId;
+    @FXML
+    private TableColumn<Delivery, Long> courierId;
+    @FXML
+    private TableColumn<Delivery, Intersection> address;
+
     public HelloController(DependencyManager dependencyManager) {
         this.dependencyManager = dependencyManager;
     }
 
+    @FXML
+    public void initialize() {
+        displayDeliveries();
+    }
     @FXML
     protected void onHistoryButtonClick() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -39,12 +59,35 @@ public class HelloController {
     }
 
     @FXML
-    protected void onNewDeliveryButtonClick() throws IOException {
+    public void displayDeliveries(){
+        
+        List<Delivery> deliveries = dependencyManager.getDeliveryRepository().findAll();
+        if(deliveries.isEmpty()){
+            System.out.println("Pas de livraisons prévues");
+        } else {
+            deliveryId.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
+            address.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDestination()));
+            courierId.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCourierId()));
+
+            for(Delivery d : deliveries){
+                deliveryTable.getItems().addAll(d);
+            }
+
+        }
+
+
+    }
+    @FXML
+    protected void onNewDeliveryButtonClick(InputEvent e) throws IOException {
+        Node source = (Node) e.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setController(new NewDeliveryController(dependencyManager));
         fxmlLoader.setLocation(HelloApplication.class.getResource("NewDelivery.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
+        stage = new Stage();
         stage.setTitle("INFAT'IFGABLES");
         stage.setScene(scene);
         stage.show();

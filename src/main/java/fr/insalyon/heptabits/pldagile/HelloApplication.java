@@ -31,6 +31,7 @@ public class HelloApplication extends Application {
         controller.initializeMap(map, 500);
 
 
+
         Scene scene = new Scene(root);
         scene.setFill(Color.web("#f6f5f5"));
         stage.setTitle("Hello!");

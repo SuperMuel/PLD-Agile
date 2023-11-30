@@ -10,7 +10,7 @@
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ebf3e8"
-            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" >
     <top>
         <VBox>
             <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
@@ -76,7 +76,7 @@
 
             <Label text="Adresse : " styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="4" />
             <ChoiceBox fx:id="intersectionChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Button fx:id="validateNewDeliveryButton" text="Valider" styleClass="form-button" GridPane.columnIndex="2" GridPane.rowIndex="4"  onAction="#onValidateNewDeliveryButtonClick"/>
+            <Button fx:id="validateNewDeliveryButton" text="Valider" styleClass="form-button" GridPane.columnIndex="2" GridPane.rowIndex="4"  onMouseClicked="#onValidateNewDeliveryButtonClick"/>
         </GridPane>
     </center>
     <right>

@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -110,7 +111,7 @@ public class NewDeliveryController {
     }
 
     @FXML
-    public void onValidateNewDeliveryButtonClick(ActionEvent actionEvent) {
+    public void onValidateNewDeliveryButtonClick(InputEvent e) throws IOException {
         final Courier chosenCourier = courierChoiceBox.getValue();
         final Client chosenClient = clientChoiceBox.getValue();
         final LocalDate chosenDate = datePicker.getValue();
@@ -128,8 +129,17 @@ public class NewDeliveryController {
         dependencyManager.getDeliveryRepository().create(chosenDateTime, chosenIntersection, chosenCourier.getId());
         System.out.println("New delivery created");
 
-        final Node source = (Node) actionEvent.getSource();
-        final Stage stage = (Stage) source.getScene().getWindow();
+        Node source = (Node) e.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setController(new HelloController(dependencyManager));
+        fxmlLoader.setLocation(HelloApplication.class.getResource("hello-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage = new Stage();
+        stage.setTitle("DEL'IFEROO");
+        stage.setScene(scene);
+        stage.show();
     }
 }
