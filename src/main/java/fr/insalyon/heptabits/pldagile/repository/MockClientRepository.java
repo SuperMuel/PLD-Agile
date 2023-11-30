@@ -55,7 +55,7 @@ public class MockClientRepository implements ClientRepository {
     @Override
     public List<Client> findByName(String name, String lastName) {
         return clients.stream()
-                .filter(client -> client.getName().equals(name) || client.getLastName().equals(lastName))
+                .filter(client -> client.getFirstName().equals(name) || client.getLastName().equals(lastName))
                 .toList();
     }
 

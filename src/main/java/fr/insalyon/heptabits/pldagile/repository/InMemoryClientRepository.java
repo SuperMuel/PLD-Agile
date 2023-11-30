@@ -2,7 +2,6 @@ package fr.insalyon.heptabits.pldagile.repository;
 
 import fr.insalyon.heptabits.pldagile.IdGenerator;
 import fr.insalyon.heptabits.pldagile.model.Client;
-import fr.insalyon.heptabits.pldagile.model.Intersection;
 
 import java.util.*;
 
@@ -35,7 +34,7 @@ public class InMemoryClientRepository implements ClientRepository {
         if (lastName == null) {
             for (java.util.Map.Entry<Long, Client> mapEntry : hashMapClients.entrySet()) {
                 Client c = mapEntry.getValue();
-                if (c.getName().contains(name)) {
+                if (c.getFirstName().contains(name)) {
                     res.add(c);
                 }
             }
@@ -49,7 +48,7 @@ public class InMemoryClientRepository implements ClientRepository {
         } else {
             for (java.util.Map.Entry<Long, Client> mapEntry : hashMapClients.entrySet()) {
                 Client c = mapEntry.getValue();
-                if (c.getName().contains(name) && c.getLastName().contains(lastName)) {
+                if (c.getFirstName().contains(name) && c.getLastName().contains(lastName)) {
                     res.add(c);
                 }
             }
