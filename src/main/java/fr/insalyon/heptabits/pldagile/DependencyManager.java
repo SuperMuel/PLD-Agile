@@ -1,5 +1,6 @@
 package fr.insalyon.heptabits.pldagile;
 
+import fr.insalyon.heptabits.pldagile.model.IdGenerator;
 import fr.insalyon.heptabits.pldagile.repository.*;
 import fr.insalyon.heptabits.pldagile.service.MapService;
 import fr.insalyon.heptabits.pldagile.service.XmlMapParser;
