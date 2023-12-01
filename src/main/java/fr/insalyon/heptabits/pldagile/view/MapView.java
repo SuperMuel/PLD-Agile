@@ -84,6 +84,7 @@ public class MapView {
             line.setStroke(Color.web("#d8e0e7"));
 
             lineList.add(line);
+            addLineEventHandlers(segment, line);
         }
 
         return lineList;
@@ -136,6 +137,7 @@ public class MapView {
         });
 
         circle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+            scaleIn.playFromStart();
             circle.setFill(clickedColor);
             onIntersectionClicked.onIntersectionClicked(intersection);
         });
@@ -147,6 +149,13 @@ public class MapView {
 
 
 
+    }
+
+    private void addLineEventHandlers(Segment segment, Line line){
+        line.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+            Tooltip tooltipLine = new Tooltip(segment.getName());
+            Tooltip.install(line, tooltipLine);
+        });
     }
 
 
