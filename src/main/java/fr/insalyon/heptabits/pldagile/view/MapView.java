@@ -5,6 +5,7 @@ import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.model.Segment;
 import javafx.animation.ScaleTransition;
 import javafx.scene.Group;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -125,6 +126,8 @@ public class MapView {
         circle.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             scaleIn.playFromStart(); // Play hover animation
             circle.setOpacity(hoveredOpacity);
+            Tooltip tooltipCircle = new Tooltip(intersection.toString());
+            Tooltip.install(circle, tooltipCircle);
         });
 
         circle.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {

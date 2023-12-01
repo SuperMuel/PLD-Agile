@@ -11,6 +11,7 @@ module fr.insalyon.heptabits.pldagile {
     exports fr.insalyon.heptabits.pldagile.controller;
     exports fr.insalyon.heptabits.pldagile.model;
     opens fr.insalyon.heptabits.pldagile.controller to javafx.fxml;
+    opens fr.insalyon.heptabits.pldagile.model to javafx.fxml;
 
 
 }
