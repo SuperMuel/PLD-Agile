@@ -33,7 +33,7 @@ public class HelloController {
     @FXML
     private TableColumn<Delivery, Long> deliveryId;
     @FXML
-    private TableColumn<Delivery, Long> courierId;
+    private TableColumn<Delivery, String> courierName;
     @FXML
     private TableColumn<Delivery, Intersection> address;
     @FXML
@@ -78,7 +78,7 @@ public class HelloController {
         } else {
             deliveryId.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
             address.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDestination()));
-            courierId.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCourierId()));
+            courierName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getFirstName() + " " + dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getLastName()));
 
             for(Delivery d : deliveries){
                 deliveryTable.getItems().addAll(d);
