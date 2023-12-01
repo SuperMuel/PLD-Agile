@@ -1,8 +1,5 @@
 package fr.insalyon.heptabits.pldagile.model;
 
-import fr.insalyon.heptabits.pldagile.model.Delivery;
-import fr.insalyon.heptabits.pldagile.model.Intersection;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +17,7 @@ class DeliveryTest {
     void setUp() {
         nowDt = LocalDateTime.now();
         destination = new Intersection(0, 0, 0);
-        delivery = new Delivery(0, nowDt, destination, 12);
+        delivery = new Delivery(0, nowDt, destination, 12, 1);
     }
 
     @Test

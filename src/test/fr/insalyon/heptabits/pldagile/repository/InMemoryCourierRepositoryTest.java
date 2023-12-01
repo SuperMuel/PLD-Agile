@@ -1,6 +1,6 @@
 package fr.insalyon.heptabits.pldagile.repository;
 
-import fr.insalyon.heptabits.pldagile.IdGenerator;
+import fr.insalyon.heptabits.pldagile.model.IdGenerator;
 import fr.insalyon.heptabits.pldagile.model.Courier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

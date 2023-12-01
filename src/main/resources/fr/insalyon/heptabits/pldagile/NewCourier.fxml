@@ -7,10 +7,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ebf3e8" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.insalyon.heptabits.pldagile.controller.HelloController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ebf3e8" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #86a789; -fx-font-size: 50">
-            <Text text="INFAT'IFGABLES">
+            <Text text="DEL'IFROO">
                 <font>
                     <Font name="Inter Semi Bold" size="40.0" />
                 </font>
@@ -38,7 +38,7 @@
                         <Font name="Inter Semi Bold" size="20.0"/>
                     </font>
                 </Label>
-                <TextField prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;"/>
+                <TextField fx:id="lastNameField" prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;"/>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="1030.0">
                 <VBox.margin>
@@ -52,7 +52,7 @@
                         <Font name="Inter Semi Bold" size="20.0"/>
                     </font>
                 </Label>
-                <TextField prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;">
+                <TextField fx:id="firstNameField" prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;">
                     <HBox.margin>
                         <Insets right="40.0"/>
                     </HBox.margin>
@@ -70,7 +70,7 @@
                         <Font name="Inter Semi Bold" size="20.0"/>
                     </font>
                 </Label>
-                <TextField prefHeight="40.0" prefWidth="340.0" style="-fx-background-color: B2C8BA;"/>
+                <TextField fx:id="emailField" prefHeight="40.0" prefWidth="340.0" style="-fx-background-color: B2C8BA;"/>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="1030.0">
                 <VBox.margin>
@@ -84,7 +84,7 @@
                         <Font name="Inter Semi Bold" size="20.0"/>
                     </font>
                 </Label>
-                <TextField prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;"/>
+                <TextField fx:id="phoneNumberField" prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: B2C8BA;"/>
             </HBox>
             <Button mnemonicParsing="false" onMouseClicked="#onValidateNewCourierButtonClick" prefHeight="40.0" prefWidth="215.0" style="-fx-background-color: #2A482D;" text="Valider" textFill="WHITE">
                 <font>

@@ -5,6 +5,7 @@ import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.model.Segment;
 import javafx.animation.ScaleTransition;
 import javafx.scene.Group;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -29,15 +30,25 @@ public class MapView {
 
     private final int size;
 
+    public interface OnIntersectionClicked {
+        void onIntersectionClicked(Intersection intersection);
+    }
+
+    final OnIntersectionClicked onIntersectionClicked;
+
 
     public MapView(Map map, int size) {
+        this(map, size, null);
+    }
+
+    public MapView(Map map, int size, OnIntersectionClicked onIntersectionClicked) {
         this.map = map;
         this.minLatitude = map.getMinLatitude();
         this.minLongitude = map.getMinLongitude();
         this.maxLatitude = map.getMaxLatitude();
         this.maxLongitude = map.getMaxLongitude();
-
         this.size = size;
+        this.onIntersectionClicked = onIntersectionClicked;
     }
 
     public Group createView() {
@@ -62,17 +73,21 @@ public class MapView {
             Long idDestination = segment.getDestinationId();
             Long idOrigin = segment.getOriginId();
 
-            float latDestination = (intersections.get(idDestination).getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
-            float longDestination = (intersections.get(idDestination).getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
+            if(intersections.get(idDestination) != null && intersections.get(idOrigin) != null) {
+                float latDestination = (intersections.get(idDestination).getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
+                float longDestination = (intersections.get(idDestination).getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
 
-            float latOrigin = (intersections.get(idOrigin).getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
-            float longOrigin = (intersections.get(idOrigin).getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
+                float latOrigin = (intersections.get(idOrigin).getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
+                float longOrigin = (intersections.get(idOrigin).getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
 
-            Line line = new Line(latOrigin, longOrigin, latDestination, longDestination);
-            line.setStrokeWidth(3);
-            line.setStroke(Color.web("#d8e0e7"));
+                Line line = new Line(latOrigin, longOrigin, latDestination, longDestination);
+                line.setStrokeWidth(3);
+                line.setStroke(Color.web("#d8e0e7"));
 
-            lineList.add(line);
+                lineList.add(line);
+            } else {
+                System.out.println("Un segment n'a pas pu être tracé. idDestination = " + idDestination + " ou idOrigin = " + idOrigin + " sont introuvables");
+            }
         }
 
         return lineList;
@@ -94,7 +109,7 @@ public class MapView {
             Circle circle = new Circle(x, y, CIRCLE_RADIUS, CIRCLE_COLOR);
             circle.setOpacity(CIRCLE_OPACITY);
 
-            addCircleEventHandlers(circle, CIRCLE_COLOR_CLICKED, CIRCLE_OPACITY_HOVERED, CIRCLE_OPACITY, CIRCLE_COLOR);
+            addCircleEventHandlers(temp, circle, CIRCLE_COLOR_CLICKED, CIRCLE_OPACITY_HOVERED, CIRCLE_OPACITY, CIRCLE_COLOR);
 
             circleList.add(circle);
         }
@@ -102,7 +117,7 @@ public class MapView {
         return circleList;
     }
 
-    private void addCircleEventHandlers(Circle circle, Color clickedColor, double hoveredOpacity, double circleOpacity, Color circleColor) {
+    private void addCircleEventHandlers(Intersection intersection, Circle circle, Color clickedColor, double hoveredOpacity, double circleOpacity, Color circleColor) {
         // Animation for mouse hover
         ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.15), circle);
         scaleIn.setToX(3);
@@ -115,6 +130,8 @@ public class MapView {
         circle.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             scaleIn.playFromStart(); // Play hover animation
             circle.setOpacity(hoveredOpacity);
+            Tooltip tooltipCircle = new Tooltip(intersection.toString());
+            Tooltip.install(circle, tooltipCircle);
         });
 
         circle.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
@@ -122,11 +139,18 @@ public class MapView {
             circle.setOpacity(circleOpacity);
         });
 
-        circle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> circle.setFill(clickedColor));
+        circle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+            circle.setFill(clickedColor);
+            onIntersectionClicked.onIntersectionClicked(intersection);
+        });
 
         circle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
             circle.setFill(circleColor);
         });
+
+
+
+
     }
 
 

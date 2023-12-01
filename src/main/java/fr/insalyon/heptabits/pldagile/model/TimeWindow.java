@@ -2,12 +2,11 @@ package fr.insalyon.heptabits.pldagile.model;
 
 import java.time.LocalTime;
 
-public class TimeWindow extends BaseEntity{
+public class TimeWindow {
     private final LocalTime start;
     private final LocalTime end;
 
-    public TimeWindow(long id, LocalTime start, LocalTime end) {
-        super(id);
+    public TimeWindow(LocalTime start, LocalTime end) {
         this.start = start;
         this.end = end;
     }
@@ -22,12 +21,10 @@ public class TimeWindow extends BaseEntity{
 
     @Override
     public String toString() {
-        return "TimeWindow{" +
-                "id=" + getId() +
-                ", start=" + start +
-                ", end=" + end +
-                '}';
+        // 9h à 10h
+        return start.getHour() + "h à " + end.getHour() + "h";
     }
+
 
     // help functions
 

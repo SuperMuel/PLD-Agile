@@ -14,7 +14,7 @@ class ClientTest {
     }
     @Test
     void getName() {
-        assertEquals("Chloé", client.getName());
+        assertEquals("Chloé", client.getFirstName());
     }
 
     @Test

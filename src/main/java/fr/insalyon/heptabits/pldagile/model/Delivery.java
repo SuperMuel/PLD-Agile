@@ -10,11 +10,14 @@ public class Delivery extends BaseEntity {
     // Using id here because the courier's properties can change.
     private final long courierId;
 
-    public Delivery(long id, LocalDateTime scheduledDateTime, Intersection destination, long courierId) {
+    private final long clientId;
+
+    public Delivery(long id, LocalDateTime scheduledDateTime, Intersection destination, long courierId, long clientId) {
         super(id);
         this.scheduledDateTime = scheduledDateTime;
         this.destination = destination;
         this.courierId = courierId;
+        this.clientId = clientId;
     }
 
 
@@ -39,5 +42,9 @@ public class Delivery extends BaseEntity {
 
     public long getCourierId() {
         return courierId;
+    }
+
+    public long getClientId() {
+        return clientId;
     }
 }

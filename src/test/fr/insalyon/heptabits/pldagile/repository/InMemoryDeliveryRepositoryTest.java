@@ -1,7 +1,6 @@
 package fr.insalyon.heptabits.pldagile.repository;
 
-import fr.insalyon.heptabits.pldagile.IdGenerator;
-import fr.insalyon.heptabits.pldagile.model.Client;
+import fr.insalyon.heptabits.pldagile.model.IdGenerator;
 import fr.insalyon.heptabits.pldagile.model.Delivery;
 import fr.insalyon.heptabits.pldagile.model.Intersection;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,8 +22,8 @@ class InMemoryDeliveryRepositoryTest {
         repo = new InMemoryDeliveryRepository(idGenerator);
         intersection1 = new Intersection(1, 40, 40);
         intersection2 = new Intersection(2, 30, 30);
-        repo.create(LocalDateTime.of(2023, 2, 25, 8, 0), intersection1 , 1);
-        repo.create(LocalDateTime.of(2023, 2, 25, 9, 0), intersection2, 1);
+        repo.create(LocalDateTime.of(2023, 2, 25, 8, 0), intersection1 , 1, 1);
+        repo.create(LocalDateTime.of(2023, 2, 25, 9, 0), intersection2, 1, 1);
     }
 
     @Test
@@ -39,14 +38,14 @@ class InMemoryDeliveryRepositoryTest {
 
     @Test
     void create() {
-        Delivery c = repo.create(LocalDateTime.of(2023, 2, 25, 9, 0), intersection2 , 1);
+        Delivery c = repo.create(LocalDateTime.of(2023, 2, 25, 9, 0), intersection2 , 1, 1);
         assertNotNull(repo.findById(3));
         assertEquals(c.getId(), 3);
     }
 
     @Test
     void update() {
-        Delivery d1 = new Delivery(1, LocalDateTime.of(2023, 2, 26, 9, 0), intersection1 , 2);
+        Delivery d1 = new Delivery(1, LocalDateTime.of(2023, 2, 26, 9, 0), intersection1 , 2, 1);
         Delivery d2 = repo.update(d1);
         assertEquals(d2.getCourierId(), 2);
     }
