@@ -1,5 +1,7 @@
 # PLD-Agile
 
+[![codecov](https://codecov.io/github/SuperMuel/PLD-Agile/graph/badge.svg?token=VL6RZLOBNK)](https://codecov.io/github/SuperMuel/PLD-Agile)
+
 ### Getting started
 
 L'utilisation de [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/) est fortement recommandée pour le développement.
