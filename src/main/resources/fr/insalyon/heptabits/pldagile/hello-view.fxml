@@ -82,8 +82,8 @@
         <columns>
           <TableColumn fx:id="deliveryId" maxWidth="20.0" minWidth="70.0" prefWidth="20.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Livraison" />
           <TableColumn fx:id="time" maxWidth="50.0" minWidth="70.0" prefWidth="-1.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Horaire" />
-          <TableColumn fx:id="address" maxWidth="200.0" minWidth="135.0" prefWidth="-1.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Adresse" />
-          <TableColumn fx:id="client" maxWidth="200.0" minWidth="135.0" prefWidth="-1.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Client" />
+          <TableColumn fx:id="address" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Adresse" />
+          <TableColumn fx:id="clientName" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Client" />
           <TableColumn fx:id="courierName" maxWidth="200.0" minWidth="135.0" prefWidth="-1.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Livreur" />
         </columns>
         <VBox.margin>

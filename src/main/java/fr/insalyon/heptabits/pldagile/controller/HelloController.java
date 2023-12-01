@@ -21,6 +21,8 @@ import javafx.scene.layout.StackPane;
 
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -36,6 +38,11 @@ public class HelloController {
     private TableColumn<Delivery, String> courierName;
     @FXML
     private TableColumn<Delivery, Intersection> address;
+    @FXML
+    private TableColumn<Delivery, String> time;
+
+    @FXML
+    private TableColumn<Delivery, String> clientName;
     @FXML
     private StackPane mapContainer;
 
@@ -76,10 +83,13 @@ public class HelloController {
         if(deliveries.isEmpty()){
             System.out.println("Pas de livraisons prévues");
         } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
             deliveryId.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
             address.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDestination()));
             courierName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getFirstName() + " " + dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getLastName()));
-
+            clientName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getClientRepository().findById(cellData.getValue().getClientId()).getFirstName() + " " + dependencyManager.getClientRepository().findById(cellData.getValue().getClientId()).getLastName()));
+            time.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getScheduledDateTime().format(formatter)));
             for(Delivery d : deliveries){
                 deliveryTable.getItems().addAll(d);
             }

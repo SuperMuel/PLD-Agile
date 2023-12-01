@@ -12,7 +12,7 @@ public interface DeliveryRepository {
 
     List<Delivery> findAll();
 
-    Delivery create(LocalDateTime scheduledDateTime, Intersection destination, long courierId);
+    Delivery create(LocalDateTime scheduledDateTime, Intersection destination, long courierId, long clientId);
 
     Delivery update(Delivery delivery);
 

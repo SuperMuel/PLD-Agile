@@ -12,12 +12,12 @@ public class MockDeliveryRepository implements DeliveryRepository {
 
     public MockDeliveryRepository(){
         this.deliveries = List.of(
-                new Delivery(1L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L),
-                new Delivery(2L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L),
-                new Delivery(3L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L),
-                new Delivery(4L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L),
-                new Delivery(5L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L),
-                new Delivery(6L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L)
+                new Delivery(1L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L, 1),
+                new Delivery(2L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L, 1),
+                new Delivery(3L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L, 1),
+                new Delivery(4L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L, 1),
+                new Delivery(5L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L, 1),
+                new Delivery(6L, LocalDateTime.of(2021, 1, 1, 12, 0), new Intersection(1L, 1, 1), 1L, 1)
         );
     }
 
@@ -36,7 +36,7 @@ public class MockDeliveryRepository implements DeliveryRepository {
     }
 
     @Override
-    public Delivery create(LocalDateTime scheduledDateTime, Intersection destination, long courierId) {
+    public Delivery create(LocalDateTime scheduledDateTime, Intersection destination, long courierId, long clientId) {
         // thrown "unimplemented" error
         throw new UnsupportedOperationException("This is a mock repository. Only get and find methods are implemented.");
     }
