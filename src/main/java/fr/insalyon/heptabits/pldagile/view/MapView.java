@@ -137,7 +137,6 @@ public class MapView {
         });
 
         circle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            scaleIn.playFromStart();
             circle.setFill(clickedColor);
             onIntersectionClicked.onIntersectionClicked(intersection);
         });
