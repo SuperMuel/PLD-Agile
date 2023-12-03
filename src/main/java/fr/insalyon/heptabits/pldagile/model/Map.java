@@ -51,6 +51,15 @@ public class Map extends BaseEntity {
         return List.copyOf(segments);
     }
 
+    public Segment getSegmentByOriginAndDestination(long originId, long destinationId){
+        for(Segment s : segments){
+            if(s.getOriginId() == originId && s.getDestinationId() == destinationId){
+                return s;
+            }
+        }
+        return null;
+    }
+
 
     public long getWarehouseId() {
         return warehouseId;
