@@ -13,9 +13,13 @@ import java.nio.file.Path;
 
 public class DependencyManager {
     private final CourierRepository courierRepository;
+
+    private final CourierRepository courierRepositoryInMemory;
     private final DeliveryRepository deliveryRepository;
 
     private final ClientRepository clientRepository;
+
+    private final ClientRepository clientRepositoryInMemory;
 
     private final IdGenerator idGenerator;
 
@@ -23,12 +27,18 @@ public class DependencyManager {
 
     private final MapService mapService;
 
+    private final SQLiteConnection connection;
+
     public DependencyManager() {
         idGenerator = new IdGenerator();
-        courierRepository = new InMemoryCourierRepository(getIdGenerator());
+        connection = new SQLiteConnection("identifier.sqlite");
+        courierRepository = new SqlCourierRepository(getConnection(), getIdGenerator());
+        courierRepositoryInMemory = new InMemoryCourierRepository(getIdGenerator());
         deliveryRepository = new InMemoryDeliveryRepository(getIdGenerator());
-        clientRepository = new InMemoryClientRepository(getIdGenerator());
+        clientRepository = new SqlClientRepository(getConnection(), getIdGenerator());
+        clientRepositoryInMemory = new InMemoryClientRepository(getIdGenerator());
         timeWindowRepository = new FixedTimeWindowRepository();
+
 
         // MapService initialization
         XmlMapParser mapParser = new XmlMapParser();
@@ -67,5 +77,17 @@ public class DependencyManager {
 
     public MapService getMapService() {
         return mapService;
+    }
+
+    public SQLiteConnection getConnection() {
+        return connection;
+    }
+
+    public ClientRepository getClientRepositoryInMemory() {
+        return clientRepositoryInMemory;
+    }
+
+    public CourierRepository getCourierRepositoryInMemory() {
+        return courierRepositoryInMemory;
     }
 }
