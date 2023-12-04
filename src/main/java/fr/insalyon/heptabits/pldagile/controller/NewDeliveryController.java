@@ -146,7 +146,7 @@ public class NewDeliveryController {
         }
 
         // TODO check if delivery is possible, and if so, add it to the courier's roadmap
-        dependencyManager.getDeliveryRepository().create(chosenDateTime, chosenIntersection, chosenCourier.getId(), chosenClient.getId());
+        dependencyManager.getDeliveryRepository().create(chosenDateTime, chosenIntersection, chosenCourier.getId(), chosenClient.getId(), timeWindowChoiceBox.getValue());
         System.out.println("New delivery created");
 
         Node source = (Node) e.getSource();

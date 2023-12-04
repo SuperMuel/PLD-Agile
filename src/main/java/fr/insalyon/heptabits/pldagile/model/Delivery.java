@@ -12,12 +12,15 @@ public class Delivery extends BaseEntity {
 
     private final long clientId;
 
-    public Delivery(long id, LocalDateTime scheduledDateTime, Intersection destination, long courierId, long clientId) {
+    private final TimeWindow timeWindow;
+
+    public Delivery(long id, LocalDateTime scheduledDateTime, Intersection destination, long courierId, long clientId, TimeWindow timeWindow) {
         super(id);
         this.scheduledDateTime = scheduledDateTime;
         this.destination = destination;
         this.courierId = courierId;
         this.clientId = clientId;
+        this.timeWindow = timeWindow;
     }
 
 
@@ -36,9 +39,10 @@ public class Delivery extends BaseEntity {
                 ", scheduledDateTime=" + scheduledDateTime +
                 ", destination=" + destination +
                 ", courierId=" + courierId +
+                ", clientId=" + clientId +
+                ", timeWindow=" + timeWindow +
                 '}';
     }
-
 
     public long getCourierId() {
         return courierId;
@@ -47,4 +51,10 @@ public class Delivery extends BaseEntity {
     public long getClientId() {
         return clientId;
     }
+
+    public TimeWindow getTimeWindow() {
+        return timeWindow;
+    }
+
+
 }
