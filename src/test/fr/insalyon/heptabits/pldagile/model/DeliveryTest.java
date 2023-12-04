@@ -52,5 +52,14 @@ class DeliveryTest {
     void getTimeWindow() {
         assertEquals(timeWindow, delivery.getTimeWindow());
     }
+
+    @Test
+    void toDeliveryRequest() {
+        DeliveryRequest deliveryRequest = delivery.toDeliveryRequest();
+        assertEquals(deliveryRequest.getDate(), nowDt.toLocalDate());
+        assertEquals(deliveryRequest.getDestination(), destination);
+        assertEquals(deliveryRequest.getTimeWindow(), timeWindow);
+        assertEquals(deliveryRequest.getClientId(), 1);
+    }
 }
 

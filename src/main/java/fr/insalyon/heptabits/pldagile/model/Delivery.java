@@ -57,4 +57,8 @@ public class Delivery extends BaseEntity {
     }
 
 
+    public DeliveryRequest toDeliveryRequest() {
+        return new DeliveryRequest(this);
+    }
+
 }
