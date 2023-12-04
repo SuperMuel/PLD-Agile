@@ -135,6 +135,7 @@
                                 <exclude>**/view/**</exclude>
                                 <exclude>**/*Application*</exclude>
                                 <exclude>**/controller/**</exclude>
+                                <exclude>**/repository/Mock*</exclude>
                             </excludes>
                         </configuration>
                     </execution>
