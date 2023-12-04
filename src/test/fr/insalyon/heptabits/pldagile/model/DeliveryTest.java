@@ -13,11 +13,14 @@ class DeliveryTest {
     Intersection destination;
 
     LocalDateTime nowDt;
+
+    TimeWindow timeWindow = new TimeWindow(LocalDateTime.now().toLocalTime(), LocalDateTime.now().plusHours(1).toLocalTime());
+
     @BeforeEach
     void setUp() {
         nowDt = LocalDateTime.now();
         destination = new Intersection(0, 0, 0);
-        delivery = new Delivery(0, nowDt, destination, 12, 1);
+        delivery = new Delivery(0, nowDt, destination, 12, 1, timeWindow);
     }
 
     @Test
@@ -39,4 +42,15 @@ class DeliveryTest {
     void getCourierId() {
         assertEquals(12, delivery.getCourierId());
     }
+
+    @Test
+    void getClientId() {
+        assertEquals(1, delivery.getClientId());
+    }
+
+    @Test
+    void getTimeWindow() {
+        assertEquals(timeWindow, delivery.getTimeWindow());
+    }
 }
+
