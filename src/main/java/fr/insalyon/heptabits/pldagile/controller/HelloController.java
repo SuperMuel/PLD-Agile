@@ -7,22 +7,22 @@ import fr.insalyon.heptabits.pldagile.model.Intersection;
 import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import org.xml.sax.SAXException;
 
 
 import java.io.File;
@@ -80,7 +80,7 @@ public class HelloController {
             newDeliveryButton.setStyle("-fx-background-color: #00A093");
         });
 
-        fileButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+        /*fileButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             fileButton.setStyle("-fx-background-color: #00BCAD");
         });
         fileButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
@@ -89,6 +89,10 @@ public class HelloController {
         fileButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
             fileButton.setStyle("-fx-background-color: #00A093");
         });
+
+         */
+
+
 
     }
 
@@ -104,8 +108,11 @@ public class HelloController {
     public void displayDeliveries(){
         List<Delivery> deliveries = dependencyManager.getDeliveryRepository().findAll();
         if(deliveries.isEmpty()){
-            System.out.println("Pas de livraisons prévues");
+            System.out.println("Pas de livraison prévue");
         } else {
+            if (!deliveryTable.getItems().isEmpty()) {
+                deliveryTable.getItems().clear();
+            }
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             deliveryId.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
             address.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDestination()));
@@ -129,8 +136,73 @@ public class HelloController {
         fxmlLoader.setLocation(HelloApplication.class.getResource("NewDelivery.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
-        stage.setTitle("INFAT'IFGABLES");
+        stage.setTitle("DEL'IFEROO");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    private void importerMenuItemClicked(ActionEvent event) throws IOException, SAXException {
+        // Assurez-vous que l'événement provient bien d'un MenuItem
+        if (event.getSource() instanceof MenuItem) {
+            MenuItem menuItem = (MenuItem) event.getSource();
+
+            // Créer un FileChooser
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Sélectionner un fichier XML");
+
+            // Ajouter un filtre pour ne montrer que les fichiers XML
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
+
+            // Afficher la boîte de dialogue et attendre que l'utilisateur sélectionne un fichier
+            Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
+            File selectedFile = fileChooser.showOpenDialog(stage);
+
+            // Vérifier si un fichier a été sélectionné
+            if (selectedFile != null) {
+                // Faites quelque chose avec le fichier sélectionné
+                System.out.println("Fichier XML sélectionné : " + selectedFile.getAbsolutePath());
+                dependencyManager.getXmlDeliveriesService().importDeliveriesFromXml(selectedFile.getAbsolutePath());
+                displayDeliveries();
+
+            } else {
+                // L'utilisateur a annulé la sélection
+                System.out.println("Sélection de fichier annulée.");
+            }
+        }
+    }
+
+
+    @FXML
+    private void exporterMenuItemClicked(ActionEvent event) {
+        // Assurez-vous que l'événement provient bien d'un MenuItem
+        if (event.getSource() instanceof MenuItem) {
+            MenuItem menuItem = (MenuItem) event.getSource();
+
+            // Créer un FileChooser
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Sélectionner un fichier XML");
+
+            // Ajouter un filtre pour ne montrer que les fichiers XML
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
+
+            // Afficher la boîte de dialogue et attendre que l'utilisateur sélectionne un fichier
+            Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
+            File selectedFile = fileChooser.showSaveDialog(stage);
+
+            // Vérifier si un fichier a été sélectionné
+            if (selectedFile != null) {
+                // Faites quelque chose avec le fichier sélectionné
+                System.out.println("Fichier XML sélectionné : " + selectedFile.getAbsolutePath());
+                dependencyManager.getXmlDeliveriesService().exportDeliveriesToXml(selectedFile.getAbsolutePath());
+
+                // À partir d'ici, vous pouvez traiter le fichier XML comme nécessaire
+                // (par exemple, lire son contenu, analyser les données, etc.)
+            } else {
+                // L'utilisateur a annulé la sélection
+                System.out.println("Sélection de fichier annulée.");
+            }
+        }
+
     }
 }
