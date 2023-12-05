@@ -6,7 +6,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,7 +24,6 @@ public class HelloApplication extends Application {
         Parent root = fxmlLoader.load();
 
         Map map = dependencyManager.getMapService().getCurrentMap();
-        controller.initializeMap(map, 500);
 
         Scene scene = new Scene(root);
         stage.setTitle("DEL'IFEROO");

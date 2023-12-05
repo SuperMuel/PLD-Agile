@@ -1,8 +1,5 @@
 package fr.insalyon.heptabits.pldagile.model;
 
-import fr.insalyon.heptabits.pldagile.model.Delivery;
-import fr.insalyon.heptabits.pldagile.model.Intersection;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,11 +13,14 @@ class DeliveryTest {
     Intersection destination;
 
     LocalDateTime nowDt;
+
+    TimeWindow timeWindow = new TimeWindow(LocalDateTime.now().toLocalTime(), LocalDateTime.now().plusHours(1).toLocalTime());
+
     @BeforeEach
     void setUp() {
         nowDt = LocalDateTime.now();
         destination = new Intersection(0, 0, 0);
-        delivery = new Delivery(0, nowDt, destination, 12);
+        delivery = new Delivery(0, nowDt, destination, 12, 1, timeWindow);
     }
 
     @Test
@@ -42,4 +42,24 @@ class DeliveryTest {
     void getCourierId() {
         assertEquals(12, delivery.getCourierId());
     }
+
+    @Test
+    void getClientId() {
+        assertEquals(1, delivery.getClientId());
+    }
+
+    @Test
+    void getTimeWindow() {
+        assertEquals(timeWindow, delivery.getTimeWindow());
+    }
+
+    @Test
+    void toDeliveryRequest() {
+        DeliveryRequest deliveryRequest = delivery.toDeliveryRequest();
+        assertEquals(deliveryRequest.getDate(), nowDt.toLocalDate());
+        assertEquals(deliveryRequest.getDestination(), destination);
+        assertEquals(deliveryRequest.getTimeWindow(), timeWindow);
+        assertEquals(deliveryRequest.getClientId(), 1);
+    }
 }
+

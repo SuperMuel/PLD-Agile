@@ -1,5 +1,7 @@
 # PLD-Agile
 
+[![codecov](https://codecov.io/github/SuperMuel/PLD-Agile/graph/badge.svg?token=VL6RZLOBNK)](https://codecov.io/github/SuperMuel/PLD-Agile)
+
 ### Getting started
 
 L'utilisation de [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/) est fortement recommandée pour le développement.
@@ -11,7 +13,7 @@ qui vous vérifiera votre statut étudiant, et vous permettra de bénéficier de
 IntelliJ Idea ou Github Copilot gratuitement.
 
 Le projet Java est géré par [Maven](https://maven.apache.org/). C'est ce qui gère les dépendances, et permet
-à n'importe qui de faire tourner le projet rapidement sur n'importe quelle machine. Les paramètres du projet, comme les dépandences
+à n'importe qui de faire tourner le projet rapidement sur n'importe quelle machine. Les paramètres du projet, comme les dépendences
 sont inscrits dans [pom.xml](./pom.xml).
 
 IntelliJ Idea vous aidera dans toutes les étapes pour faire tourner le projet sur votre machine. En cas de difficulités,

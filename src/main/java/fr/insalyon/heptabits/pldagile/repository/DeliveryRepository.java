@@ -3,6 +3,7 @@ package fr.insalyon.heptabits.pldagile.repository;
 
 import fr.insalyon.heptabits.pldagile.model.Delivery;
 import fr.insalyon.heptabits.pldagile.model.Intersection;
+import fr.insalyon.heptabits.pldagile.model.TimeWindow;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,7 +13,7 @@ public interface DeliveryRepository {
 
     List<Delivery> findAll();
 
-    Delivery create(LocalDateTime scheduledDateTime, Intersection destination, long courierId);
+    Delivery create(LocalDateTime scheduledDateTime, Intersection destination, long courierId, long clientId, TimeWindow timeWindow);
 
     Delivery update(Delivery delivery);
 

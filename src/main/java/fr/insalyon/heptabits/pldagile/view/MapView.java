@@ -73,17 +73,21 @@ public class MapView {
             Long idDestination = segment.getDestinationId();
             Long idOrigin = segment.getOriginId();
 
-            float latDestination = (intersections.get(idDestination).getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
-            float longDestination = (intersections.get(idDestination).getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
+            if(intersections.get(idDestination) != null && intersections.get(idOrigin) != null) {
+                float latDestination = (intersections.get(idDestination).getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
+                float longDestination = (intersections.get(idDestination).getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
 
-            float latOrigin = (intersections.get(idOrigin).getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
-            float longOrigin = (intersections.get(idOrigin).getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
+                float latOrigin = (intersections.get(idOrigin).getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
+                float longOrigin = (intersections.get(idOrigin).getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
 
-            Line line = new Line(latOrigin, longOrigin, latDestination, longDestination);
-            line.setStrokeWidth(3);
-            line.setStroke(Color.web("#d8e0e7"));
+                Line line = new Line(latOrigin, longOrigin, latDestination, longDestination);
+                line.setStrokeWidth(3);
+                line.setStroke(Color.web("#d8e0e7"));
 
-            lineList.add(line);
+                lineList.add(line);
+            } else {
+                System.out.println("Un segment n'a pas pu être tracé. idDestination = " + idDestination + " ou idOrigin = " + idOrigin + " sont introuvables");
+            }
         }
 
         return lineList;

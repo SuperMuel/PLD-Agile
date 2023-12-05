@@ -6,7 +6,7 @@
 
     <groupId>fr.insa-lyon.heptabits</groupId>
     <artifactId>PLD-Agile</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <name>PLD-Agile</name>
 
     <properties>
@@ -110,13 +110,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.2</version> <!-- Use the latest version -->
+                <version>3.2.2</version>
             </plugin>
 
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.11</version> <!-- Utilisez la dernière version disponible -->
+                <version>0.8.11</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -126,10 +126,18 @@
                     </execution>
                     <execution>
                         <id>report</id>
-                        <phase>verify</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/view/**</exclude>
+                                <exclude>**/*Application*</exclude>
+                                <exclude>**/controller/**</exclude>
+                                <exclude>**/repository/Mock*</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                 </executions>
                 <configuration>
@@ -140,7 +148,7 @@
                                 <limit>
                                     <counter>LINE</counter>
                                     <value>COVEREDRATIO</value>
-                                    <minimum>0.50</minimum>
+                                    <minimum>0.60</minimum>
                                 </limit>
                             </limits>
                         </rule>
