@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -63,9 +64,6 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-        File file = new File("src/main/resources/img/del'iferoo-white 1.png");
-        Image image = new Image(file.toURI().toString());
-        logo.setImage(image);
         displayDeliveries();
         Map map = dependencyManager.getMapService().getCurrentMap();
         initializeMap(map, 500);

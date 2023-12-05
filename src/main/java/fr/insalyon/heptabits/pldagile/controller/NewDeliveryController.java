@@ -92,11 +92,6 @@ public class NewDeliveryController {
         final MapView mapView = new MapView(mapService.getCurrentMap(), 500, onIntersectionClicked);
         mapAnchorPane.getChildren().add(mapView.createView());
 
-        // Add the logo to the page
-        File file_logo = new File("src/main/resources/img/del'iferoo-white 1.png");
-        Image image_logo = new Image(file_logo.toURI().toString());
-        logo.setImage(image_logo);
-
         confirmNewDeliveryButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             confirmNewDeliveryButton.setStyle("-fx-background-color: #00BCAD");
         });

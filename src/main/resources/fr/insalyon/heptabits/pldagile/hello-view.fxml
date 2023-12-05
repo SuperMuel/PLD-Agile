@@ -17,17 +17,20 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Fichier">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Importer un fichier de livraisons..." onAction="#importerMenuItemClicked" />
-                        <MenuItem mnemonicParsing="false" text="Exporter les livraisons sous..." onAction="#exporterMenuItemClicked"/>
+                    <MenuItem mnemonicParsing="false" onAction="#importerMenuItemClicked" text="Importer un fichier de livraisons..." />
+                        <MenuItem mnemonicParsing="false" onAction="#exporterMenuItemClicked" text="Exporter les livraisons sous..." />
                   </items>
                 </Menu>
               </menus>
             </MenuBar>
-            <ImageView fx:id="logo" fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <HBox.margin>
-                  <Insets left="340.0" />
-               </HBox.margin>
-            </ImageView>
+             <ImageView fx:id="logo" fitHeight="60.0" fitWidth="200.0">
+                 <image>
+                     <Image url="@../../../../fr/insalyon/heptabits/pldagile/deliferoo-white.png" />
+                 </image>
+                 <HBox.margin>
+                     <Insets left="340.0" />
+                 </HBox.margin>
+             </ImageView>
          </children>
     </HBox>
   </top>

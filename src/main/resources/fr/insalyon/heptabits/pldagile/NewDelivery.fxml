@@ -13,10 +13,13 @@
     <top>
         <VBox>
             <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="60.0" style="-fx-background-color: #00CCBC;">
-            <ImageView fx:id="logo" fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets right="300.0" />
                </HBox.margin>
+                <image>
+                    <Image url="@../../../../fr/insalyon/heptabits/pldagile/deliferoo-white.png" />
+                </image>
             </ImageView>
             <Button fx:id="return_button" mnemonicParsing="false" onMouseClicked="#onReturnButtonClick" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #00BCAD;" text="Retour" textFill="WHITE">
                 <HBox.margin>

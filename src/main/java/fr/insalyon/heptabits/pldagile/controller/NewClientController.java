@@ -46,9 +46,6 @@ public class NewClientController {
     }
 
     public void initialize() {
-        File file_logo = new File("src/main/resources/img/del'iferoo-white 1.png");
-        Image image_logo = new Image(file_logo.toURI().toString());
-        logo.setImage(image_logo);
 
         confirmNewClientButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             confirmNewClientButton.setStyle("-fx-background-color: #00BCAD");
