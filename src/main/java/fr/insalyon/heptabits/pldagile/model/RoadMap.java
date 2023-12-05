@@ -1,6 +1,6 @@
 package fr.insalyon.heptabits.pldagile.model;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,49 +10,43 @@ import java.util.List;
  */
 public class RoadMap extends BaseEntity {
     private final List<Delivery> deliveries;
+    private final List<Leg> legs;
 
-    /**
-     * Constructs an empty RoadMap.
-     */
-    public RoadMap(long id) {
+    public RoadMap(long id, List<Delivery> deliveries, List<Leg> legs) {
         super(id);
-        this.deliveries = new ArrayList<>();
 
-    }
-
-    /**
-     * Adds a delivery to the roadmap in a position that keeps the list sorted by time.
-     * <p>
-     * WARNING: It should be verified beforehand that this will result in a valid RoadMap.
-     *
-     * @param delivery The delivery to be added.
-     */
-    public void addDelivery(Delivery delivery) {
-        int insertIndex = 0;
-        while (insertIndex < this.deliveries.size() && this.deliveries.get(insertIndex).getScheduledDateTime().isBefore(delivery.getScheduledDateTime())) {
-            insertIndex++;
+        if(deliveries == null || legs == null){
+            throw new IllegalArgumentException("RoadMap constructor: null argument");
         }
-        this.deliveries.add(insertIndex, delivery);
+
+        if(deliveries.isEmpty()){
+            throw new IllegalArgumentException("RoadMap constructor: empty deliveries list");
+        }
+
+        if(legs.isEmpty()){
+            throw new IllegalArgumentException("RoadMap constructor: empty legs list");
+        }
+
+        if(deliveries.size() != legs.size() -1){
+            throw new IllegalArgumentException("RoadMap constructor: number of legs must be one more than number of deliveries");
+        }
+
+        // Check that departure and arrival points match
+        if(!(legs.get(0).getOrigin().equals(legs.getLast().getDestination()))){
+            throw new IllegalArgumentException("RoadMap constructor: first leg departure point must match first delivery destination");
+        }
+
+        // Assert that each leg's departure point matches the previous leg's arrival point
+        for(int i = 1; i < legs.size(); i++){
+            if(!(legs.get(i).getIntersections().get(0) == (legs.get(i-1).getDestination()))){
+                throw new IllegalArgumentException("RoadMap constructor: leg departure point must match previous leg destination");
+            }
+        }
+
+        this.deliveries = deliveries;
+        this.legs = legs;
     }
 
-    /**
-     * Removes a delivery from the roadmap.
-     *
-     * @param delivery The delivery to be removed.
-     */
-    public void removeDelivery(Delivery delivery) {
-        this.deliveries.remove(delivery);
-    }
-
-    /**
-     * Retrieves a delivery by its index in the sorted list.
-     *
-     * @param index The index of the delivery.
-     * @return The delivery at the specified index.
-     */
-    public Delivery getDelivery(int index) {
-        return this.deliveries.get(index);
-    }
 
     /**
      * Returns an unmodifiable list of all deliveries.
@@ -61,16 +55,10 @@ public class RoadMap extends BaseEntity {
      * @return An unmodifiable list of deliveries.
      */
     public List<Delivery> getDeliveries() {
-        return java.util.Collections.unmodifiableList(this.deliveries);
+        return Collections.unmodifiableList(this.deliveries);
     }
 
-    /**
-     * Returns the number of deliveries in the roadmap.
-     *
-     * @return The size of the delivery list.
-     */
-    public int getDeliveryCount() {
-        return this.deliveries.size();
+    public List<Leg> getLegs() {
+        return Collections.unmodifiableList(legs);
     }
-
 }

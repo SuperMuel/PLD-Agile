@@ -5,94 +5,98 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoadMapTest {
-    Intersection intersection1;
-    Intersection intersection2;
+
+    // warehouse = A ---- B
+    //             |      |
+    //             |      |
+    // delivery2 = D ---- C = delivery1
+
+    Intersection warehouse = new Intersection(1, 0, 0);
+    Intersection intersectionB = new Intersection(2, 1, 0);
+
+    Intersection intersectionC = new Intersection(3, 1, 1);
+
+    Intersection intersectionD = new Intersection(4, 0, 1);
+
+    Segment segmentAB = new Segment(1, 1, 2, "AB", 1);
+    Segment segmentBC = new Segment(2, 2, 3, "BC", 1);
+    Segment segmentCD = new Segment(3, 3, 4, "CD", 1);
+    Segment segmentDA = new Segment(4, 4, 1, "DA", 1);
+
+
+    TimeWindow timeWindow = new TimeWindow(LocalTime.of(1, 0), LocalTime.of(2, 0));
+    LocalDateTime delivery1ScheduledDateTime = LocalDateTime.of(2021, 1, 1, 1, 15);
+
+    Delivery delivery1 = new Delivery(1, delivery1ScheduledDateTime, intersectionC, 1, 1, timeWindow);
+
+
+    LocalDateTime delivery2ScheduledDateTime = LocalDateTime.of(2021, 1, 1, 1, 30);
+
+    Delivery delivery2 = new Delivery(2, delivery2ScheduledDateTime, intersectionD, 1, 1, timeWindow);
+
+
+    Leg firstLeg = new Leg(List.of(warehouse, intersectionB, intersectionC), List.of(segmentAB, segmentBC), LocalTime.of(1, 0));
+    Leg secondLeg = new Leg(List.of(intersectionC, intersectionD), List.of(segmentCD), LocalTime.of(1, 15));
+
+    Leg thirdLeg = new Leg(List.of(intersectionD, warehouse), List.of(segmentDA), LocalTime.of(1, 30));
+
     RoadMap roadMap;
 
-    LocalDateTime firstDeliveryDt;
-    LocalDateTime secondDeliveryDt;
-    LocalDateTime thirdDeliveryDt;
-
-    Delivery firstDelivery;
-    Delivery secondDelivery;
-    Delivery thirdDelivery;
 
     @BeforeEach
     void setUp() {
-        roadMap = new RoadMap(0);
-        intersection1 = new Intersection(1, 40, 40);
-        intersection2 = new Intersection(2, 30, 30);
-
-        TimeWindow firstTimeWindow = new TimeWindow(LocalTime.of(1, 0), LocalTime.of(2, 0));
-        TimeWindow secondTimeWindow = new TimeWindow(LocalTime.of(2, 0), LocalTime.of(3, 0));
-        TimeWindow thirdTimeWindow = new TimeWindow(LocalTime.of(3, 0), LocalTime.of(4, 0));
-
-        firstDeliveryDt =  LocalDateTime.of(2020, 1, 1, 1, 0, 0);
-        secondDeliveryDt = LocalDateTime.of(2020, 1, 1, 2, 0, 0);
-        thirdDeliveryDt = LocalDateTime.of(2020, 1, 1, 3, 0, 0);
-
-        firstDelivery = new Delivery(1, firstDeliveryDt , intersection1, 0, 1, firstTimeWindow);
-        secondDelivery = new Delivery(2, secondDeliveryDt, intersection2, 0, 1, secondTimeWindow);
-        thirdDelivery = new Delivery(3, thirdDeliveryDt, intersection1, 0, 1, thirdTimeWindow);
-
+        roadMap = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
     }
 
     @Test
-    void addDeliveryKeepsOrder() {
-        roadMap.addDelivery(secondDelivery);
-        roadMap.addDelivery(firstDelivery);
-
-        assertEquals(roadMap.getDeliveryCount(), 2);
-        assertEquals(roadMap.getDelivery(0), firstDelivery);
+    void constructorNullArguments() {
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, null, List.of(firstLeg, secondLeg)));
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1, delivery2), null));
     }
 
     @Test
-    void removeDelivery() {
-        roadMap.addDelivery(firstDelivery);
-        roadMap.addDelivery(secondDelivery);
-
-        roadMap.removeDelivery(firstDelivery);
-
-        assertEquals(roadMap.getDeliveryCount(), 1);
-        assertEquals(roadMap.getDelivery(0), secondDelivery);
+    void constructorEmptyDeliveries() {
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(), List.of(firstLeg, secondLeg)));
     }
 
     @Test
-    void getDelivery() {
-        roadMap.addDelivery(firstDelivery);
-        roadMap.addDelivery(secondDelivery);
-        roadMap.addDelivery(thirdDelivery);
+    void constructorEmptyLegs() {
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1, delivery2), List.of()));
+    }
 
-        assertEquals(roadMap.getDelivery(0), firstDelivery);
-        assertEquals(roadMap.getDelivery(1), secondDelivery);
-        assertEquals(roadMap.getDelivery(2), thirdDelivery);
+    @Test
+    void constructorLegsDeliveriesSizeMismatch() {
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg)));
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1), List.of(firstLeg, secondLeg, thirdLeg)));
+    }
 
+    @Test
+    void constructorDepartureMustMachArrival() {
+        Leg leg1 = new Leg(List.of(intersectionC, intersectionD), List.of(segmentCD), LocalTime.of(1, 15));
+        Leg leg2 = new Leg(List.of(intersectionD, warehouse), List.of(segmentDA), LocalTime.of(1, 30));
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery2), List.of(leg1, leg2)));
+    }
+
+    @Test
+    void constructorLegsDeliveriesLegDeparturePointDoesNotMatchPreviousLegDestination() {
+        Leg leg1 = new Leg(List.of(warehouse, intersectionB, intersectionC), List.of(segmentAB, segmentBC), LocalTime.of(1, 0));
+        Leg leg2 = new Leg(List.of(intersectionD, warehouse), List.of(segmentDA), LocalTime.of(1, 30));
+
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1), List.of(leg1, leg2)));
     }
 
     @Test
     void getDeliveries() {
-        roadMap.addDelivery(firstDelivery);
-        roadMap.addDelivery(secondDelivery);
-        roadMap.addDelivery(thirdDelivery);
-
-        var deliveries = roadMap.getDeliveries();
-        assertEquals(deliveries.size(), 3);
-
-        assertEquals(deliveries.get(0), firstDelivery);
-        assertEquals(deliveries.get(1), secondDelivery);
-        assertEquals(deliveries.get(2), thirdDelivery);
+        assertEquals(List.of(delivery1, delivery2), roadMap.getDeliveries());
     }
 
     @Test
-    void getDeliveryCount() {
-        roadMap.addDelivery(firstDelivery);
-        roadMap.addDelivery(secondDelivery);
-        roadMap.addDelivery(thirdDelivery);
-
-        assertEquals(roadMap.getDeliveryCount(), 3);
+    void getLegs() {
+        assertEquals(List.of(firstLeg, secondLeg, thirdLeg), roadMap.getLegs());
     }
 }

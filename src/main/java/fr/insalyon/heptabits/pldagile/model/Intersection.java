@@ -30,5 +30,15 @@ public class Intersection extends BaseEntity {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Intersection)) return false;
+        Intersection that = (Intersection) o;
+        return that.getId() == getId()
+                && Float.compare(that.latitude, latitude) == 0 &&
+                Float.compare(that.longitude, longitude) == 0;
+    }
+
 }
 

@@ -25,4 +25,24 @@ class IntersectionTest {
     void getLongitude() {
         assertEquals(1, intersection.getLongitude());
     }
+
+    @Test
+    void testEquals() {
+        Intersection A = new Intersection(0, 0, 1);
+        Intersection B = new Intersection(0, 0, 1);
+
+        assertEquals(A, B);
+    }
+
+    @Test
+    void testNotEquals() {
+
+        assertNotEquals(new Intersection(0, 0, 0), new Intersection(0, 0, 1));
+        assertNotEquals(new Intersection(0, 0, 0), new Intersection(0, 1, 0));
+        assertNotEquals(new Intersection(0, 0, 0), new Intersection(1, 0, 0));
+        assertNotEquals(new Intersection(0, 0, 0), new Intersection(1, 1, 1));
+
+        assertNotEquals(new Intersection(0, 0, 0), null);
+        assertNotEquals(new Intersection(0, 0, 0), new Object());
+    }
 }
