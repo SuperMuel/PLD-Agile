@@ -1,7 +1,7 @@
 package fr.insalyon.heptabits.pldagile.service;
 
 import fr.insalyon.heptabits.pldagile.model.*;
-import fr.insalyon.heptabits.pldagile.repository.InMemoryDeliveryRepository;
+import fr.insalyon.heptabits.pldagile.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
@@ -25,6 +25,11 @@ class XmlDeliveriesServiceTest {
     IXmlMapParser parser;
     DocumentBuilderFactory documentBuilderFactory;
     DocumentBuilder documentBuilder;
+
+    CourierRepository courierRepository;
+
+    ClientRepository clientRepository;
+
     IdGenerator idGenerator;
     InMemoryDeliveryRepository repo;
     XmlDeliveriesService xmlDeliveriesService;
@@ -63,6 +68,11 @@ class XmlDeliveriesServiceTest {
 
         idGenerator = new IdGenerator();
         repo = new InMemoryDeliveryRepository(idGenerator);
+        courierRepository = new InMemoryCourierRepository(idGenerator);
+        clientRepository = new InMemoryClientRepository(idGenerator);
+
+        clientRepository.create("SIMAR", "Raphaël", "125532555");
+        courierRepository.create("CHABAL", "Chloé", "ouizuet", "056151562");
 
         xmlDeliveriesService = new XmlDeliveriesService(repo, mapService, documentBuilder, courierRepository, clientRepository);
     }
