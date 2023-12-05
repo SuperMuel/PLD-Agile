@@ -142,7 +142,7 @@ public class HelloController {
                             scaleIn.setToY(5);
 
                             scaleIn.playFromStart();
-                            c.setFill(Color.web("#99DD79"));
+                            c.setFill(Color.web("#18c474"));
                             c.setOpacity(1);
                         }
                     });
