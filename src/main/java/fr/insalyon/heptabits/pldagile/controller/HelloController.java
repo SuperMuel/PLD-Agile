@@ -6,6 +6,7 @@ import fr.insalyon.heptabits.pldagile.model.Delivery;
 import fr.insalyon.heptabits.pldagile.model.Intersection;
 import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.view.MapView;
+import javafx.animation.ScaleTransition;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,16 +19,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 import org.xml.sax.SAXException;
 
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -36,6 +38,8 @@ public class HelloController {
 
     private  final DependencyManager dependencyManager;
     private  final Color hoveredColor = Color.web("#00BCAD");
+
+    private MapView mapView;
 
     @FXML
     private TableView<Delivery> deliveryTable;
@@ -64,9 +68,13 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-        displayDeliveries();
+        File file = new File("src/main/resources/img/del'iferoo-white 1.png");
+        Image image = new Image(file.toURI().toString());
+        logo.setImage(image);
         Map map = dependencyManager.getMapService().getCurrentMap();
         initializeMap(map, 500);
+        displayDeliveries();
+
 
         newDeliveryButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             newDeliveryButton.setStyle("-fx-background-color: #00BCAD");
@@ -95,7 +103,7 @@ public class HelloController {
     }
 
     public void initializeMap(Map map, int width) {
-        MapView mapView = new MapView(map, width);
+        mapView = new MapView(map, width);
         Group mapGroup = mapView.createView();
 
         mapContainer.getChildren().clear(); // Clear existing content if necessary
@@ -119,6 +127,42 @@ public class HelloController {
             time.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getScheduledDateTime().format(formatter)));
             for(Delivery d : deliveries){
                 deliveryTable.getItems().addAll(d);
+
+                // rendre chaque ligne du tableau hoverable
+                deliveryTable.setRowFactory(tv -> {
+                    TableRow<Delivery> row = new TableRow<>();
+                    row.setOnMouseEntered(event -> {
+                        if (!row.isEmpty()) {
+                            // livraison associée à la ligne
+                            long selectedDeliveryIntersectionId = row.getItem().getDestination().getId();
+                            Circle c = mapView.getDeliveryCircleMap().get(selectedDeliveryIntersectionId);
+
+                            ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.10), c);
+                            scaleIn.setToX(5);
+                            scaleIn.setToY(5);
+
+                            scaleIn.playFromStart();
+                            c.setFill(Color.web("#99DD79"));
+                            c.setOpacity(1);
+                        }
+                    });
+                    row.setOnMouseExited(event -> {
+                        if (!row.isEmpty()) {
+                            // livraison associée à la ligne
+                            long selectedDeliveryIntersectionId = row.getItem().getDestination().getId();
+                            Circle c = mapView.getDeliveryCircleMap().get(selectedDeliveryIntersectionId);
+
+                            ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.10), c);
+                            scaleOut.setToX(1);
+                            scaleOut.setToY(1);
+
+                            scaleOut.playFromStart();
+                            c.setFill(Color.web("#de1c24"));
+                            c.setOpacity(0.5);
+                        }
+                    });
+                    return row;
+                });
             }
         }
     }
