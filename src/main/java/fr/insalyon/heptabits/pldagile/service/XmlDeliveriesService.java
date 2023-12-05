@@ -39,7 +39,7 @@ public class XmlDeliveriesService implements IXmlDeliveriesService {
             writer.write("<deliveries>\n");
 
             for (Delivery delivery : deliveryList) {
-                writer.write("    <delivery startTime=\"" + delivery.getScheduledDateTime() + "\" ");
+                writer.write("    <delivery scheduledDateTime=\"" + delivery.getScheduledDateTime() + "\" ");
                 writer.write("destinationId=\"" + delivery.getDestination().getId() + "\" ");
                 writer.write("courierId=\"" + delivery.getCourierId() + "\" ");
                 writer.write("clientId=\"" + delivery.getClientId() + "\" ");
@@ -65,13 +65,13 @@ public class XmlDeliveriesService implements IXmlDeliveriesService {
             Node node = deliveryList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
-                LocalDateTime startTime = LocalDateTime.parse(element.getAttribute("startTime"));
+                LocalDateTime scheduledDateTime = LocalDateTime.parse(element.getAttribute("scheduledDateTime"));
                 long destinationId = Long.parseLong(element.getAttribute("destinationId"));
                 long courierId = Long.parseLong(element.getAttribute("courierId"));
                 long clientId = Long.parseLong(element.getAttribute("clientId"));
                 TimeWindow timeWindow = new TimeWindow(LocalTime.parse(element.getAttribute("timeWindowStart")), LocalTime.parse(element.getAttribute("timeWindowEnd")));
 
-                deliveryRepository.create(startTime, mapService.getCurrentMap().getIntersections().get(destinationId), courierId, clientId, timeWindow);
+                deliveryRepository.create(scheduledDateTime, mapService.getCurrentMap().getIntersections().get(destinationId), courierId, clientId, timeWindow);
             }
         }
     }

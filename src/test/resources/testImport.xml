@@ -1,5 +1,5 @@
 <deliveries>
-    <delivery startTime="2023-02-20T09:00" destinationId="459797860" courierId="4" clientId="1" timeWindowStart="08:00" timeWindowEnd="09:00"/>
-    <delivery startTime="2023-02-20T10:00" destinationId="459797860" courierId="4" clientId="1" timeWindowStart="08:00" timeWindowEnd="09:00"/>
-    <delivery startTime="2023-02-20T11:00" destinationId="459797860" courierId="4" clientId="1" timeWindowStart="08:00" timeWindowEnd="09:00"/>
+    <delivery scheduledDateTime="2023-02-20T09:00" destinationId="459797860" courierId="4" clientId="1" timeWindowStart="08:00" timeWindowEnd="09:00"/>
+    <delivery scheduledDateTime="2023-02-20T10:00" destinationId="459797860" courierId="4" clientId="1" timeWindowStart="08:00" timeWindowEnd="09:00"/>
+    <delivery scheduledDateTime="2023-02-20T11:00" destinationId="459797860" courierId="4" clientId="1" timeWindowStart="08:00" timeWindowEnd="09:00"/>
 </deliveries>
