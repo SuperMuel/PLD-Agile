@@ -13,20 +13,21 @@
   <top>
     <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="60.0" style="-fx-background-color: #00CCBC;">
          <children>
-            <Button fx:id="fileButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #00CCBC;" text="Fichier" textFill="WHITE">
-               <font>
-                  <Font name="Inter Semi Bold" size="20.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="20.0" />
-               </HBox.margin>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
+            <MenuBar style="-fx-background-color: #00CCBC;" stylesheets="@../../../../css/menu.css">
+              <menus>
+                <Menu mnemonicParsing="false" text="Fichier">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Importer un fichier de livraisons..." onAction="#importerMenuItemClicked" />
+                        <MenuItem mnemonicParsing="false" text="Exporter les livraisons sous..." onAction="#exporterMenuItemClicked"/>
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
             <ImageView fx:id="logo" fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets left="340.0" />
-               </HBox.margin></ImageView>
+               </HBox.margin>
+            </ImageView>
          </children>
     </HBox>
   </top>
