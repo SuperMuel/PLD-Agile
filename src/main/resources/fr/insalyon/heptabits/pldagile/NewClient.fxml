@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?port javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
@@ -9,14 +9,19 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #00CCBC; -fx-font-size: 50;">
-         <HBox alignment="CENTER_RIGHT" prefHeight="60.0">
+         <HBox alignment="CENTER_RIGHT" prefHeight="60.0"  prefWidth="200.0">
              <ImageView fx:id="logo" fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <HBox.margin>
-                  <Insets right="300.0" />
-               </HBox.margin></ImageView>
+                 <HBox.margin>
+                     <Insets right="340.0" />
+                 </HBox.margin>
+                 <image>
+                     <Image url="@../../../../fr/insalyon/heptabits/pldagile/deliferoo-white.png" />
+                 </image>
+             </ImageView>
              <Button fx:id="returnButton" onMouseClicked="#onReturnButtonClick" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #00BCAD;" text="Retour" textFill="WHITE">
                <font>
                   <Font name="Inter Semi Bold" size="20.0" />

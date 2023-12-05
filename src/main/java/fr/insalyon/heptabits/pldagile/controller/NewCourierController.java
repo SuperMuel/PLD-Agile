@@ -48,9 +48,6 @@ public class NewCourierController {
     }
 
     public void initialize() {
-        File file_logo = new File("src/main/resources/img/del'iferoo-white 1.png");
-        Image image_logo = new Image(file_logo.toURI().toString());
-        logo.setImage(image_logo);
 
         confirmNewCourierButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             confirmNewCourierButton.setStyle("-fx-background-color: #00BCAD");

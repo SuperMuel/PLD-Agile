@@ -18,7 +18,11 @@
                   <ImageView fx:id="logo" fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets right="340.0" />
-                     </HBox.margin></ImageView>
+                     </HBox.margin>
+                      <image>
+                          <Image url="@../../../../fr/insalyon/heptabits/pldagile/deliferoo-white.png" />
+                      </image>
+                  </ImageView>
                   <Button fx:id="returnButton" maxHeight="40.0" mnemonicParsing="false" onMouseClicked="#onReturnButtonClick" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #00BCAD;" text="Retour" textFill="WHITE">
                      <HBox.margin>
                         <Insets right="20.0" />
