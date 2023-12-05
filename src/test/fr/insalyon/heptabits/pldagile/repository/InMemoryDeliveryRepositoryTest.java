@@ -57,4 +57,5 @@ class InMemoryDeliveryRepositoryTest {
         repo.delete(d1);
         assertEquals(repo.findAll().size(), sizeBefore-1);
     }
+
 }
