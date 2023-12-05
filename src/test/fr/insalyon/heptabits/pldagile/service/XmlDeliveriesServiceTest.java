@@ -4,17 +4,12 @@ import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.repository.InMemoryDeliveryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -24,8 +19,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
 
 class XmlDeliveriesServiceTest {
 
@@ -71,7 +64,7 @@ class XmlDeliveriesServiceTest {
         idGenerator = new IdGenerator();
         repo = new InMemoryDeliveryRepository(idGenerator);
 
-        xmlDeliveriesService = new XmlDeliveriesService(repo, mapService, documentBuilder);
+        xmlDeliveriesService = new XmlDeliveriesService(repo, mapService, documentBuilder, courierRepository, clientRepository);
     }
 
     @Test

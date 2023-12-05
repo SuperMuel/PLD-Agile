@@ -1,8 +1,9 @@
 package fr.insalyon.heptabits.pldagile.service;
 
 import fr.insalyon.heptabits.pldagile.model.*;
+import fr.insalyon.heptabits.pldagile.repository.ClientRepository;
+import fr.insalyon.heptabits.pldagile.repository.CourierRepository;
 import fr.insalyon.heptabits.pldagile.repository.DeliveryRepository;
-import fr.insalyon.heptabits.pldagile.repository.FixedTimeWindowRepository;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,20 +16,22 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class XmlDeliveriesService implements IXmlDeliveriesService {
     private final DeliveryRepository deliveryRepository;
     private final MapService mapService;
     private final DocumentBuilder documentBuilder;
+    private final CourierRepository courierRepository;
+    private final ClientRepository clientRepository;
     public DeliveryRepository getDeliveryRepository() { return this.deliveryRepository; }
 
-    public XmlDeliveriesService(DeliveryRepository deliveryRepository, MapService mapService, DocumentBuilder documentBuilder) {
+    public XmlDeliveriesService(DeliveryRepository deliveryRepository, MapService mapService, DocumentBuilder documentBuilder, CourierRepository courierRepository, ClientRepository clientRepository) {
         this.deliveryRepository = deliveryRepository;
         this.mapService = mapService;
         this.documentBuilder = documentBuilder;
+        this.courierRepository = courierRepository;
+        this.clientRepository = clientRepository;
     }
 
     @Override
@@ -71,7 +74,14 @@ public class XmlDeliveriesService implements IXmlDeliveriesService {
                 long clientId = Long.parseLong(element.getAttribute("clientId"));
                 TimeWindow timeWindow = new TimeWindow(LocalTime.parse(element.getAttribute("timeWindowStart")), LocalTime.parse(element.getAttribute("timeWindowEnd")));
 
-                deliveryRepository.create(scheduledDateTime, mapService.getCurrentMap().getIntersections().get(destinationId), courierId, clientId, timeWindow);
+                Courier courier = courierRepository.findById(courierId);
+                Client client = clientRepository.findById(clientId);
+                Intersection intersection = mapService.getCurrentMap().getIntersections().get(destinationId);
+                if (courier == null || client == null || intersection == null) {
+                    System.out.println("Livreur et/ou Client et/ou Intersection du fichier xml introuvable(s).");
+                } else {
+                    deliveryRepository.create(scheduledDateTime, mapService.getCurrentMap().getIntersections().get(destinationId), courierId, clientId, timeWindow);
+                }
             }
         }
     }

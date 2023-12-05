@@ -47,7 +47,7 @@ public class DependencyManager {
 
         this.mapService = mapService;
 
-        xmlDeliveriesService = new XmlDeliveriesService(deliveryRepository, mapService, documentBuilder);
+        xmlDeliveriesService = new XmlDeliveriesService(deliveryRepository, mapService, documentBuilder, courierRepository, clientRepository);
     }
 
     public IdGenerator getIdGenerator() {
