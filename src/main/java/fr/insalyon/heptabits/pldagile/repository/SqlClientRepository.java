@@ -10,11 +10,8 @@ import java.util.List;
 public class SqlClientRepository implements ClientRepository {
 
     final private SQLiteConnection connection;
-    final private IdGenerator idGenerator;
-
-    public SqlClientRepository(SQLiteConnection connection, IdGenerator idGenerator) {
+    public SqlClientRepository(SQLiteConnection connection) {
         this.connection = connection;
-        this.idGenerator = idGenerator;
     }
 
     @Override

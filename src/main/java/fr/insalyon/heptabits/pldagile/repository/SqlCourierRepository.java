@@ -13,11 +13,9 @@ import java.util.List;
 public class SqlCourierRepository implements CourierRepository {
 
     final private SQLiteConnection connection;
-    final private IdGenerator idGenerator;
 
-    public SqlCourierRepository(SQLiteConnection connection, IdGenerator idGenerator) {
+    public SqlCourierRepository(SQLiteConnection connection) {
         this.connection = connection;
-        this.idGenerator = idGenerator;
     }
     @Override
     public Courier create(String firstName, String lastName, String email, String phoneNumber) {
