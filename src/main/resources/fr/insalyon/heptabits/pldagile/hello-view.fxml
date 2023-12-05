@@ -4,19 +4,94 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#displayDeliveries" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ebf3e8" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#displayDeliveries" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
   <top>
-    <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #86a789; -fx-font-size: 50">
-      <Text fontSmoothingType="LCD" text="DEL'IFROO">
-        <font>
-          <Font name="Inter Semi Bold" size="40.0" />
-        </font></Text>
-    </VBox>
+    <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="60.0" style="-fx-background-color: #00CCBC;">
+         <children>
+            <MenuBar style="-fx-background-color: #00CCBC;" stylesheets="@../../../../css/menu.css">
+              <menus>
+                <Menu mnemonicParsing="false" text="Fichier">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Importer un fichier de livraisons..." onAction="#importerMenuItemClicked" />
+                        <MenuItem mnemonicParsing="false" text="Exporter les livraisons sous..." onAction="#exporterMenuItemClicked"/>
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <ImageView fx:id="logo" fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets left="340.0" />
+               </HBox.margin>
+            </ImageView>
+         </children>
+    </HBox>
   </top>
   <center>
+    <VBox style="-fx-background-color: #ffffff;">
+      <HBox alignment="CENTER" prefHeight="88.0" prefWidth="1080.0">
+            <children>
+            <Label alignment="CENTER" prefHeight="70.0" prefWidth="373.0" text="Livraisons prévues">
+              <font>
+                <Font name="Inter Regular" size="40.0" />
+              </font>
+                  <HBox.margin>
+                     <Insets right="100.0" />
+                  </HBox.margin>
+            </Label>
+               <Label text="le">
+                  <HBox.margin>
+                     <Insets right="20.0" />
+                  </HBox.margin>
+                  <font>
+                     <Font name="Inter Regular" size="20.0" />
+                  </font>
+               </Label>
+               <DatePicker prefHeight="50.0" prefWidth="175.0" stylesheets="@../../../../css/datePicker.css">
+                  <HBox.margin>
+                     <Insets right="-250.0" />
+                  </HBox.margin>
+               </DatePicker>
+            </children>
+      </HBox>
+      <HBox prefHeight="500.0" prefWidth="1059.0">
+            <children>
+            <TableView fx:id="deliveryTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="482.0" prefWidth="775.0">
+              <columns>
+                <TableColumn fx:id="deliveryId" maxWidth="20.0" minWidth="70.0" prefWidth="20.0" style="-fx-background-color: #00CCBC;" text="Livraison" />
+                <TableColumn fx:id="time" maxWidth="50.0" minWidth="70.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Horaire" />
+                <TableColumn fx:id="address" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Adresse" />
+                <TableColumn fx:id="clientName" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Client" />
+                <TableColumn fx:id="courierName" maxWidth="200.0" minWidth="134.0" prefWidth="135.0" style="-fx-background-color: #00CCBC;" text="Livreur" />
+              </columns>
+                  <HBox.margin>
+                     <Insets right="10.0" />
+                  </HBox.margin>
+                  <effect>
+                     <DropShadow spread="0.5">
+                        <color>
+                           <Color opacity="0.25" />
+                        </color>
+                     </DropShadow>
+                  </effect>
+            </TableView>
+            <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="862.0" prefWidth="751.0" style="-fx-border-color: black;">
+              <StackPane fx:id="mapContainer">
+          <!-- Other UI elements if needed -->
+        </StackPane>
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+            </Pane>
+            </children>
+            <VBox.margin>
+               <Insets left="10.0" right="10.0" />
+            </VBox.margin></HBox>
+    </VBox>
 
   </center>
   <right>
@@ -24,73 +99,34 @@
       <BorderPane.margin>
         <Insets />
       </BorderPane.margin>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onHistoryButtonClick" prefHeight="40.0" prefWidth="215.0" style="-fx-background-color: #2a482d;" text="Historique" textAlignment="CENTER" textFill="WHITE">
-        <font>
-          <Font name="Inter Semi Bold" size="20.0" />
-        </font>
-        <effect>
-          <DropShadow />
-        </effect>
-        <VBox.margin>
-          <Insets right="167.0" top="40.0" />
-        </VBox.margin>
-        <cursor>
-          <Cursor fx:constant="HAND" />
-        </cursor>
-      </Button>
-      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="862.0" prefWidth="751.0" style="-fx-border-color: black;">
-        <VBox.margin>
-          <Insets right="10.0" top="25.0" />
-        </VBox.margin>
-        <StackPane fx:id="mapContainer">
-          <!-- Other UI elements if needed -->
-        </StackPane>
-      </Pane>
     </VBox>
   </right>
   <bottom>
-    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-      <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#onNewDeliveryButtonClick" prefHeight="40.0" prefWidth="205.0" style="-fx-background-color: #2a482d;" text="Nouvelle livraison" textAlignment="CENTER" textFill="WHITE">
+    <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="74.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;">
+      <Button fx:id="newDeliveryButton" alignment="CENTER" maxHeight="60.0" mnemonicParsing="false" onMouseClicked="#onNewDeliveryButtonClick" prefHeight="60.0" prefWidth="250.0" style="-fx-background-color: #00CCBC;" text="Nouvelle livraison" textAlignment="CENTER" textFill="WHITE">
         <font>
           <Font name="Inter Semi Bold" size="20.0" />
         </font>
-        <effect>
-          <DropShadow />
-        </effect>
         <HBox.margin>
-          <Insets bottom="15.0" left="250.0" top="10.0" />
+          <Insets />
         </HBox.margin>
         <cursor>
           <Cursor fx:constant="HAND" />
         </cursor>
+            <effect>
+               <DropShadow spread="0.5">
+                  <color>
+                     <Color opacity="0.4000000059604645" />
+                  </color>
+               </DropShadow>
+            </effect>
       </Button>
     </HBox>
 
   </bottom>
 
   <left>
-    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="596.0" prefWidth="550.0" BorderPane.alignment="TOP_LEFT">
-      <Label alignment="CENTER" prefHeight="70.0" prefWidth="373.0" text="Livraisons prévues">
-        <font>
-          <Font name="Inter Semi Bold" size="40.0" />
-        </font>
-        <VBox.margin>
-          <Insets left="35.0" top="20.0" />
-        </VBox.margin>
-      </Label>
-      <TableView fx:id="deliveryTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="843.0" style="-fx-background-color: b2c8ba;">
-        <columns>
-          <TableColumn fx:id="deliveryId" maxWidth="20.0" minWidth="70.0" prefWidth="20.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Livraison" />
-          <TableColumn fx:id="time" maxWidth="50.0" minWidth="70.0" prefWidth="-1.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Horaire" />
-          <TableColumn fx:id="address" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Adresse" />
-          <TableColumn fx:id="clientName" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Client" />
-          <TableColumn fx:id="courierName" maxWidth="200.0" minWidth="135.0" prefWidth="-1.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;" text="Livreur" />
-        </columns>
-        <VBox.margin>
-          <Insets left="10.0" top="25.0" />
-        </VBox.margin>
-      </TableView>
-    </VBox>
+    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="595.0" prefWidth="0.0" BorderPane.alignment="TOP_LEFT" />
   </left>
 
 </BorderPane>

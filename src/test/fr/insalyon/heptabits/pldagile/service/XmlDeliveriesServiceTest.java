@@ -1,20 +1,15 @@
 package fr.insalyon.heptabits.pldagile.service;
 
 import fr.insalyon.heptabits.pldagile.model.*;
-import fr.insalyon.heptabits.pldagile.repository.InMemoryDeliveryRepository;
+import fr.insalyon.heptabits.pldagile.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -24,14 +19,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
 
 class XmlDeliveriesServiceTest {
 
     IXmlMapParser parser;
     DocumentBuilderFactory documentBuilderFactory;
     DocumentBuilder documentBuilder;
+
+    CourierRepository courierRepository;
+
+    ClientRepository clientRepository;
+
     IdGenerator idGenerator;
     InMemoryDeliveryRepository repo;
     XmlDeliveriesService xmlDeliveriesService;
@@ -70,8 +68,13 @@ class XmlDeliveriesServiceTest {
 
         idGenerator = new IdGenerator();
         repo = new InMemoryDeliveryRepository(idGenerator);
+        courierRepository = new InMemoryCourierRepository(idGenerator);
+        clientRepository = new InMemoryClientRepository(idGenerator);
 
-        xmlDeliveriesService = new XmlDeliveriesService(repo, mapService, documentBuilder);
+        clientRepository.create("SIMAR", "Raphaël", "125532555");
+        courierRepository.create("CHABAL", "Chloé", "ouizuet", "056151562");
+
+        xmlDeliveriesService = new XmlDeliveriesService(repo, mapService, documentBuilder, courierRepository, clientRepository);
     }
 
     @Test
