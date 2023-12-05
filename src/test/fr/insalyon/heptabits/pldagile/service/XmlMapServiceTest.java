@@ -5,7 +5,6 @@ import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.model.Segment;
 import fr.insalyon.heptabits.pldagile.service.IXmlMapParser;
 import fr.insalyon.heptabits.pldagile.service.XmlMapService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

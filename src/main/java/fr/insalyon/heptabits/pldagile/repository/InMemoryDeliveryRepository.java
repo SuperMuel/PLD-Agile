@@ -3,6 +3,7 @@ package fr.insalyon.heptabits.pldagile.repository;
 import fr.insalyon.heptabits.pldagile.model.IdGenerator;
 import fr.insalyon.heptabits.pldagile.model.Delivery;
 import fr.insalyon.heptabits.pldagile.model.Intersection;
+import fr.insalyon.heptabits.pldagile.model.TimeWindow;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,8 +38,8 @@ public class InMemoryDeliveryRepository implements DeliveryRepository {
     }
 
     @Override
-    public Delivery create(LocalDateTime scheduledDateTime, Intersection destination, long courierId, long clientId) {
-        Delivery delivery = new Delivery(idGenerator.getNextId(), scheduledDateTime, destination, courierId, clientId);
+    public Delivery create(LocalDateTime scheduledDateTime, Intersection destination, long courierId, long clientId, TimeWindow timeWindow){
+        Delivery delivery = new Delivery(idGenerator.getNextId(), scheduledDateTime, destination, courierId, clientId, timeWindow);
         hashMapDeliveries.put(delivery.getId(), delivery);
         return delivery;
     }
