@@ -1,6 +1,6 @@
 package fr.insalyon.heptabits.pldagile.service;
 
-import fr.insalyon.heptabits.pldagile.IdGenerator;
+import fr.insalyon.heptabits.pldagile.model.IdGenerator;
 import fr.insalyon.heptabits.pldagile.model.Intersection;
 import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.model.Segment;
@@ -80,8 +80,8 @@ class XmlDeliveriesServiceTest {
     void exportDeliveriesToXml() {
         Intersection intersection1 = new Intersection(1, 40, 40);
         Intersection intersection2 = new Intersection(2, 30, 30);
-        repo.create(LocalDateTime.of(2023, 2, 25, 8, 0), intersection1 , 2);
-        repo.create(LocalDateTime.of(2023, 2, 25, 9, 0), intersection2, 2);
+        repo.create(LocalDateTime.of(2023, 2, 25, 8, 0), intersection1 , 2, 1);
+        repo.create(LocalDateTime.of(2023, 2, 25, 9, 0), intersection2, 2, 1);
 
         xmlDeliveriesService.exportDeliveriesToXml("src/test/resources/testExport.xml");
     }

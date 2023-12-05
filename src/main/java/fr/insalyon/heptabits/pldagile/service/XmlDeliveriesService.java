@@ -43,7 +43,8 @@ public class XmlDeliveriesService implements IXmlDeliveriesService {
             for (Delivery delivery : deliveryList) {
                 writer.write("    <delivery startTime=\"" + delivery.getScheduledDateTime() + "\" ");
                 writer.write("destinationId=\"" + delivery.getDestination().getId() + "\" ");
-                writer.write("courierId=\"" + delivery.getCourierId() + "\"/>\n");
+                writer.write("courierId=\"" + delivery.getCourierId() + "\" ");
+                writer.write("clientId=\"" + delivery.getClientId() + "\"/>\n");
             }
 
             writer.write("</deliveries>\n");
@@ -67,8 +68,9 @@ public class XmlDeliveriesService implements IXmlDeliveriesService {
                 LocalDateTime startTime = LocalDateTime.parse(element.getAttribute("startTime"));
                 long destinationId = Long.parseLong(element.getAttribute("destinationId"));
                 long courierId = Long.parseLong(element.getAttribute("courierId"));
+                long clientId = Long.parseLong(element.getAttribute("clientId"));
 
-                deliveryRepository.create(startTime, mapService.getCurrentMap().getIntersections().get(destinationId), courierId);
+                deliveryRepository.create(startTime, mapService.getCurrentMap().getIntersections().get(destinationId), courierId, clientId);
             }
         }
     }
