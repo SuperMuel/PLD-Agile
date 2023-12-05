@@ -24,7 +24,17 @@ public class HelloApplication extends Application {
         Parent root = fxmlLoader.load();
 
         Map map = dependencyManager.getMapService().getCurrentMap();
-
+        double [][] cost = map.getAdjacencyMatrix();
+        int counter = 0;
+        for(int i = 0; i<308; i++){
+            for(int j = 0; j<308; j++){
+                if(cost[i][j] != -1){
+                    System.out.println(i + " " + j + " " + cost[i][j]);
+                    counter++;
+                }
+            }
+        }
+        System.out.println(counter);
         Scene scene = new Scene(root);
         stage.setTitle("DEL'IFEROO");
         stage.setScene(scene);

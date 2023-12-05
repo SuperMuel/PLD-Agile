@@ -3,9 +3,14 @@ package fr.insalyon.heptabits.pldagile.model;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class Map extends BaseEntity {
 
     private final HashMap<Long, Intersection> intersections;
+
+    private final HashMap<Integer, Long> intersectionsHashMap;
+
+    public final int COURIER_SPEED = 250;
 
     private final List<Segment> segments;
 
@@ -31,6 +36,15 @@ public class Map extends BaseEntity {
             throw new IllegalArgumentException("Warehouse id must be an intersection");
         }
 
+        List<Intersection> intersectionsList = this.getIntersections().values().stream().toList();
+        intersectionsHashMap = new HashMap<>();
+        int iterator = 0;
+
+        for(Intersection m : intersectionsList){
+            intersectionsHashMap.put(iterator, m.getId());
+            iterator++;
+        }
+
         this.boundaries = computeBoundaries();
 
     }
@@ -39,6 +53,11 @@ public class Map extends BaseEntity {
     public HashMap<Long, Intersection> getIntersections() {
         //immutable view
         return new HashMap<>(intersections);
+    }
+
+    public HashMap<Integer, Long> getIntersectionsHashMap() {
+        //immutable view
+        return new HashMap<>(intersectionsHashMap);
     }
 
     /**
@@ -124,5 +143,42 @@ public class Map extends BaseEntity {
                 '}';
     }
 
+    public double[][] getAdjacencyMatrix() {
+        List<Intersection> intersectionsList = this.getIntersections().values().stream().toList();
+        double[][] cost = new double[intersectionsList.size()][intersectionsList.size()];
 
+        for (java.util.Map.Entry i :intersectionsHashMap.entrySet()){
+            for(java.util.Map.Entry j: intersectionsHashMap.entrySet()){
+                if(i.getKey() == j.getKey()) cost[(int)i.getKey()][(int)j.getKey()] = -1;
+                else {
+                    Segment chosenSegment = this.getSegmentByOriginAndDestination((long)i.getValue(), (long)j.getValue());
+                    if(chosenSegment != null){
+                        cost[(int)i.getKey()][(int)j.getKey()] = chosenSegment.getLength() / COURIER_SPEED;
+                    } else {
+                        cost[(int)i.getKey()][(int)j.getKey()] = -1;
+                    }
+                }
+            }
+        }
+
+        return cost;
+    }
+
+    public int getKeyIntersection(Intersection intersection){
+        for(java.util.Map.Entry i :intersectionsHashMap.entrySet()){
+            if(i.getValue().equals(intersection.getId())) {
+                return (int) i.getKey();
+            }
+        }
+        return -1;
+    }
+
+    public Intersection getIntersectionByKey(int key){
+        for(java.util.Map.Entry i :intersectionsHashMap.entrySet()){
+            if(i.getKey().equals(key)) {
+                return (Intersection) intersections.get(i.getValue());
+            }
+        }
+        return null;
+    }
 }
