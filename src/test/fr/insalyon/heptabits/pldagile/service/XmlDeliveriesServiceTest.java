@@ -1,9 +1,6 @@
 package fr.insalyon.heptabits.pldagile.service;
 
-import fr.insalyon.heptabits.pldagile.model.IdGenerator;
-import fr.insalyon.heptabits.pldagile.model.Intersection;
-import fr.insalyon.heptabits.pldagile.model.Map;
-import fr.insalyon.heptabits.pldagile.model.Segment;
+import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.repository.InMemoryDeliveryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +17,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,8 +78,10 @@ class XmlDeliveriesServiceTest {
     void exportDeliveriesToXml() {
         Intersection intersection1 = new Intersection(1, 40, 40);
         Intersection intersection2 = new Intersection(2, 30, 30);
-        repo.create(LocalDateTime.of(2023, 2, 25, 8, 0), intersection1 , 2, 1);
-        repo.create(LocalDateTime.of(2023, 2, 25, 9, 0), intersection2, 2, 1);
+        TimeWindow timeWindow = new TimeWindow(LocalTime.parse("08:00"), LocalTime.parse("09:00"));
+
+        repo.create(LocalDateTime.of(2023, 2, 25, 8, 0), intersection1 , 2, 1, timeWindow);
+        repo.create(LocalDateTime.of(2023, 2, 25, 9, 0), intersection2, 2, 1, timeWindow);
 
         xmlDeliveriesService.exportDeliveriesToXml("src/test/resources/testExport.xml");
     }

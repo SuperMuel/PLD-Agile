@@ -1,10 +1,8 @@
 package fr.insalyon.heptabits.pldagile.service;
 
-import fr.insalyon.heptabits.pldagile.model.Delivery;
-import fr.insalyon.heptabits.pldagile.model.Intersection;
-import fr.insalyon.heptabits.pldagile.model.Map;
-import fr.insalyon.heptabits.pldagile.model.Segment;
+import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.repository.DeliveryRepository;
+import fr.insalyon.heptabits.pldagile.repository.FixedTimeWindowRepository;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +23,6 @@ public class XmlDeliveriesService implements IXmlDeliveriesService {
     private final DeliveryRepository deliveryRepository;
     private final MapService mapService;
     private final DocumentBuilder documentBuilder;
-
     public DeliveryRepository getDeliveryRepository() { return this.deliveryRepository; }
 
     public XmlDeliveriesService(DeliveryRepository deliveryRepository, MapService mapService, DocumentBuilder documentBuilder) {
@@ -44,7 +42,9 @@ public class XmlDeliveriesService implements IXmlDeliveriesService {
                 writer.write("    <delivery startTime=\"" + delivery.getScheduledDateTime() + "\" ");
                 writer.write("destinationId=\"" + delivery.getDestination().getId() + "\" ");
                 writer.write("courierId=\"" + delivery.getCourierId() + "\" ");
-                writer.write("clientId=\"" + delivery.getClientId() + "\"/>\n");
+                writer.write("clientId=\"" + delivery.getClientId() + "\" ");
+                writer.write("timeWindowStart=\"" + delivery.getTimeWindow().getStart() + "\" ");
+                writer.write("timeWindowEnd=\"" + delivery.getTimeWindow().getEnd() + "\"/>\n");
             }
 
             writer.write("</deliveries>\n");
@@ -69,8 +69,9 @@ public class XmlDeliveriesService implements IXmlDeliveriesService {
                 long destinationId = Long.parseLong(element.getAttribute("destinationId"));
                 long courierId = Long.parseLong(element.getAttribute("courierId"));
                 long clientId = Long.parseLong(element.getAttribute("clientId"));
+                TimeWindow timeWindow = new TimeWindow(LocalTime.parse(element.getAttribute("timeWindowStart")), LocalTime.parse(element.getAttribute("timeWindowEnd")));
 
-                deliveryRepository.create(startTime, mapService.getCurrentMap().getIntersections().get(destinationId), courierId, clientId);
+                deliveryRepository.create(startTime, mapService.getCurrentMap().getIntersections().get(destinationId), courierId, clientId, timeWindow);
             }
         }
     }
