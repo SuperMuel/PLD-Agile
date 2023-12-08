@@ -44,4 +44,13 @@ public class TimeWindow {
         return !time.isBefore(this.getStart()) && !time.isAfter(this.getEnd());
     }
 
+    public int compareStartTo(TimeWindow other) {
+        return this.getStart().compareTo(other.getStart());
+    }
+
+    public int compareEndTo(TimeWindow other) {
+        return this.getEnd().compareTo(other.getEnd());
+    }
+
+
 }

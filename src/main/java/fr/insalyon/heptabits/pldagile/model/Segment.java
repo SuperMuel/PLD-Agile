@@ -1,5 +1,7 @@
 package fr.insalyon.heptabits.pldagile.model;
 
+import java.util.List;
+
 public class Segment extends BaseEntity {
 
     private final long originId;
@@ -41,4 +43,16 @@ public class Segment extends BaseEntity {
     public double getLength() {
         return length;
     }
+
+
+    static public double getTotalLength(List<Segment> segments) {
+        double totalLength = 0;
+        for (Segment segment : segments) {
+            totalLength += segment.getLength();
+        }
+        return totalLength;
+    }
+
+
+
 }

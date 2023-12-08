@@ -1,5 +1,6 @@
 package fr.insalyon.heptabits.pldagile.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -115,5 +116,111 @@ public class Map extends BaseEntity {
                 '}';
     }
 
+    public Intersection getOriginOf(Segment segment) {
+        return intersections.get(segment.getOriginId());
+    }
+
+    public Intersection getDestinationOf(Segment segment) {
+        return intersections.get(segment.getDestinationId());
+    }
+
+    public List<Segment> getOutgoingSegments(Intersection intersection) {
+        List<Segment> outgoingSegments = new ArrayList<>();
+        for (Segment s : segments) {
+            if (getOriginOf(s).equals(intersection)) {
+                outgoingSegments.add(s);
+            } else if (getDestinationOf(s).equals(intersection)) {
+                outgoingSegments.add(s);
+            }
+        }
+        return outgoingSegments;
+    }
+
+
+    public List<Intersection> getNeighbors(Intersection intersection) {
+        List<Intersection> neighbors = new ArrayList<>();
+        for (Segment s : getOutgoingSegments(intersection)) {
+            if (getOriginOf(s).equals(intersection)) {
+                neighbors.add(getDestinationOf(s));
+            } else if (getDestinationOf(s).equals(intersection)) {
+                neighbors.add(getOriginOf(s));
+            }
+        }
+        return neighbors;
+    }
+
+
+    private double distanceBetween(Intersection origin, Intersection destination) {
+        for (Segment s : getOutgoingSegments(origin)) {
+            if (getOriginOf(s).equals(origin) && getDestinationOf(s).equals(destination)) {
+                return s.getLength();
+            } else if (getDestinationOf(s).equals(origin) && getOriginOf(s).equals(destination)) {
+                return s.getLength();
+            }
+        }
+        throw new IllegalArgumentException("No segment between " + origin + " and " + destination);
+    }
+
+    public List<Intersection> getShortestPath(Intersection origin, Intersection destination) {
+        HashMap<Intersection, Double> distances = new HashMap<>();
+        HashMap<Intersection, Intersection> previous = new HashMap<>();
+        HashMap<Intersection, Boolean> visited = new HashMap<>();
+        for (Intersection i : intersections.values()) {
+            distances.put(i, Double.MAX_VALUE);
+            previous.put(i, null);
+            visited.put(i, false);
+        }
+        distances.put(origin, 0.0);
+        Intersection current = origin;
+        while (current != null) {
+            visited.put(current, true);
+            for(Intersection neighbor : getNeighbors(current)) {
+                if (!visited.get(neighbor)) {
+                    double newDistance = distances.get(current) + distanceBetween(current, neighbor);
+                    if (newDistance < distances.get(neighbor)) {
+                        distances.put(neighbor, newDistance);
+                        previous.put(neighbor, current);
+                    }
+                }
+            }
+            current = null;
+            double minDistance = Double.MAX_VALUE;
+            for (Intersection i : intersections.values()) {
+                if (!visited.get(i) && distances.get(i) < minDistance) {
+                    current = i;
+                    minDistance = distances.get(i);
+                }
+            }
+        }
+        if (distances.get(destination) == Float.MAX_VALUE) {
+            return null;
+        }
+        List<Intersection> path = new ArrayList<>();
+        current = destination;
+        while (current != null) {
+            path.addFirst(current);
+            current = previous.get(current);
+        }
+        return path;
+    }
+
+    public Segment getSegmentBetween(Intersection origin, Intersection destination) {
+        for (Segment s : getOutgoingSegments(origin)) {
+            if (getOriginOf(s).equals(origin) && getDestinationOf(s).equals(destination)) {
+                return s;
+            } else if (getDestinationOf(s).equals(origin) && getOriginOf(s).equals(destination)) {
+                return s;
+            }
+        }
+        throw new IllegalArgumentException("No segment between " + origin + " and " + destination);
+    }
+
+    public List<Segment> getSegmentsBetween(List<Intersection> path){
+        List<Segment> segments = new ArrayList<>();
+        for (int i = 0; i < path.size() - 1; i++) {
+            segments.add(getSegmentBetween(path.get(i), path.get(i + 1)));
+        }
+        return segments;
+    }
 
 }

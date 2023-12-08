@@ -1,6 +1,7 @@
 package fr.insalyon.heptabits.pldagile.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class DeliveryRequest {
     // Doesn't need to carry an ID since it's never stored
@@ -13,6 +14,8 @@ public class DeliveryRequest {
 
     private final long clientId;
 
+    private final long courierId;
+
     public Intersection getDestination() {
         return destination;
     }
@@ -21,7 +24,7 @@ public class DeliveryRequest {
         return timeWindow;
     }
 
-    public DeliveryRequest(LocalDate date, long clientId, Intersection destination, TimeWindow timeWindow) {
+    public DeliveryRequest(LocalDate date, long clientId, Intersection destination, TimeWindow timeWindow, long courierId) {
         if (date == null || destination == null || timeWindow == null) {
             throw new IllegalArgumentException("DeliveryRequest constructor: null argument");
         }
@@ -29,6 +32,7 @@ public class DeliveryRequest {
         this.date = date;
         this.clientId = clientId;
         this.destination = destination;
+        this.courierId = courierId;
         this.timeWindow = timeWindow;
     }
 
@@ -41,6 +45,7 @@ public class DeliveryRequest {
         this.clientId = delivery.getClientId();
         this.destination = delivery.getDestination();
         this.timeWindow = delivery.getTimeWindow();
+        this.courierId = delivery.getCourierId();
     }
 
 
@@ -53,14 +58,13 @@ public class DeliveryRequest {
         return clientId;
     }
 
-    @Override
-    public String toString() {
-        return "DeliveryRequest{" +
-                "date=" + date +
-                ", destination=" + destination +
-                ", timeWindow=" + timeWindow +
-                ", clientId=" + clientId +
-                '}';
+    public long getCourierId() {
+        return courierId;
+    }
+
+
+    public Delivery toDelivery(long id, LocalTime scheduledTime) {
+        return new Delivery(id, date.atTime(scheduledTime), destination, courierId, clientId, timeWindow);
     }
 
 }
