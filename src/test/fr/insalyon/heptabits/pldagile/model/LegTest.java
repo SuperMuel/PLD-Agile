@@ -67,11 +67,40 @@ class LegTest {
 
     @Test
     void getDestination() {
-        assertEquals(intersections.get(intersections.size() - 1), leg.getDestination());
+        assertEquals(intersections.getLast(), leg.getDestination());
     }
 
     @Test
     void getOrigin() {
-        assertEquals(intersections.get(0), leg.getOrigin());
+        assertEquals(intersections.getFirst(), leg.getOrigin());
     }
+
+
+    @Test
+    void equalsSameAttributes() {
+        Leg leg2 = new Leg(intersections, segments, departureTime);
+        assertEquals(leg, leg2);
+    }
+
+    @Test
+    void equalsDifferentDepartureTime() {
+        Leg leg2 = new Leg(intersections, segments, LocalTime.of(1, 1, 2));
+        assertNotEquals(leg, leg2);
+    }
+
+    @Test
+    void equalsDifferentSegments() {
+        List<Segment> newSegments = List.of(new Segment(1, 1, 1, "one", 1), new Segment(2, 2, 2, "2", 2));
+        Leg leg2 = new Leg(intersections, newSegments, departureTime);
+        assertNotEquals(leg, leg2);
+
+    }
+
+    @Test
+    void equalsDifferentIntersections() {
+        List<Intersection> newIntersections = List.of(new Intersection(1, 343435, 1), new Intersection(2, 2, 2), new Intersection(3, 3, 3));
+        Leg leg2 = new Leg(newIntersections, segments, departureTime);
+        assertNotEquals(leg, leg2);
+    }
+
 }

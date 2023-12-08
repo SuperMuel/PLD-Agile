@@ -99,4 +99,40 @@ class RoadMapTest {
     void getLegs() {
         assertEquals(List.of(firstLeg, secondLeg, thirdLeg), roadMap.getLegs());
     }
+
+    @Test
+    void equals() {
+        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        RoadMap b = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        assertEquals(a, b);
+    }
+
+
+
+    @Test
+    void differentIdEquals(){
+        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        RoadMap b = new RoadMap(2, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        assertNotEquals(a, b);
+    }
+
+    @Test
+    void differentDeliveriesEquals(){
+        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        Delivery newDelivery1 = new Delivery(1, delivery1ScheduledDateTime, intersectionC, 1, 2, timeWindow);
+
+        RoadMap b = new RoadMap(1, List.of(newDelivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        assertNotEquals(a, b);
+    }
+
+    @Test
+    void differentLegsEquals(){
+        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        Leg newLeg = new Leg(List.of(intersectionD, warehouse), List.of(segmentDA), LocalTime.of(1, 45));
+
+        RoadMap b = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, newLeg));
+        assertNotEquals(a, b);
+    }
+
+
 }

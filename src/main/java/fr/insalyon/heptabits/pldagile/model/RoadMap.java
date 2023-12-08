@@ -2,6 +2,7 @@ package fr.insalyon.heptabits.pldagile.model;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The RoadMap class represents a collection of deliveries, ordered by their scheduled time.
@@ -14,6 +15,8 @@ public class RoadMap extends BaseEntity {
 
     public RoadMap(long id, List<Delivery> deliveries, List<Leg> legs) {
         super(id);
+
+        // TODO : assert that the deliveries are made by the same courier
 
         if(deliveries == null || legs == null){
             throw new IllegalArgumentException("RoadMap constructor: null argument");
@@ -32,13 +35,13 @@ public class RoadMap extends BaseEntity {
         }
 
         // Check that departure and arrival points match
-        if(!(legs.get(0).getOrigin().equals(legs.getLast().getDestination()))){
+        if(!(legs.getFirst().getOrigin().equals(legs.getLast().getDestination()))){
             throw new IllegalArgumentException("RoadMap constructor: first leg departure point must match first delivery destination");
         }
 
         // Assert that each leg's departure point matches the previous leg's arrival point
         for(int i = 1; i < legs.size(); i++){
-            if(!(legs.get(i).getIntersections().get(0) == (legs.get(i-1).getDestination()))){
+            if(!(legs.get(i).getIntersections().getFirst() == (legs.get(i-1).getDestination()))){
                 throw new IllegalArgumentException("RoadMap constructor: leg departure point must match previous leg destination");
             }
         }
@@ -60,5 +63,19 @@ public class RoadMap extends BaseEntity {
 
     public List<Leg> getLegs() {
         return Collections.unmodifiableList(legs);
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoadMap roadMap = (RoadMap) o;
+        return (getId() == roadMap.getId() ) && Objects.equals(deliveries, roadMap.deliveries) && Objects.equals(legs, roadMap.legs);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, deliveries, legs);
     }
 }

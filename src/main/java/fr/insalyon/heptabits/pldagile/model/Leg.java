@@ -3,6 +3,7 @@ package fr.insalyon.heptabits.pldagile.model;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Leg {
     public List<Intersection> getIntersections() {
@@ -55,13 +56,23 @@ public class Leg {
 
 
     public Intersection getDestination() {
-        return intersections.get(intersections.size() - 1);
+        return intersections.getLast();
     }
 
     public Intersection getOrigin() {
-        return intersections.get(0);
+        return intersections.getFirst();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Leg leg = (Leg) o;
+        return Objects.equals(intersections, leg.intersections) && Objects.equals(segments, leg.segments) && Objects.equals(departureTime, leg.departureTime);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(intersections, segments, departureTime);
+    }
 }
