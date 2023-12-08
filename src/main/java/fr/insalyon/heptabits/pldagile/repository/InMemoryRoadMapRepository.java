@@ -38,9 +38,13 @@ public class InMemoryRoadMapRepository implements RoadMapRepository {
     }
 
     @Override
-    public void update(RoadMap roadMap) {
-        roadMaps.put(roadMap.getId(), roadMap);
+    public void updateById(long id, List<Delivery> deliveries, List<Leg> legs) {
+        if(!roadMaps.containsKey(id)) {
+            throw new IllegalArgumentException("RoadMapRepository.updateById: no road map with id " + id);
+        }
+        roadMaps.put(id, new RoadMap(id, deliveries, legs));
     }
+
 
     @Override
     public RoadMap getByCourierAndDate(long idCourier, LocalDate date) {

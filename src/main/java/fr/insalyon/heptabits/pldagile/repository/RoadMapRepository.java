@@ -14,7 +14,8 @@ public interface RoadMapRepository {
 
     RoadMap create(List<Delivery> deliveries, List<Leg> legs);
 
-    void update(RoadMap roadMap);
+
+    void updateById(long id, List<Delivery> deliveries, List<Leg> legs);
 
     RoadMap getByCourierAndDate(long idCourier, LocalDate date);
 

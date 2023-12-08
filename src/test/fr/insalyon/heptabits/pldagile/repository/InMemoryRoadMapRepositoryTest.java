@@ -90,7 +90,7 @@ class InMemoryRoadMapRepositoryTest {
         LocalDateTime newDelivery1ScheduledDateTime = delivery1ScheduledDateTime.plusMinutes(1);
         Delivery updatedDelivery1 = new Delivery(1, newDelivery1ScheduledDateTime, intersectionC, 1, 1, timeWindow);
         RoadMap updatedRoadmap = new RoadMap(firstRoadMap.getId(), List.of(updatedDelivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
-        inMemoryRoadMapRepository.update(updatedRoadmap);
+        inMemoryRoadMapRepository.updateById(firstRoadMap.getId(), updatedRoadmap.getDeliveries(), updatedRoadmap.getLegs());
 
         assertEquals(inMemoryRoadMapRepository.getById(1).getDeliveries().getFirst(), updatedDelivery1);
         assertEquals(updatedRoadmap, inMemoryRoadMapRepository.getById(1));

@@ -9,11 +9,14 @@ import fr.insalyon.heptabits.pldagile.repository.InMemoryRoadMapRepository;
 import fr.insalyon.heptabits.pldagile.repository.RoadMapRepository;
 
 import javax.xml.parsers.DocumentBuilder;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RoadMapService implements IRoadMapService {
+
+    private final LocalTime warehouseDepartureTime = LocalTime.of(7, 45);
 
     private final RoadMapRepository roadMapRepository;
 
@@ -27,29 +30,54 @@ public class RoadMapService implements IRoadMapService {
         this.mapService = mapService;
     }
 
+    public List<DeliveryRequest> getDeliveryRequestsForCourierOnDate(long courierId, LocalDate date) {
+        RoadMap roadMap = roadMapRepository.getByCourierAndDate(courierId, date);
+
+        if (roadMap == null) {
+            return new ArrayList<>();
+        }
+
+        return roadMap.getDeliveries().stream().map(DeliveryRequest::new).toList();
+    }
+
+    public boolean aRoadMapAlreadyExists(long courierId,LocalDate date) {
+        return roadMapRepository.getByCourierAndDate(courierId, date) != null;
+    }
+
     @Override
     public void addRequest(DeliveryRequest newRequest) throws ImpossibleRoadMapException {
-        LocalTime WAREHOUSE_DEPARTURE_TIME = LocalTime.of(7, 45);
+        LocalDate date = newRequest.getDate();
+        long courierId = newRequest.getCourierId();
+        final RoadMap existingRoadMap = roadMapRepository.getByCourierAndDate(courierId, date);
 
-        List<DeliveryRequest> requests = new ArrayList<>();
+        List<DeliveryRequest> requests = new ArrayList<>(getDeliveryRequestsForCourierOnDate(courierId, date));
 
-        RoadMap previousRoadMap = roadMapRepository.getByCourierAndDate(newRequest.getCourierId(), newRequest.getDate());
-        if (previousRoadMap != null) {
-            requests.addAll(previousRoadMap.getDeliveries().stream().map(DeliveryRequest::new).toList());
+        // Check that the new request isn't at the same place and at timeWindow as an existing request
+        for (DeliveryRequest request : requests) {
+            if (request.getDestination().equals(newRequest.getDestination()) && request.getTimeWindow().equals(newRequest.getTimeWindow())) {
+                // This is not the ideal behavior. We would like to be able to have multiple packages delivered at the same place
+                // during the same time window. However, the current implementation of the optimizer doesn't allow it.
+                throw new ImpossibleRoadMapException("A request already exists at this place and time");
+            }
         }
 
         requests.add(newRequest);
 
-        RoadMap newRoadMap = roadMapOptimizer.optimize(requests, mapService.getCurrentMap(), WAREHOUSE_DEPARTURE_TIME);
+        RoadMap newRoadMap = roadMapOptimizer.optimize(requests, mapService.getCurrentMap(), warehouseDepartureTime);
 
-        if (previousRoadMap == null) {
+        if (aRoadMapAlreadyExists(courierId, date)) {
+            roadMapRepository.updateById(existingRoadMap.getId(), newRoadMap.getDeliveries(), newRoadMap.getLegs());
+            System.out.println("Roadmap updated" + newRoadMap);
+        } else {
             roadMapRepository.create(newRoadMap.getDeliveries(), newRoadMap.getLegs());
             System.out.println("Roadmap created" + newRoadMap);
-        } else {
-            roadMapRepository.update(newRoadMap);
-            System.out.println("Roadmap updated" + newRoadMap);
         }
+
     }
 
 
+
+    public LocalTime getWarehouseDepartureTime() {
+        return warehouseDepartureTime;
+    }
 }

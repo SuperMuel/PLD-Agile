@@ -5,6 +5,8 @@ import fr.insalyon.heptabits.pldagile.model.Segment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SegmentTest {
@@ -38,5 +40,19 @@ class SegmentTest {
     @Test
     void getLength() {
         assertEquals(12.1, segment.getLength());
+    }
+
+    @Test
+    void getTotalLength() {
+        assertEquals(0.0, Segment.getTotalLength(List.of()));
+        assertEquals(12.1, Segment.getTotalLength(List.of(segment)));
+
+        Segment a = new Segment(0, origin.getId(), destination.getId(), "Rue 1", 4.0);
+        Segment b = new Segment(1, origin.getId(), destination.getId(), "Rue 2", 5.1);
+
+        assertEquals(9.1, Segment.getTotalLength(List.of(a, b)));
+
+
+
     }
 }

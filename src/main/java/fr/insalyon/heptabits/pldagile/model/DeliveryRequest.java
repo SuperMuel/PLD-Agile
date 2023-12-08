@@ -2,6 +2,7 @@ package fr.insalyon.heptabits.pldagile.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 public class DeliveryRequest {
     // Doesn't need to carry an ID since it's never stored
@@ -65,6 +66,30 @@ public class DeliveryRequest {
 
     public Delivery toDelivery(long id, LocalTime scheduledTime) {
         return new Delivery(id, date.atTime(scheduledTime), destination, courierId, clientId, timeWindow);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DeliveryRequest that = (DeliveryRequest) o;
+        return clientId == that.clientId && courierId == that.courierId && Objects.equals(date, that.date) && Objects.equals(destination, that.destination) && Objects.equals(timeWindow, that.timeWindow);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, destination, timeWindow, clientId, courierId);
+    }
+
+    @Override
+    public String toString() {
+        return "DeliveryRequest{" +
+                "date=" + date +
+                ", destination=" + destination +
+                ", timeWindow=" + timeWindow +
+                ", clientId=" + clientId +
+                ", courierId=" + courierId +
+                '}';
     }
 
 }

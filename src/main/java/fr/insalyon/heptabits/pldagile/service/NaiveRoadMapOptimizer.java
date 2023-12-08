@@ -3,11 +3,9 @@ package fr.insalyon.heptabits.pldagile.service;
 import fr.insalyon.heptabits.pldagile.model.*;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -43,7 +41,7 @@ public class NaiveRoadMapOptimizer implements RoadMapOptimizer {
                 throw new ImpossibleRoadMapException("No path found between " + previousIntersection + " and " + request.getDestination());
             }
 
-            List<Segment> segments = map.getSegmentsBetween(path);
+            List<Segment> segments = map.getShortestSegmentsBetween(path);
 
             // Compute the time it takes to go from the previous intersection to the first intersection of the path
             double totalDistance = Segment.getTotalLength(segments);
@@ -75,7 +73,7 @@ public class NaiveRoadMapOptimizer implements RoadMapOptimizer {
 
         // Add the last leg to get back at warehouse
         List<Intersection> path = map.getShortestPath(previousIntersection, map.getWarehouse());
-        List<Segment> segments = map.getSegmentsBetween(path);
+        List<Segment> segments = map.getShortestSegmentsBetween(path);
         Leg leg = new Leg(path, segments, previousTime);
         legs.add(leg);
 
