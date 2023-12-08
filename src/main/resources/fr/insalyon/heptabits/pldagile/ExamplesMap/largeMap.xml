@@ -125,14 +125,14 @@
 <intersection id="3760142306" latitude="45.729317" longitude="4.9014707"/>
 <intersection id="3760142308" latitude="45.729374" longitude="4.901031"/>
 <intersection id="8358135" latitude="45.759995" longitude="4.8410244"/>
-<intersection id="33062371" latitude="45.769646" longitude="4.8616815"/>
-<intersection id="1475230728" latitude="45.74867" longitude="4.8477182"/>
-<intersection id="1475230727" latitude="45.74917" longitude="4.8477883"/>
-<intersection id="1475230723" latitude="45.74887" longitude="4.8478403"/>
-<intersection id="25478602" latitude="45.769535" longitude="4.8350363"/>
-<intersection id="25478600" latitude="45.76935" longitude="4.834113"/>
-<intersection id="25478604" latitude="45.769093" longitude="4.835233"/>
-<intersection id="25478608" latitude="45.7688" longitude="4.834842"/>
+<intersection id="478604" latitude="45.769093" longitude="4.835233"/>
+<intersection id="2533062371" latitude="45.769646" longitude="4.8616815"/>
+    <intersection id="1475230728" latitude="45.74867" longitude="4.8477182"/>
+    <intersection id="1475230727" latitude="45.74917" longitude="4.8477883"/>
+    <intersection id="1475230723" latitude="45.74887" longitude="4.8478403"/>
+    <intersection id="25478602" latitude="45.769535" longitude="4.8350363"/>
+    <intersection id="25478600" latitude="45.76935" longitude="4.834113"/>
+    <intersection id="25478608" latitude="45.7688" longitude="4.834842"/>
 <intersection id="26033312" latitude="45.756874" longitude="4.853822"/>
 <intersection id="26033313" latitude="45.759132" longitude="4.850892"/>
 <intersection id="21703544" latitude="45.738724" longitude="4.867201"/>

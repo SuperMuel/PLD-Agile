@@ -1,54 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500.0" prefWidth="1080.0" style="-fx-background-color: #ebf3e8" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.insalyon.heptabits.pldagile.controller.HelloController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" >
     <top>
-        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #86a789; -fx-font-size: 50">
-            <Text fontSmoothingType="LCD" text="INFAT'IFGABLES">
-                <font>
-                    <Font name="Inter Semi Bold" size="40.0" />
-                </font></Text>
+        <VBox maxWidth="1080.0" prefWidth="1080.0">
+            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1080.0" prefHeight="60.0" prefWidth="1080.0" style="-fx-background-color: #00CCBC;">
+                <ImageView fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                    <HBox.margin>
+                        <Insets right="300.0" />
+                    </HBox.margin>
+                    <image>
+                        <Image url="@../../../../fr/insalyon/heptabits/pldagile/deliferoo-white.png" />
+                    </image>
+                </ImageView>
+                <Button fx:id="return_button" mnemonicParsing="false" onMouseClicked="#onReturnButtonClick" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #00BCAD;" text="Retour" textFill="WHITE">
+                    <HBox.margin>
+                        <Insets right="10.0" />
+                    </HBox.margin>
+                    <font>
+                        <Font name="Inter Semi Bold" size="20.0" />
+                    </font>
+                    <effect>
+                        <DropShadow spread="0.5">
+                            <color>
+                        <Color opacity="0.25" />
+                            </color>
+                        </DropShadow>
+                    </effect>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+            </HBox>
+            <VBox alignment="CENTER">
+
+                <Label alignment="CENTER" contentDisplay="TEXT_ONLY" text="Sélectionnez un livreur :">
+                    <font>
+                        <Font name="Inter Semi Bold" size="32.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="20.0" top="20.0" />
+                    </VBox.margin>
+                </Label>
+            </VBox>
         </VBox>
     </top>
    <center>
-       <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="200.0" prefWidth="200.0"
-                   BorderPane.alignment="CENTER">
+       <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1080.0">
-               <Pane layoutX="90.0" layoutY="135.0" prefHeight="550.0" prefWidth="900.0"/>
+               <Pane layoutX="90.0" layoutY="109.0" prefHeight="550.0" prefWidth="900.0">
+               <children>
+                  <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="900.0">
+                     <StackPane fx:id="mapContainer">
+                   <!-- Other UI elements if needed -->
+               </StackPane>
+                 </Pane>
+               </children></Pane>
+            <Separator layoutX="-24.0" layoutY="683.0" prefHeight="15.0" prefWidth="1147.0" />
+            <TextArea layoutX="92.0" layoutY="754.0" prefHeight="500.0" prefWidth="900.0" />
                <Label layoutX="176.0" layoutY="38.0" text="Livreur 1 - Feuille de route 12/11/2023">
                    <font>
-                       <Font name="Inter Semi Bold" size="40.0"/>
+                       <Font name="Inter Semi Bold" size="40.0" />
                    </font>
                </Label>
-               <TableView layoutX="90.0" layoutY="735.0" prefHeight="500.0" prefWidth="900.0"
-                          style="-fx-background-color: B2C8BA;">
-                   <columns>
-                       <TableColumn prefWidth="225.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;"
-                                    text="N° Livraison"/>
-                       <TableColumn prefWidth="225.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;"
-                                    text="Client"/>
-                       <TableColumn prefWidth="225.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;"
-                                    text="Créneau horaire"/>
-                       <TableColumn prefWidth="225.0" style="-fx-background-color: b2c8ba; -fx-border-color: black;"
-                                    text="Adresse"/>
-                   </columns>
-               </TableView>
-               <Button layoutX="390.0" layoutY="1316.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="300.0"
-                       style="-fx-background-color: #2A482D;" text="Télécharger la feuille de route"
-                       textFill="WHITE">
+               <Button layoutX="372.0" layoutY="1268.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="335.0" style="-fx-background-color: #00CCBC;" text="Télécharger la feuille de route" textFill="WHITE">
                    <font>
-                       <Font size="20.0"/>
+                       <Font name="Inter Semi Bold" size="20.0" />
                    </font>
                    <cursor>
-                       <Cursor fx:constant="HAND"/>
+                       <Cursor fx:constant="HAND" />
                    </cursor>
                    <effect>
-                       <DropShadow/>
+                       <DropShadow spread="0.5">
+                     <color>
+                        <Color opacity="0.4000000059604645" />
+                     </color></DropShadow>
                    </effect>
                </Button>
            </AnchorPane>
