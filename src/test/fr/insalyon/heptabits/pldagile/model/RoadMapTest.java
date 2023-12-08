@@ -61,7 +61,13 @@ class RoadMapTest {
 
     @Test
     void constructorEmptyDeliveries() {
-        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(), List.of(firstLeg, secondLeg)));
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(), List.of(firstLeg)));
+    }
+
+    @Test
+    void constructorDifferentCouriersInDeliveries(){
+        Delivery newDelivery1 = new Delivery(1, delivery1ScheduledDateTime, intersectionC, 1, 2, timeWindow);
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(newDelivery1, delivery2), List.of(firstLeg)));
     }
 
     @Test
@@ -89,6 +95,7 @@ class RoadMapTest {
 
         assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1), List.of(leg1, leg2)));
     }
+
 
     @Test
     void getDeliveries() {
@@ -135,4 +142,13 @@ class RoadMapTest {
     }
 
 
+    @Test
+    void getCourierId() {
+        assertEquals(1, roadMap.getCourierId());
+    }
+
+    @Test
+    void getDate() {
+        assertEquals(delivery1.getScheduledDateTime().toLocalDate(), roadMap.getDate());
+    }
 }

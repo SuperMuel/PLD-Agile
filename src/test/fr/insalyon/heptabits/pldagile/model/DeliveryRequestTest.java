@@ -71,4 +71,20 @@ class DeliveryRequestTest {
     void getClientId() {
         assertEquals(clientId, deliveryRequest.getClientId());
     }
+
+    @Test
+    void getCourierId() {
+        assertEquals(courierId, deliveryRequest.getCourierId());
+    }
+
+    @Test
+    void toDelivery() {
+        final LocalTime scheduledTime = LocalTime.of(9, 0);
+        final Delivery delivery = deliveryRequest.toDelivery(id, scheduledTime);
+        assertEquals(deliveryRequest.getDate().atTime(scheduledTime), delivery.getScheduledDateTime());
+        assertEquals(deliveryRequest.getDestination(), delivery.getDestination());
+        assertEquals(deliveryRequest.getTimeWindow(), delivery.getTimeWindow());
+        assertEquals(deliveryRequest.getClientId(), delivery.getClientId());
+        assertEquals(deliveryRequest.getCourierId(), delivery.getCourierId());
+    }
 }

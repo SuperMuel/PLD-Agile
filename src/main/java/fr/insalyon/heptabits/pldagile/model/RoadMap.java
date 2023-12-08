@@ -17,12 +17,6 @@ public class RoadMap extends BaseEntity {
     public RoadMap(long id, List<Delivery> deliveries, List<Leg> legs) {
         super(id);
 
-        // TODO : assert that the deliveries are made by the same courier
-        final long numberOfCouriers = deliveries.stream().map(Delivery::getCourierId).distinct().count();
-        if(numberOfCouriers != 1){
-            throw new IllegalArgumentException("RoadMap constructor: deliveries must be made by the same courier");
-        }
-
         if(deliveries == null || legs == null){
             throw new IllegalArgumentException("RoadMap constructor: null argument");
         }
@@ -30,6 +24,14 @@ public class RoadMap extends BaseEntity {
         if(deliveries.isEmpty()){
             throw new IllegalArgumentException("RoadMap constructor: empty deliveries list");
         }
+
+
+        // Check that all deliveries are made by the same courier
+        final long numberOfCouriers = deliveries.stream().map(Delivery::getCourierId).distinct().count();
+        if(numberOfCouriers != 1){
+            throw new IllegalArgumentException("RoadMap constructor: deliveries must be made by the same courier");
+        }
+
 
         if(legs.isEmpty()){
             throw new IllegalArgumentException("RoadMap constructor: empty legs list");
