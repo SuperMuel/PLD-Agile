@@ -50,10 +50,13 @@ public class NaiveRoadMapOptimizer implements RoadMapOptimizer {
             Duration duration = Duration.ofSeconds((long) (totalDistance / COURIER_SPEED_MS));
 
 
-            final LocalTime arrivalAtDeliveryLocationTime = previousTime.plus(duration)
+            LocalTime arrivalAtDeliveryLocationTime = previousTime.plus(duration)
                     .plus(DELIVERY_DURATION.dividedBy(2)); // The time to get out of the vehicle and get to the door
 
-            //TODO : if arrival before time window, wait
+            // If arrival strictly before the start of the timewindow, we wait
+            if(arrivalAtDeliveryLocationTime.isBefore(request.getTimeWindow().getStart())){
+                arrivalAtDeliveryLocationTime = request.getTimeWindow().getStart();
+            }
 
             // If arrival strictly after the end of the timewindow
             if(arrivalAtDeliveryLocationTime.isAfter(request.getTimeWindow().getEnd())){
@@ -65,7 +68,6 @@ public class NaiveRoadMapOptimizer implements RoadMapOptimizer {
 
             Delivery delivery =request.toDelivery(-1, arrivalAtDeliveryLocationTime);
             deliveries.add(delivery);
-
 
             previousTime = arrivalAtDeliveryLocationTime.plus(DELIVERY_DURATION.dividedBy(2)); // The time to get back in the vehicle
             previousIntersection = path.getLast();
