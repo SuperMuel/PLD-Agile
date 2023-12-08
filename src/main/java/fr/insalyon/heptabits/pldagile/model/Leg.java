@@ -75,4 +75,13 @@ public class Leg {
     public int hashCode() {
         return Objects.hash(intersections, segments, departureTime);
     }
+
+    @Override
+    public String toString() {
+        return "Leg{" +
+                "intersections=" + intersections + "\n" +
+                ", segments=" + segments + "\n" +
+                ", departureTime=" + departureTime + "\n" +
+                '}';
+    }
 }

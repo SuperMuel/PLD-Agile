@@ -28,9 +28,9 @@ public class DependencyManager {
     private  final RoadMapService roadMapService;
     public DependencyManager() {
         idGenerator = new IdGenerator();
-        courierRepository = new InMemoryCourierRepository(getIdGenerator());
+        courierRepository = new MockCourierRepository(getIdGenerator());
         deliveryRepository = new InMemoryDeliveryRepository(getIdGenerator());
-        clientRepository = new InMemoryClientRepository(getIdGenerator());
+        clientRepository = new MockClientRepository(getIdGenerator());
         timeWindowRepository = new FixedTimeWindowRepository();
         roadMapRepository = new InMemoryRoadMapRepository(getIdGenerator());
 

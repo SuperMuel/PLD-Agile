@@ -44,10 +44,10 @@ public class RoadMapService implements IRoadMapService {
 
         if (previousRoadMap == null) {
             roadMapRepository.create(newRoadMap.getDeliveries(), newRoadMap.getLegs());
-            System.out.println("Roadmap created");
+            System.out.println("Roadmap created" + newRoadMap);
         } else {
             roadMapRepository.update(newRoadMap);
-            System.out.println("Roadmap updated");
+            System.out.println("Roadmap updated" + newRoadMap);
         }
     }
 

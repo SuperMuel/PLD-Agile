@@ -18,6 +18,10 @@ public class RoadMap extends BaseEntity {
         super(id);
 
         // TODO : assert that the deliveries are made by the same courier
+        final long numberOfCouriers = deliveries.stream().map(Delivery::getCourierId).distinct().count();
+        if(numberOfCouriers != 1){
+            throw new IllegalArgumentException("RoadMap constructor: deliveries must be made by the same courier");
+        }
 
         if(deliveries == null || legs == null){
             throw new IllegalArgumentException("RoadMap constructor: null argument");
@@ -89,7 +93,16 @@ public class RoadMap extends BaseEntity {
         return deliveries.getFirst().getScheduledDateTime().toLocalDate();
     }
 
+    @Override
     public String toString() {
-        return "Roadmap : courier n°" + getCourierId() + " " + deliveries + " " + legs;
+        return "RoadMap{" +
+                "id=" + getId() + "\n" +
+                ", deliveries=" + deliveries + "\n" +
+                ", legs=" + legs + "\n" +
+                '}';
     }
+
+
+
+
 }
