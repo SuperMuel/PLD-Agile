@@ -2,10 +2,7 @@ package fr.insalyon.heptabits.pldagile;
 
 import fr.insalyon.heptabits.pldagile.model.IdGenerator;
 import fr.insalyon.heptabits.pldagile.repository.*;
-import fr.insalyon.heptabits.pldagile.service.MapService;
-import fr.insalyon.heptabits.pldagile.service.XmlDeliveriesService;
-import fr.insalyon.heptabits.pldagile.service.XmlMapParser;
-import fr.insalyon.heptabits.pldagile.service.XmlMapService;
+import fr.insalyon.heptabits.pldagile.service.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,6 +25,7 @@ public class DependencyManager {
 
     private final RoadMapRepository roadMapRepository;
 
+    private  final RoadMapService roadMapService;
     public DependencyManager() {
         idGenerator = new IdGenerator();
         courierRepository = new InMemoryCourierRepository(getIdGenerator());
@@ -35,6 +33,7 @@ public class DependencyManager {
         clientRepository = new InMemoryClientRepository(getIdGenerator());
         timeWindowRepository = new FixedTimeWindowRepository();
         roadMapRepository = new InMemoryRoadMapRepository(getIdGenerator());
+
 
         // MapService initialization
         XmlMapParser mapParser = new XmlMapParser();
@@ -49,6 +48,7 @@ public class DependencyManager {
         mapService.loadMap(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/ExamplesMap/smallMap.xml"));
 
         this.mapService = mapService;
+        roadMapService = new RoadMapService(roadMapRepository , new NaiveRoadMapOptimizer(), mapService);
 
         xmlDeliveriesService = new XmlDeliveriesService(deliveryRepository, mapService, documentBuilder, courierRepository, clientRepository);
     }
@@ -83,5 +83,9 @@ public class DependencyManager {
 
     public RoadMapRepository getRoadMapRepository() {
         return roadMapRepository;
+    }
+
+    public RoadMapService getRoadMapService() {
+        return roadMapService;
     }
 }

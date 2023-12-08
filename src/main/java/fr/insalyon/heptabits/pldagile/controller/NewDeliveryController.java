@@ -249,23 +249,14 @@ public class NewDeliveryController {
 
     @FXML
     public void onValidateNewDeliveryButtonClick(InputEvent e) throws IOException, ImpossibleRoadMapException {
-        final boolean isValid;
-        LocalTime chosenTime = null;
-        LocalDateTime chosenDateTime = null;
         final Courier chosenCourier = courierChoiceBox.getValue();
         final Client chosenClient = clientChoiceBox.getValue();
         final LocalDate chosenDate = datePicker.getValue();
+        final TimeWindow chosenTimeWindow = timeWindowChoiceBox.getValue();
 
-        if(timeWindowChoiceBox.getValue() != null){ // TODO in the future, use TimeWindow to create a DeliveryRequest
-            chosenTime = timeWindowChoiceBox.getValue().getStart();
-            chosenDateTime = LocalDateTime.of(chosenDate, chosenTime);
-            isValid = chosenCourier != null && chosenClient != null  && chosenIntersection != null;
-        } else {
-            isValid = false;
-        }
+        boolean isValid = chosenCourier != null && chosenClient != null && chosenDate != null && chosenTimeWindow != null && chosenIntersection != null;
 
         if (!isValid) {
-            System.out.println("Invalid delivery");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Validation échouée");
@@ -275,12 +266,19 @@ public class NewDeliveryController {
             return;
         }
 
-        // TODO check if delivery is possible, and if so, add it to the courier's roadmap
-        DeliveryRequest deliveryRequest = new DeliveryRequest(chosenDate, chosenClient.getId(), chosenIntersection,timeWindowChoiceBox.getValue());
-        RoadMapService roadMapService = new RoadMapService(dependencyManager.getRoadMapRepository(), dependencyManager.getDeliveryRepository());
-        roadMapService.addRequest(deliveryRequest, chosenCourier.getId());
+        DeliveryRequest deliveryRequest = new DeliveryRequest(chosenDate, chosenClient.getId(), chosenIntersection, chosenTimeWindow, chosenCourier.getId());
+        RoadMapService roadMapService = dependencyManager.getRoadMapService();
 
-        System.out.println("New delivery created");
+        try{
+            roadMapService.addRequest(deliveryRequest);
+        }catch (ImpossibleRoadMapException exception){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Validation échouée");
+            alert.setContentText("Impossible de créer une tournée avec ces paramètres.\n Veuillez choisir un autre livreur ou une autre plage horaire.");
+            alert.showAndWait();
+            return;
+        }
 
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();

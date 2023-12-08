@@ -85,9 +85,6 @@ public class NewCourierController {
         }
 
         Courier courier = dependencyManager.getCourierRepository().create(firstName, lastName, email, phoneNumber);
-        if(courier != null){
-            dependencyManager.getRoadMapRepository().create(new ArrayList<>(), new ArrayList<>(), courier.getId());
-        }
         System.out.println("New Courier created");
 
         Node source = (Node) e.getSource();

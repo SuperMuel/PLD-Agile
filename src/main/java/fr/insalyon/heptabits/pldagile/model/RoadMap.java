@@ -1,5 +1,6 @@
 package fr.insalyon.heptabits.pldagile.model;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -12,9 +13,8 @@ import java.util.Objects;
 public class RoadMap extends BaseEntity {
     private final List<Delivery> deliveries;
     private final List<Leg> legs;
-    private final long idCourier;
 
-    public RoadMap(long id, List<Delivery> deliveries, List<Leg> legs, long idCourier) {
+    public RoadMap(long id, List<Delivery> deliveries, List<Leg> legs) {
         super(id);
 
         // TODO : assert that the deliveries are made by the same courier
@@ -23,12 +23,9 @@ public class RoadMap extends BaseEntity {
             throw new IllegalArgumentException("RoadMap constructor: null argument");
         }
 
-        // on permet la création de roadmap sans deliveries
-        if(!deliveries.isEmpty()) {
-
-        /*if(deliveries.isEmpty()){
+        if(deliveries.isEmpty()){
             throw new IllegalArgumentException("RoadMap constructor: empty deliveries list");
-        }*/
+        }
 
         if(legs.isEmpty()){
             throw new IllegalArgumentException("RoadMap constructor: empty legs list");
@@ -49,11 +46,10 @@ public class RoadMap extends BaseEntity {
                     throw new IllegalArgumentException("RoadMap constructor: leg departure point must match previous leg destination");
                 }
             }
-        }
+
 
         this.deliveries = deliveries;
         this.legs = legs;
-        this.idCourier = idCourier;
     }
 
 
@@ -64,7 +60,7 @@ public class RoadMap extends BaseEntity {
      * @return An unmodifiable list of deliveries.
      */
     public List<Delivery> getDeliveries() {
-        return Collections.unmodifiableList(this.deliveries);
+        return Collections.unmodifiableList(deliveries);
     }
 
     public List<Leg> getLegs() {
@@ -85,15 +81,15 @@ public class RoadMap extends BaseEntity {
         return Objects.hash(id, deliveries, legs);
     }
 
-    public long getIdCourier() { return this.idCourier; }
+    public long getCourierId() {
+        return deliveries.getFirst().getCourierId();
+    }
 
-    public RoadMap addDelivery(Delivery delivery){
-        // ordonne par heure de livraison
-        deliveries.add(delivery);
-        return this;
+    public LocalDate getDate() {
+        return deliveries.getFirst().getScheduledDateTime().toLocalDate();
     }
 
     public String toString() {
-        return "Roadmap : courier n°" + idCourier + " " + deliveries + " " + legs;
+        return "Roadmap : courier n°" + getCourierId() + " " + deliveries + " " + legs;
     }
 }

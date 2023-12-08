@@ -9,35 +9,47 @@ import fr.insalyon.heptabits.pldagile.repository.InMemoryRoadMapRepository;
 import fr.insalyon.heptabits.pldagile.repository.RoadMapRepository;
 
 import javax.xml.parsers.DocumentBuilder;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RoadMapService implements IRoadMapService {
 
-    private RoadMapRepository roadMapRepository;
+    private final RoadMapRepository roadMapRepository;
 
-    private DeliveryRepository deliveryRepository;
+    private final RoadMapOptimizer roadMapOptimizer;
 
-    public RoadMapService(RoadMapRepository roadMapRepository, DeliveryRepository deliveryRepository) {
+    private final MapService mapService;
+
+    public RoadMapService(RoadMapRepository roadMapRepository, RoadMapOptimizer roadMapOptimizer, MapService mapService) {
         this.roadMapRepository = roadMapRepository;
-        this.deliveryRepository = deliveryRepository;
+        this.roadMapOptimizer = roadMapOptimizer;
+        this.mapService = mapService;
     }
+
     @Override
-    public Delivery addRequest(DeliveryRequest request, long idCourier) throws ImpossibleRoadMapException {
-        // appeler optimizer
+    public void addRequest(DeliveryRequest newRequest) throws ImpossibleRoadMapException {
+        LocalTime WAREHOUSE_DEPARTURE_TIME = LocalTime.of(7, 45);
 
-        RoadMap roadMap = roadMapRepository.getByCourierID(idCourier);
-        // if true - on crée la livraison + update road map
-        Delivery delivery = deliveryRepository.create(request.getDate().atTime(request.getTimeWindow().getStart()), request.getDestination(), idCourier, request.getClientId(), request.getTimeWindow());
-        roadMap.addDelivery(delivery);
-        roadMapRepository.update(roadMap);
+        List<DeliveryRequest> requests = new ArrayList<>();
 
-        System.out.println(roadMap);
+        RoadMap previousRoadMap = roadMapRepository.getByCourierAndDate(newRequest.getCourierId(), newRequest.getDate());
+        if (previousRoadMap != null) {
+            requests.addAll(previousRoadMap.getDeliveries().stream().map(DeliveryRequest::new).toList());
+        }
 
-        // if false - exception
+        requests.add(newRequest);
 
-    return null;
+        RoadMap newRoadMap = roadMapOptimizer.optimize(requests, mapService.getCurrentMap(), WAREHOUSE_DEPARTURE_TIME);
+
+        if (previousRoadMap == null) {
+            roadMapRepository.create(newRoadMap.getDeliveries(), newRoadMap.getLegs());
+            System.out.println("Roadmap created");
+        } else {
+            roadMapRepository.update(newRoadMap);
+            System.out.println("Roadmap updated");
+        }
     }
 
-    public RoadMapRepository getRoadMapRepository() {
-        return roadMapRepository;
-    }
+
 }

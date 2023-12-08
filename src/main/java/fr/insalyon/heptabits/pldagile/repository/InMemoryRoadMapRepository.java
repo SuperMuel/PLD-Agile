@@ -5,9 +5,9 @@ import fr.insalyon.heptabits.pldagile.model.IdGenerator;
 import fr.insalyon.heptabits.pldagile.model.Leg;
 import fr.insalyon.heptabits.pldagile.model.RoadMap;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class InMemoryRoadMapRepository implements RoadMapRepository {
     private final HashMap<Long, RoadMap> roadMaps;
@@ -30,19 +30,9 @@ public class InMemoryRoadMapRepository implements RoadMapRepository {
     }
 
     @Override
-    public RoadMap getByCourierID(long idCourier){
-        for (Map.Entry<Long, RoadMap> mapEntry : roadMaps.entrySet()) {
-            if(idCourier == mapEntry.getValue().getIdCourier()) {
-                return mapEntry.getValue();
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public RoadMap create(List<Delivery> deliveries, List<Leg> legs, long idCourier) {
+    public RoadMap create(List<Delivery> deliveries, List<Leg> legs) {
         final long id = idGenerator.getNextId();
-        final RoadMap roadMap = new RoadMap(id, deliveries, legs, idCourier);
+        final RoadMap roadMap = new RoadMap(id, deliveries, legs);
         roadMaps.put(id, roadMap);
         return roadMap;
     }
@@ -50,6 +40,14 @@ public class InMemoryRoadMapRepository implements RoadMapRepository {
     @Override
     public void update(RoadMap roadMap) {
         roadMaps.put(roadMap.getId(), roadMap);
+    }
+
+    @Override
+    public RoadMap getByCourierAndDate(long idCourier, LocalDate date) {
+        return roadMaps.values().stream()
+                .filter(roadMap -> roadMap.getCourierId() == idCourier && roadMap.getDate().equals(date))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

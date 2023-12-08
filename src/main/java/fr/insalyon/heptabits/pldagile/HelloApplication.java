@@ -23,8 +23,6 @@ public class HelloApplication extends Application {
 
         Parent root = fxmlLoader.load();
 
-        Map map = dependencyManager.getMapService().getCurrentMap();
-
         Scene scene = new Scene(root);
         stage.setTitle("DEL'IFEROO");
         stage.setScene(scene);
