@@ -25,12 +25,12 @@ public class NaiveRoadMapOptimizer implements RoadMapOptimizer {
         }
 
         // Trier les requêtes par timewindow
-        List<DeliveryRequest> sortedRequests = new ArrayList<DeliveryRequest>(requests);
+        List<DeliveryRequest> sortedRequests = new ArrayList<>(requests);
         sortedRequests.sort((r1, r2) -> r1.getTimeWindow().compareStartTo(r2.getTimeWindow()));
 
 
-        List<Leg> legs = new ArrayList<Leg>();
-        List<Delivery> deliveries = new ArrayList<Delivery>();
+        List<Leg> legs = new ArrayList<>();
+        List<Delivery> deliveries = new ArrayList<>();
 
         // We start at the warehouse
         Intersection previousIntersection = map.getWarehouse();

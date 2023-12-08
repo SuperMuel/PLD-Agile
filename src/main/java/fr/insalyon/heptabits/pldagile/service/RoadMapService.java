@@ -1,14 +1,9 @@
 package fr.insalyon.heptabits.pldagile.service;
 
-import fr.insalyon.heptabits.pldagile.model.Delivery;
 import fr.insalyon.heptabits.pldagile.model.DeliveryRequest;
-import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.model.RoadMap;
-import fr.insalyon.heptabits.pldagile.repository.DeliveryRepository;
-import fr.insalyon.heptabits.pldagile.repository.InMemoryRoadMapRepository;
 import fr.insalyon.heptabits.pldagile.repository.RoadMapRepository;
 
-import javax.xml.parsers.DocumentBuilder;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;

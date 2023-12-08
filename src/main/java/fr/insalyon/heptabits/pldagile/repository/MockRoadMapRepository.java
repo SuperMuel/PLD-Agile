@@ -1,11 +1,9 @@
 package fr.insalyon.heptabits.pldagile.repository;
 
 import fr.insalyon.heptabits.pldagile.model.*;
-import fr.insalyon.heptabits.pldagile.service.MapService;
 import fr.insalyon.heptabits.pldagile.service.MockMapService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -17,7 +15,6 @@ public class MockRoadMapRepository extends InMemoryRoadMapRepository {
         LocalDate date = LocalDate.now();
 
         long courier1Id = 1;
-        long courier2Id = 2;
         TimeWindow timeWindow1 = new TimeWindow(LocalTime.of(8, 0), LocalTime.of(9, 0));
 
         long client1Id = 1;

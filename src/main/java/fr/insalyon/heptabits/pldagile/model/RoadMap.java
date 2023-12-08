@@ -95,9 +95,6 @@ public class RoadMap extends BaseEntity {
         return deliveries.getFirst().getScheduledDateTime().toLocalDate();
     }
 
-    public int getNumberOfDeliveries() {
-        return deliveries.size();
-    }
     @Override
     public String toString() {
         return "RoadMap{" +

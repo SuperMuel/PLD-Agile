@@ -1,13 +1,11 @@
 package fr.insalyon.heptabits.pldagile.model;
 
-import fr.insalyon.heptabits.pldagile.model.Intersection;
-import fr.insalyon.heptabits.pldagile.model.Segment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SegmentTest {
 
