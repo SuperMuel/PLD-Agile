@@ -30,6 +30,12 @@ public class MapView {
 
     private final int size;
 
+    private final HashMap<Long, Circle> deliveryCircleMap;
+
+    public HashMap<Long, Circle> getDeliveryCircleMap() {
+        return deliveryCircleMap;
+    }
+
     public interface OnIntersectionClicked {
         void onIntersectionClicked(Intersection intersection);
     }
@@ -49,6 +55,7 @@ public class MapView {
         this.maxLongitude = map.getMaxLongitude();
         this.size = size;
         this.onIntersectionClicked = onIntersectionClicked;
+        deliveryCircleMap = new HashMap<>();
     }
 
     public Group createView() {
@@ -109,6 +116,7 @@ public class MapView {
             Circle circle = new Circle(x, y, CIRCLE_RADIUS, CIRCLE_COLOR);
             circle.setOpacity(CIRCLE_OPACITY);
 
+            deliveryCircleMap.put(temp.getId(), circle);
             addCircleEventHandlers(temp, circle, CIRCLE_COLOR_CLICKED, CIRCLE_OPACITY_HOVERED, CIRCLE_OPACITY, CIRCLE_COLOR);
 
             circleList.add(circle);

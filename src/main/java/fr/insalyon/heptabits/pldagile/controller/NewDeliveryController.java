@@ -11,6 +11,7 @@ import fr.insalyon.heptabits.pldagile.repository.CourierRepository;
 import fr.insalyon.heptabits.pldagile.repository.TimeWindowRepository;
 import fr.insalyon.heptabits.pldagile.service.MapService;
 import fr.insalyon.heptabits.pldagile.view.MapView;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,7 +22,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,9 +92,73 @@ public class NewDeliveryController {
             chosenIntersection = intersection;
             intersectionTextField.setText(chosenIntersection.toString());
             System.out.println("Intersection clicked: " + intersection);
+
         };
         final MapView mapView = new MapView(mapService.getCurrentMap(), 500, onIntersectionClicked);
         mapAnchorPane.getChildren().add(mapView.createView());
+
+        // Afficher l'intersection sélectionnée différemment
+        intersectionTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            long oldId = (oldValue.split("[=,]").length >= 2) ? Long.parseLong(oldValue.split("[=,]")[1].trim()) : -1;
+            long newId = (newValue.split("[=,]").length >= 2) ? Long.parseLong(newValue.split("[=,]")[1].trim()) : -1;
+
+            // afficher la nouvelle intersection en vert et plus grosse
+            if (newId != -1) {
+                Circle newIntersectionCircle = mapView.getDeliveryCircleMap().get(newId);
+                if (newIntersectionCircle != null) {
+                    newIntersectionCircle.setStroke(Color.web("#119156"));
+                    newIntersectionCircle.setStrokeWidth(1);
+                    newIntersectionCircle.setFill(Color.web("#18c474"));
+
+                    newIntersectionCircle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+                        newIntersectionCircle.setFill(Color.web("#119156"));
+                        onIntersectionClicked.onIntersectionClicked(mapService.getCurrentMap().getIntersections().get(newId));
+                    });
+
+                    newIntersectionCircle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
+                        newIntersectionCircle.setFill(Color.web("#18c474"));
+                    });
+
+                    ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.15), newIntersectionCircle);
+                    scaleOut.setToX(2);
+                    scaleOut.setToY(2);
+
+                    newIntersectionCircle.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+                        scaleOut.playFromStart(); // Play exit animation
+                        newIntersectionCircle.setOpacity(0.5);
+                    });
+                }
+            }
+            // réafficher l'intersection sélectionnée précédemment de façon normale
+            if (oldId != -1) {
+                Circle oldIntersectionCircle = mapView.getDeliveryCircleMap().get(oldId);
+                if (oldIntersectionCircle != null) {
+                    oldIntersectionCircle.setStrokeWidth(0);
+                    oldIntersectionCircle.setFill(Color.web("de1c24"));
+                    oldIntersectionCircle.setScaleX(1);
+                    oldIntersectionCircle.setScaleY(1);
+
+                    oldIntersectionCircle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+                        oldIntersectionCircle.setFill(Color.web("#ab151b"));
+                        onIntersectionClicked.onIntersectionClicked(mapService.getCurrentMap().getIntersections().get(oldId));
+                    });
+
+                    oldIntersectionCircle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
+                        oldIntersectionCircle.setFill(Color.web("de1c24"));
+                    });
+
+                    ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.15), oldIntersectionCircle);
+                    scaleOut.setToX(1);
+                    scaleOut.setToY(1);
+
+                    oldIntersectionCircle.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+                        scaleOut.playFromStart(); // Play exit animation
+                        oldIntersectionCircle.setOpacity(0.5);
+                    });
+                }
+            }
+        });
+
 
         confirmNewDeliveryButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             confirmNewDeliveryButton.setStyle("-fx-background-color: #00BCAD");
