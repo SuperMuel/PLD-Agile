@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewCourierController {
@@ -83,7 +84,10 @@ public class NewCourierController {
             return;
         }
 
-        dependencyManager.getCourierRepository().create(firstName, lastName, email, phoneNumber);
+        Courier courier = dependencyManager.getCourierRepository().create(firstName, lastName, email, phoneNumber);
+        if(courier != null){
+            dependencyManager.getRoadMapRepository().create(new ArrayList<>(), new ArrayList<>(), courier.getId());
+        }
         System.out.println("New Courier created");
 
         Node source = (Node) e.getSource();

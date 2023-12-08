@@ -12,8 +12,9 @@ import java.util.Objects;
 public class RoadMap extends BaseEntity {
     private final List<Delivery> deliveries;
     private final List<Leg> legs;
+    private final long idCourier;
 
-    public RoadMap(long id, List<Delivery> deliveries, List<Leg> legs) {
+    public RoadMap(long id, List<Delivery> deliveries, List<Leg> legs, long idCourier) {
         super(id);
 
         // TODO : assert that the deliveries are made by the same courier
@@ -22,32 +23,37 @@ public class RoadMap extends BaseEntity {
             throw new IllegalArgumentException("RoadMap constructor: null argument");
         }
 
-        if(deliveries.isEmpty()){
+        // on permet la création de roadmap sans deliveries
+        if(!deliveries.isEmpty()) {
+
+        /*if(deliveries.isEmpty()){
             throw new IllegalArgumentException("RoadMap constructor: empty deliveries list");
-        }
+        }*/
 
         if(legs.isEmpty()){
             throw new IllegalArgumentException("RoadMap constructor: empty legs list");
         }
 
-        if(deliveries.size() != legs.size() -1){
-            throw new IllegalArgumentException("RoadMap constructor: number of legs must be one more than number of deliveries");
-        }
+            if (deliveries.size() != legs.size() - 1) {
+                throw new IllegalArgumentException("RoadMap constructor: number of legs must be one more than number of deliveries");
+            }
 
-        // Check that departure and arrival points match
-        if(!(legs.getFirst().getOrigin().equals(legs.getLast().getDestination()))){
-            throw new IllegalArgumentException("RoadMap constructor: first leg departure point must match first delivery destination");
-        }
+            // Check that departure and arrival points match
+            if (!(legs.getFirst().getOrigin().equals(legs.getLast().getDestination()))) {
+                throw new IllegalArgumentException("RoadMap constructor: first leg departure point must match first delivery destination");
+            }
 
-        // Assert that each leg's departure point matches the previous leg's arrival point
-        for(int i = 1; i < legs.size(); i++){
-            if(!(legs.get(i).getIntersections().getFirst() == (legs.get(i-1).getDestination()))){
-                throw new IllegalArgumentException("RoadMap constructor: leg departure point must match previous leg destination");
+            // Assert that each leg's departure point matches the previous leg's arrival point
+            for (int i = 1; i < legs.size(); i++) {
+                if (!(legs.get(i).getIntersections().getFirst() == (legs.get(i - 1).getDestination()))) {
+                    throw new IllegalArgumentException("RoadMap constructor: leg departure point must match previous leg destination");
+                }
             }
         }
 
         this.deliveries = deliveries;
         this.legs = legs;
+        this.idCourier = idCourier;
     }
 
 
@@ -77,5 +83,17 @@ public class RoadMap extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, deliveries, legs);
+    }
+
+    public long getIdCourier() { return this.idCourier; }
+
+    public RoadMap addDelivery(Delivery delivery){
+        // ordonne par heure de livraison
+        deliveries.add(delivery);
+        return this;
+    }
+
+    public String toString() {
+        return "Roadmap : courier n°" + idCourier + " " + deliveries + " " + legs;
     }
 }

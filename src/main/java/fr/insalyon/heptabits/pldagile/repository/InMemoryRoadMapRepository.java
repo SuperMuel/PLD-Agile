@@ -7,6 +7,7 @@ import fr.insalyon.heptabits.pldagile.model.RoadMap;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryRoadMapRepository implements RoadMapRepository {
     private final HashMap<Long, RoadMap> roadMaps;
@@ -29,9 +30,19 @@ public class InMemoryRoadMapRepository implements RoadMapRepository {
     }
 
     @Override
-    public RoadMap create(List<Delivery> deliveries, List<Leg> legs) {
+    public RoadMap getByCourierID(long idCourier){
+        for (Map.Entry<Long, RoadMap> mapEntry : roadMaps.entrySet()) {
+            if(idCourier == mapEntry.getValue().getIdCourier()) {
+                return mapEntry.getValue();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public RoadMap create(List<Delivery> deliveries, List<Leg> legs, long idCourier) {
         final long id = idGenerator.getNextId();
-        final RoadMap roadMap = new RoadMap(id, deliveries, legs);
+        final RoadMap roadMap = new RoadMap(id, deliveries, legs, idCourier);
         roadMaps.put(id, roadMap);
         return roadMap;
     }

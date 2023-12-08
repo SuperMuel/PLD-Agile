@@ -26,12 +26,15 @@ public class DependencyManager {
 
     private final XmlDeliveriesService xmlDeliveriesService;
 
+    private final RoadMapRepository roadMapRepository;
+
     public DependencyManager() {
         idGenerator = new IdGenerator();
         courierRepository = new InMemoryCourierRepository(getIdGenerator());
         deliveryRepository = new InMemoryDeliveryRepository(getIdGenerator());
         clientRepository = new InMemoryClientRepository(getIdGenerator());
         timeWindowRepository = new FixedTimeWindowRepository();
+        roadMapRepository = new InMemoryRoadMapRepository(getIdGenerator());
 
         // MapService initialization
         XmlMapParser mapParser = new XmlMapParser();
@@ -76,5 +79,9 @@ public class DependencyManager {
 
     public XmlDeliveriesService getXmlDeliveriesService() {
         return xmlDeliveriesService;
+    }
+
+    public RoadMapRepository getRoadMapRepository() {
+        return roadMapRepository;
     }
 }
