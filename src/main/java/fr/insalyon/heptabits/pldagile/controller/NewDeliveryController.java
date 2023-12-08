@@ -2,14 +2,13 @@ package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
 import fr.insalyon.heptabits.pldagile.HelloApplication;
-import fr.insalyon.heptabits.pldagile.model.Client;
-import fr.insalyon.heptabits.pldagile.model.Courier;
-import fr.insalyon.heptabits.pldagile.model.Intersection;
-import fr.insalyon.heptabits.pldagile.model.TimeWindow;
+import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.repository.ClientRepository;
 import fr.insalyon.heptabits.pldagile.repository.CourierRepository;
 import fr.insalyon.heptabits.pldagile.repository.TimeWindowRepository;
+import fr.insalyon.heptabits.pldagile.service.ImpossibleRoadMapException;
 import fr.insalyon.heptabits.pldagile.service.MapService;
+import fr.insalyon.heptabits.pldagile.service.RoadMapService;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
@@ -249,7 +248,7 @@ public class NewDeliveryController {
     }
 
     @FXML
-    public void onValidateNewDeliveryButtonClick(InputEvent e) throws IOException {
+    public void onValidateNewDeliveryButtonClick(InputEvent e) throws IOException, ImpossibleRoadMapException {
         final boolean isValid;
         LocalTime chosenTime = null;
         LocalDateTime chosenDateTime = null;
@@ -277,7 +276,10 @@ public class NewDeliveryController {
         }
 
         // TODO check if delivery is possible, and if so, add it to the courier's roadmap
-        dependencyManager.getDeliveryRepository().create(chosenDateTime, chosenIntersection, chosenCourier.getId(), chosenClient.getId(), timeWindowChoiceBox.getValue());
+        DeliveryRequest deliveryRequest = new DeliveryRequest(chosenDate, chosenClient.getId(), chosenIntersection,timeWindowChoiceBox.getValue());
+        RoadMapService roadMapService = new RoadMapService(dependencyManager.getRoadMapRepository(), dependencyManager.getDeliveryRepository());
+        roadMapService.addRequest(deliveryRequest, chosenCourier.getId());
+
         System.out.println("New delivery created");
 
         Node source = (Node) e.getSource();
