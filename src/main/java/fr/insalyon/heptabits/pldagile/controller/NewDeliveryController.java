@@ -2,10 +2,7 @@ package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
 import fr.insalyon.heptabits.pldagile.HelloApplication;
-import fr.insalyon.heptabits.pldagile.model.Client;
-import fr.insalyon.heptabits.pldagile.model.Courier;
-import fr.insalyon.heptabits.pldagile.model.Intersection;
-import fr.insalyon.heptabits.pldagile.model.TimeWindow;
+import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.repository.ClientRepository;
 import fr.insalyon.heptabits.pldagile.repository.CourierRepository;
 import fr.insalyon.heptabits.pldagile.repository.TimeWindowRepository;
@@ -277,6 +274,8 @@ public class NewDeliveryController {
         }
 
         // TODO check if delivery is possible, and if so, add it to the courier's roadmap
+        DeliveryRequest deliveryRequest = new DeliveryRequest(chosenDate, chosenClient.getId(), chosenIntersection,timeWindowChoiceBox.getValue());
+        dependencyManager.
         dependencyManager.getDeliveryRepository().create(chosenDateTime, chosenIntersection, chosenCourier.getId(), chosenClient.getId(), timeWindowChoiceBox.getValue());
         System.out.println("New delivery created");
 
