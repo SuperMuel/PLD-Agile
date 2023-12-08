@@ -58,18 +58,18 @@ class InMemoryRoadMapRepositoryTest {
     void setUp() {
         idGenerator = new IdGenerator();
         inMemoryRoadMapRepository = new InMemoryRoadMapRepository(idGenerator);
-        roadMap = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        roadMap = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg), 2);
     }
 
     @Test
     void getAll() {
-        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg),2);
         assertEquals(1, inMemoryRoadMapRepository.getAll().size());
     }
 
     @Test
     void getById() {
-        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg), 2);
         assertEquals(roadMap, inMemoryRoadMapRepository.getById(1));
     }
 
@@ -80,28 +80,32 @@ class InMemoryRoadMapRepositoryTest {
 
     @Test
     void create() {
-        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg), 2);
         assertEquals(roadMap, inMemoryRoadMapRepository.getById(1));
     }
 
     @Test
     void update() {
-        RoadMap firstRoadMap = inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        RoadMap firstRoadMap = inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg), 2);
         LocalDateTime newDelivery1ScheduledDateTime = delivery1ScheduledDateTime.plusMinutes(1);
         Delivery updatedDelivery1 = new Delivery(1, newDelivery1ScheduledDateTime, intersectionC, 1, 1, timeWindow);
-        RoadMap updatedRoadmap = new RoadMap(firstRoadMap.getId(), List.of(updatedDelivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        RoadMap updatedRoadmap = new RoadMap(firstRoadMap.getId(), List.of(updatedDelivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg), 2);
         inMemoryRoadMapRepository.update(updatedRoadmap);
 
         assertEquals(inMemoryRoadMapRepository.getById(1).getDeliveries().getFirst(), updatedDelivery1);
         assertEquals(updatedRoadmap, inMemoryRoadMapRepository.getById(1));
-
-
     }
 
     @Test
     void delete() {
-        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg), 2);
         inMemoryRoadMapRepository.delete(1);
         assertNull(inMemoryRoadMapRepository.getById(1));
+    }
+
+    @Test
+    void getByCourierID(){
+        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg), 2);
+        assertNull(inMemoryRoadMapRepository.getByCourierID(2));
     }
 }

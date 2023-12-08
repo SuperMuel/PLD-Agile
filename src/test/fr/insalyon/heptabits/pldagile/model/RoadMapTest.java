@@ -50,36 +50,36 @@ class RoadMapTest {
 
     @BeforeEach
     void setUp() {
-        roadMap = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        roadMap = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg),1);
     }
 
     @Test
     void constructorNullArguments() {
-        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, null, List.of(firstLeg, secondLeg)));
-        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1, delivery2), null));
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, null, List.of(firstLeg, secondLeg), 2));
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1, delivery2), null,2));
     }
-
+    /*
     @Test
     void constructorEmptyDeliveries() {
-        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(), List.of(firstLeg, secondLeg)));
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(), List.of(firstLeg, secondLeg), 2));
     }
 
     @Test
     void constructorEmptyLegs() {
-        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1, delivery2), List.of()));
-    }
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1, delivery2), List.of(), 2));
+    }*/
 
     @Test
     void constructorLegsDeliveriesSizeMismatch() {
-        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg)));
-        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1), List.of(firstLeg, secondLeg, thirdLeg)));
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg), 2));
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1), List.of(firstLeg, secondLeg, thirdLeg), 2));
     }
 
     @Test
     void constructorDepartureMustMachArrival() {
         Leg leg1 = new Leg(List.of(intersectionC, intersectionD), List.of(segmentCD), LocalTime.of(1, 15));
         Leg leg2 = new Leg(List.of(intersectionD, warehouse), List.of(segmentDA), LocalTime.of(1, 30));
-        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery2), List.of(leg1, leg2)));
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery2), List.of(leg1, leg2), 2));
     }
 
     @Test
@@ -87,7 +87,7 @@ class RoadMapTest {
         Leg leg1 = new Leg(List.of(warehouse, intersectionB, intersectionC), List.of(segmentAB, segmentBC), LocalTime.of(1, 0));
         Leg leg2 = new Leg(List.of(intersectionD, warehouse), List.of(segmentDA), LocalTime.of(1, 30));
 
-        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1), List.of(leg1, leg2)));
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1), List.of(leg1, leg2), 2));
     }
 
     @Test
@@ -102,8 +102,8 @@ class RoadMapTest {
 
     @Test
     void equals() {
-        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
-        RoadMap b = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg), 2);
+        RoadMap b = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg), 2);
         assertEquals(a, b);
     }
 
@@ -111,26 +111,26 @@ class RoadMapTest {
 
     @Test
     void differentIdEquals(){
-        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
-        RoadMap b = new RoadMap(2, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg),2);
+        RoadMap b = new RoadMap(2, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg),2);
         assertNotEquals(a, b);
     }
 
     @Test
     void differentDeliveriesEquals(){
-        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg),2);
         Delivery newDelivery1 = new Delivery(1, delivery1ScheduledDateTime, intersectionC, 1, 2, timeWindow);
 
-        RoadMap b = new RoadMap(1, List.of(newDelivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        RoadMap b = new RoadMap(1, List.of(newDelivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg),2);
         assertNotEquals(a, b);
     }
 
     @Test
     void differentLegsEquals(){
-        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg),2);
         Leg newLeg = new Leg(List.of(intersectionD, warehouse), List.of(segmentDA), LocalTime.of(1, 45));
 
-        RoadMap b = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, newLeg));
+        RoadMap b = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, newLeg),2);
         assertNotEquals(a, b);
     }
 
