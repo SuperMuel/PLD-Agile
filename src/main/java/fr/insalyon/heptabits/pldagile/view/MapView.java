@@ -92,6 +92,7 @@ public class MapView {
                 line.setStroke(Color.web("#d8e0e7"));
 
                 lineList.add(line);
+                addLineEventHandlers(segment, line);
             } else {
                 System.out.println("Un segment n'a pas pu être tracé. idDestination = " + idDestination + " ou idOrigin = " + idOrigin + " sont introuvables");
             }
@@ -155,12 +156,12 @@ public class MapView {
         circle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
             circle.setFill(circleColor);
         });
-
-
-
-
     }
 
+    private void addLineEventHandlers(Segment segment, Line line){
+        Tooltip tooltipCircle = new Tooltip(segment.getName());
+        Tooltip.install(line, tooltipCircle);
+    }
 
     private ImageView createWarehouseImageView(Intersection warehouse, float minLatitude, float minLongitude, float maxLatitude, float maxLongitude, Path imagePath) {
         final int PIN_SIZE = 40;
