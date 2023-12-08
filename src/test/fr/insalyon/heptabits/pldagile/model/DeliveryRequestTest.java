@@ -15,6 +15,7 @@ class DeliveryRequestTest {
     final Intersection destination = new Intersection(0, 0, 0);
     final TimeWindow timeWindow = new TimeWindow(LocalTime.of(9, 0), LocalTime.of(10, 0));
     final long clientId = 0;
+    final long courierId = 0;
 
     final LocalDate date = LocalDate.of(2020, 1, 1);
 
@@ -23,14 +24,14 @@ class DeliveryRequestTest {
 
     @BeforeEach
     void setUp() {
-        deliveryRequest = new DeliveryRequest(date, clientId, destination, timeWindow);
+        deliveryRequest = new DeliveryRequest(date, clientId, destination, timeWindow, courierId);
     }
 
     @Test
     void fromNullArguments(){
-        assertThrows(IllegalArgumentException.class, () -> new DeliveryRequest(null, clientId, destination, timeWindow));
-        assertThrows(IllegalArgumentException.class, () -> new DeliveryRequest(date, clientId, null, timeWindow));
-        assertThrows(IllegalArgumentException.class, () -> new DeliveryRequest(date, clientId, destination, null));
+        assertThrows(IllegalArgumentException.class, () -> new DeliveryRequest(null, clientId, destination, timeWindow, courierId));
+        assertThrows(IllegalArgumentException.class, () -> new DeliveryRequest(date, clientId, null, timeWindow,courierId));
+        assertThrows(IllegalArgumentException.class, () -> new DeliveryRequest(date, clientId, destination, null,courierId));
     }
 
 
