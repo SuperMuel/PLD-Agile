@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<?import org.controlsfx.property.editor.AbstractObjectField?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#displayDeliveries" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
   <top>
     <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="60.0" style="-fx-background-color: #00CCBC;">
@@ -66,21 +66,13 @@
       </HBox>
       <HBox prefHeight="500.0" prefWidth="1059.0">
             <children>
-            <TableView stylesheets="@../../../../css/table.css" fx:id="deliveryTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="482.0" prefWidth="775.0">
+            <TableView fx:id="deliveryTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="482.0" prefWidth="775.0" stylesheets="@../../../../css/table.css">
               <columns>
-                <TableColumn fx:id="deliveryId" maxWidth="20.0" minWidth="70.0" prefWidth="20.0" style="-fx-background-color: #00CCBC;" text="Livraison">
-                    <cellValueFactory>
-                        <javafx.scene.control.cell.PropertyValueFactory property="nom"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="time" maxWidth="50.0" minWidth="70.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Horaire">
-                  <cellValueFactory>
-                      <javafx.scene.control.cell.PropertyValueFactory property="age"/>
-                  </cellValueFactory>
-                </TableColumn>
-                  <TableColumn fx:id="address" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Adresse" />
-                <TableColumn fx:id="clientName" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Client" />
-                <TableColumn fx:id="courierName" maxWidth="200.0" minWidth="134.0" prefWidth="135.0" style="-fx-background-color: #00CCBC;" text="Livreur" />
+                <TableColumn fx:id="deliveryId" maxWidth="20.0" minWidth="70.0" prefWidth="20.0" text="Livraison"/>
+                <TableColumn fx:id="time" maxWidth="50.0" minWidth="70.0" prefWidth="-1.0" text="Horaire"/>
+                  <TableColumn fx:id="address" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" text="Adresse" />
+                <TableColumn fx:id="clientName" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" text="Client" />
+                <TableColumn fx:id="courierName" maxWidth="200.0" minWidth="134.0" prefWidth="135.0" text="Livreur" />
               </columns>
                   <HBox.margin>
                      <Insets right="10.0" />
@@ -92,26 +84,11 @@
                         </color>
                      </DropShadow>
                   </effect>
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <!-- Première ligne de données -->
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="John"/>
-                            <String fx:value="25"/>
-                        </FXCollections>
-
-                        <!-- Deuxième ligne de données -->
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Jane"/>
-                            <String fx:value="30"/>
-                        </FXCollections>
-                    </FXCollections>
-                </items>
             </TableView>
             <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="862.0" prefWidth="751.0" style="-fx-border-color: black;">
               <StackPane fx:id="mapContainer">
           <!-- Other UI elements if needed -->
-        </StackPane>
+            </StackPane>
                   <HBox.margin>
                      <Insets />
                   </HBox.margin>
@@ -119,7 +96,8 @@
             </children>
             <VBox.margin>
                <Insets left="10.0" right="10.0" />
-            </VBox.margin></HBox>
+            </VBox.margin>
+      </HBox>
     </VBox>
 
   </center>
@@ -132,7 +110,7 @@
   </right>
   <bottom>
     <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="74.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;">
-        <Button fx:id="viewRoadMaps" prefHeight="60.0" style="-fx-background-color: #00CCBC;" onMouseClicked="#onViewRoadMapsButtonClick" text="Consulter les feuilles de route" textFill="WHITE">
+        <Button fx:id="viewRoadMaps" onMouseClicked="#onViewRoadMapsButtonClick" prefHeight="60.0" style="-fx-background-color: #00CCBC;" text="Consulter les feuilles de route" textFill="WHITE">
             <font>
                <Font name="Inter Semi Bold" size="20.0" />
             </font>

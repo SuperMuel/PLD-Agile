@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" >
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <VBox maxWidth="1080.0" prefWidth="1080.0">
             <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1080.0" prefHeight="60.0" prefWidth="1080.0" style="-fx-background-color: #00CCBC;">
@@ -41,24 +41,35 @@
                 </Button>
             </HBox>
             <VBox alignment="CENTER">
-
-                <Label alignment="CENTER" contentDisplay="TEXT_ONLY" text="Sélectionnez un livreur :">
-                    <font>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="courierName">
+                     <font>
                         <Font name="Inter Semi Bold" size="32.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
-                    </VBox.margin>
-                </Label>
+                     </font>
+                  </Label>
+      
+                      <Label alignment="CENTER" contentDisplay="TEXT_ONLY" text=" Feuille de route du ">
+                          <font>
+                              <Font name="Inter Semi Bold" size="32.0" />
+                          </font>
+                      </Label>
+                  <Label fx:id="date">
+                     <font>
+                        <Font name="Inter Semi Bold" size="32.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             </VBox>
         </VBox>
     </top>
    <center>
-       <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1080.0">
-               <Pane layoutX="90.0" layoutY="109.0" prefHeight="550.0" prefWidth="900.0">
+       <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="720.0" prefViewportHeight="720.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;">
+               <Pane layoutX="274.0" layoutY="38.0" prefHeight="550.0" prefWidth="550.0">
                <children>
-                  <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="900.0">
+                  <Pane layoutY="26.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="900.0">
                      <StackPane fx:id="mapContainer">
                    <!-- Other UI elements if needed -->
                </StackPane>
@@ -66,7 +77,7 @@
                </children></Pane>
             <Separator layoutX="-24.0" layoutY="683.0" prefHeight="15.0" prefWidth="1147.0" />
             <TextArea layoutX="92.0" layoutY="754.0" prefHeight="500.0" prefWidth="900.0" />
-               <Label layoutX="176.0" layoutY="38.0" text="Livreur 1 - Feuille de route 12/11/2023">
+               <Label layoutX="176.0" layoutY="38.0">
                    <font>
                        <Font name="Inter Semi Bold" size="40.0" />
                    </font>

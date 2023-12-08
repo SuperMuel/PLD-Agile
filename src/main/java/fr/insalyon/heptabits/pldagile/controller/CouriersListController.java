@@ -9,19 +9,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.input.InputEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class CouriersListController {
     private final DependencyManager dependencyManager;
     private Stage stage;
-
     @FXML
     private ChoiceBox<Courier> courierChoiceBox;
 
+    @FXML
+    private DatePicker datePicker;
     public CouriersListController(DependencyManager dependencyManager, Stage stage) {
         this.dependencyManager = dependencyManager;
         this.stage = stage;
@@ -48,11 +51,14 @@ public class CouriersListController {
     protected void onValidateCourierSelected(InputEvent e) throws IOException{
         Node source = (Node) e.getSource();
         Stage newStage = (Stage) source.getScene().getWindow();
+        Courier courier = courierChoiceBox.getValue();
+        LocalDate chosenDate = datePicker.getValue();
+
         newStage.close();
         this.stage.close();
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setController(new RoadMapController(dependencyManager));
+        fxmlLoader.setController(new RoadMapController(dependencyManager, courier, chosenDate));
         fxmlLoader.setLocation(HelloApplication.class.getResource("RoadMap.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
