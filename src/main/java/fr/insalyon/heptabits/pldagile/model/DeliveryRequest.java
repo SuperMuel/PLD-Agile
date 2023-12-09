@@ -42,11 +42,11 @@ public class DeliveryRequest {
         if (delivery == null) {
             throw new IllegalArgumentException("DeliveryRequest constructor: null argument");
         }
-        this.date = delivery.getScheduledDateTime().toLocalDate();
-        this.clientId = delivery.getClientId();
-        this.destination = delivery.getDestination();
-        this.timeWindow = delivery.getTimeWindow();
-        this.courierId = delivery.getCourierId();
+        this.date = delivery.scheduledDateTime().toLocalDate();
+        this.clientId = delivery.clientId();
+        this.destination = delivery.destination();
+        this.timeWindow = delivery.timeWindow();
+        this.courierId = delivery.courierId();
     }
 
 
@@ -64,8 +64,8 @@ public class DeliveryRequest {
     }
 
 
-    public Delivery toDelivery(long id, LocalTime scheduledTime) {
-        return new Delivery(id, date.atTime(scheduledTime), destination, courierId, clientId, timeWindow);
+    public Delivery toDelivery(LocalTime scheduledTime) {
+        return new Delivery(date.atTime(scheduledTime), destination, courierId, clientId, timeWindow);
     }
 
     @Override

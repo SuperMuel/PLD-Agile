@@ -88,7 +88,7 @@ class RoadMapServiceTest {
 
         when(roadMapOptimizer.optimize(any(),any(), any())).thenReturn(exampleRoadMap);
 
-        DeliveryRequest newRequest2 = new DeliveryRequest(exampleRoadMap.getDate(), exampleDelivery.getClientId(), mapService.i4, exampleDelivery.getTimeWindow(), exampleDelivery.getCourierId());
+        DeliveryRequest newRequest2 = new DeliveryRequest(exampleRoadMap.getDate(), exampleDelivery.clientId(), mapService.i4, exampleDelivery.timeWindow(), exampleDelivery.courierId());
 
         roadMapService.addRequest(newRequest2);
 
@@ -107,7 +107,7 @@ class RoadMapServiceTest {
 
         when(roadMapOptimizer.optimize(any(),any(), any())).thenReturn(exampleRoadMap);
 
-        DeliveryRequest newRequest2 = new DeliveryRequest(exampleRoadMap.getDate(), exampleDelivery.getClientId(), exampleDelivery.getDestination(), exampleDelivery.getTimeWindow(), exampleDelivery.getCourierId());
+        DeliveryRequest newRequest2 = new DeliveryRequest(exampleRoadMap.getDate(), exampleDelivery.clientId(), exampleDelivery.destination(), exampleDelivery.timeWindow(), exampleDelivery.courierId());
 
         assertThrows(ImpossibleRoadMapException.class, () -> roadMapService.addRequest(newRequest2));
 
@@ -140,7 +140,7 @@ class RoadMapServiceTest {
 
     @Test
     void deliveryRequestedAtWarehouseThrows(){
-        DeliveryRequest request = new DeliveryRequest(exampleRoadMap.getDate(), exampleRoadMap.getCourierId(), mapService.getCurrentMap().getWarehouse(), exampleRoadMap.getDeliveries().getFirst().getTimeWindow(), exampleRoadMap.getCourierId());
+        DeliveryRequest request = new DeliveryRequest(exampleRoadMap.getDate(), exampleRoadMap.getCourierId(), mapService.getCurrentMap().getWarehouse(), exampleRoadMap.getDeliveries().getFirst().timeWindow(), exampleRoadMap.getCourierId());
         assertThrows(ImpossibleRoadMapException.class, () -> roadMapService.addRequest(request));
     }
 

@@ -32,7 +32,7 @@ public class RoadMap extends BaseEntity {
 
 
         // Check that all deliveries are made by the same courier
-        final long numberOfCouriers = deliveries.stream().map(Delivery::getCourierId).distinct().count();
+        final long numberOfCouriers = deliveries.stream().map(Delivery::courierId).distinct().count();
         if (numberOfCouriers != 1) {
             throw new IllegalArgumentException("RoadMap constructor: deliveries must be made by the same courier");
         }
@@ -105,7 +105,7 @@ public class RoadMap extends BaseEntity {
      * @return The id of the courier who will make the deliveries in the road map.
      */
     public long getCourierId() {
-        return deliveries.getFirst().getCourierId();
+        return deliveries.getFirst().courierId();
     }
 
 
@@ -115,7 +115,7 @@ public class RoadMap extends BaseEntity {
      * @return The date of the first delivery in the road map.
      */
     public LocalDate getDate() {
-        return deliveries.getFirst().getScheduledDateTime().toLocalDate();
+        return deliveries.getFirst().scheduledDateTime().toLocalDate();
     }
 
     @Override

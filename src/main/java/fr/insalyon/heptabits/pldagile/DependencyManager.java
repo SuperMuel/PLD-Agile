@@ -20,7 +20,6 @@ public class DependencyManager {
 
     private final MapService mapService;
 
-    private final XmlDeliveriesService xmlDeliveriesService;
 
     private final RoadMapRepository roadMapRepository;
 
@@ -51,7 +50,6 @@ public class DependencyManager {
         this.mapService = mapService;
         roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(), mapService);
 
-         xmlDeliveriesService = new XmlDeliveriesService(deliveryService, mapService, documentBuilder, courierRepository, clientRepository);
     }
 
     public IdGenerator getIdGenerator() {
@@ -74,9 +72,6 @@ public class DependencyManager {
         return mapService;
     }
 
-    public XmlDeliveriesService getXmlDeliveriesService() {
-        return xmlDeliveriesService;
-    }
 
     public RoadMapRepository getRoadMapRepository() {
         return roadMapRepository;

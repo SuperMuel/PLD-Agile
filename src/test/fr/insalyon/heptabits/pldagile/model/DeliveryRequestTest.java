@@ -39,7 +39,7 @@ class DeliveryRequestTest {
     @Test
     void fromDelivery(){
         final LocalDateTime scheduledDateTime = LocalDateTime.of(2020, 1, 1, 9, 0);
-        final Delivery delivery = new Delivery(id, scheduledDateTime, destination, 0, clientId, timeWindow);
+        final Delivery delivery = new Delivery(scheduledDateTime, destination, 0, clientId, timeWindow);
         deliveryRequest = new DeliveryRequest(delivery);
         assertEquals(deliveryRequest.getDate(), scheduledDateTime.toLocalDate());
         assertEquals(deliveryRequest.getDestination(), destination);
@@ -80,11 +80,11 @@ class DeliveryRequestTest {
     @Test
     void toDelivery() {
         final LocalTime scheduledTime = LocalTime.of(9, 0);
-        final Delivery delivery = deliveryRequest.toDelivery(id, scheduledTime);
-        assertEquals(deliveryRequest.getDate().atTime(scheduledTime), delivery.getScheduledDateTime());
-        assertEquals(deliveryRequest.getDestination(), delivery.getDestination());
-        assertEquals(deliveryRequest.getTimeWindow(), delivery.getTimeWindow());
-        assertEquals(deliveryRequest.getClientId(), delivery.getClientId());
-        assertEquals(deliveryRequest.getCourierId(), delivery.getCourierId());
+        final Delivery delivery = deliveryRequest.toDelivery(scheduledTime);
+        assertEquals(deliveryRequest.getDate().atTime(scheduledTime), delivery.scheduledDateTime());
+        assertEquals(deliveryRequest.getDestination(), delivery.destination());
+        assertEquals(deliveryRequest.getTimeWindow(), delivery.timeWindow());
+        assertEquals(deliveryRequest.getClientId(), delivery.clientId());
+        assertEquals(deliveryRequest.getCourierId(), delivery.courierId());
     }
 }

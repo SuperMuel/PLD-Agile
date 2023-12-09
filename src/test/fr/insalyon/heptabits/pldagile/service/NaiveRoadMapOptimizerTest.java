@@ -135,8 +135,8 @@ class NaiveRoadMapOptimizerTest {
         assertEquals(legs.getLast().getDestination(), warehouse);
 
         Delivery delivery = deliveries.getFirst();
-        assertEquals(delivery.getDestination(), i4);
-        assertTrue(timeWindow.contains(delivery.getScheduledDateTime()));
+        assertEquals(delivery.destination(), i4);
+        assertTrue(timeWindow.contains(delivery.scheduledDateTime()));
     }
 
     @Test
@@ -160,18 +160,18 @@ class NaiveRoadMapOptimizerTest {
         Leg leg3 = legs.get(2);
 
         assertEquals(leg1.getOrigin(), warehouse);
-        assertEquals(leg1.getDestination(), delivery1.getDestination());
-        assertEquals(leg2.getOrigin(), delivery1.getDestination());
-        assertEquals(leg2.getDestination(), delivery2.getDestination());
-        assertEquals(leg3.getOrigin(), delivery2.getDestination());
+        assertEquals(leg1.getDestination(), delivery1.destination());
+        assertEquals(leg2.getOrigin(), delivery1.destination());
+        assertEquals(leg2.getDestination(), delivery2.destination());
+        assertEquals(leg3.getOrigin(), delivery2.destination());
         assertEquals(leg3.getDestination(), warehouse);
 
         // Check that the delivery locations are i4 and i1
-        assertTrue((delivery1.getDestination().equals(i4) && delivery2.getDestination().equals(i1)) ||
-                (delivery1.getDestination().equals(i1) && delivery2.getDestination().equals(i4)));
+        assertTrue((delivery1.destination().equals(i4) && delivery2.destination().equals(i1)) ||
+                (delivery1.destination().equals(i1) && delivery2.destination().equals(i4)));
 
-        assertTrue(timeWindow.contains(delivery1.getScheduledDateTime()));
-        assertTrue(timeWindow.contains(delivery2.getScheduledDateTime()));
+        assertTrue(timeWindow.contains(delivery1.scheduledDateTime()));
+        assertTrue(timeWindow.contains(delivery2.scheduledDateTime()));
 
     }
 
@@ -193,11 +193,11 @@ class NaiveRoadMapOptimizerTest {
         Delivery delivery1 = deliveries.getFirst();
         Delivery delivery2 = deliveries.getLast();
 
-        assertEquals(delivery1.getDestination(), i4);
-        assertEquals(delivery2.getDestination(), i1);
+        assertEquals(delivery1.destination(), i4);
+        assertEquals(delivery2.destination(), i1);
 
-        assertTrue(timeWindow1.contains(delivery1.getScheduledDateTime()));
-        assertTrue(timeWindow2.contains(delivery2.getScheduledDateTime()));
+        assertTrue(timeWindow1.contains(delivery1.scheduledDateTime()));
+        assertTrue(timeWindow2.contains(delivery2.scheduledDateTime()));
     }
 
 

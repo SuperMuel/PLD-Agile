@@ -37,9 +37,9 @@ public class MockRoadMapRepository extends InMemoryRoadMapRepository {
         Segment s35 = new Segment(6, i3.getId(), i5.getId(), "Street 35", 5.656854249492381);
 
         Leg leg1 = new Leg(List.of(i3, i5),List.of(s35), LocalTime.of(7,45));
-        Delivery delivery1 = new Delivery(1, date.atTime(LocalTime.of(8,0)), i5, courier1Id, client1Id, timeWindow1 );
+        Delivery delivery1 = new Delivery( date.atTime(LocalTime.of(8,0)), i5, courier1Id, client1Id, timeWindow1 );
         Leg leg2 = new Leg(List.of(i5, i2, i1), List.of(s25, s12), LocalTime.of(8,2, 30));
-        Delivery delivery2 = new Delivery(2, date.atTime(LocalTime.of(8,15)), i1, courier1Id, client2Id, timeWindow1 );
+        Delivery delivery2 = new Delivery( date.atTime(LocalTime.of(8,15)), i1, courier1Id, client2Id, timeWindow1 );
 
         Leg leg3 = new Leg(List.of(i1, i3), List.of(s31), LocalTime.of(8,17, 30));
 

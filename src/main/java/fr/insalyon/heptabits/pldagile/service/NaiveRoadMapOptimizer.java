@@ -109,7 +109,7 @@ public class NaiveRoadMapOptimizer implements RoadMapOptimizer {
             Leg leg = new Leg(path, segments, previousTime);
             legs.add(leg);
 
-            Delivery delivery = request.toDelivery(-1, arrivalAtDeliveryLocationTime); //TODO : remove deliveryId
+            Delivery delivery = request.toDelivery(arrivalAtDeliveryLocationTime); //TODO : remove deliveryId
             deliveries.add(delivery);
 
             previousTime = arrivalAtDeliveryLocationTime.plus(deliveryDuration.dividedBy(2)); // The time to get back in the vehicle

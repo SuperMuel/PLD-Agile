@@ -116,11 +116,10 @@ public class HelloController {
 
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        roadMapId.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
-        address.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDestination()));
-        courierName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getFirstName() + " " + dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getLastName()));
-        clientName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getClientRepository().findById(cellData.getValue().getClientId()).getFirstName() + " " + dependencyManager.getClientRepository().findById(cellData.getValue().getClientId()).getLastName()));
-        time.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getScheduledDateTime().format(formatter)));
+        address.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().destination()));
+        courierName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getCourierRepository().findById(cellData.getValue().courierId()).getFirstName() + " " + dependencyManager.getCourierRepository().findById(cellData.getValue().courierId()).getLastName()));
+        clientName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getClientRepository().findById(cellData.getValue().clientId()).getFirstName() + " " + dependencyManager.getClientRepository().findById(cellData.getValue().clientId()).getLastName()));
+        time.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().scheduledDateTime().format(formatter)));
         for (Delivery d : deliveries) {
             deliveryTable.getItems().addAll(d);
 
@@ -130,7 +129,7 @@ public class HelloController {
                 row.setOnMouseEntered(event -> {
                     if (!row.isEmpty()) {
                         // livraison associée à la ligne
-                        long selectedDeliveryIntersectionId = row.getItem().getDestination().getId();
+                        long selectedDeliveryIntersectionId = row.getItem().destination().getId();
                         Circle c = mapView.getDeliveryCircleMap().get(selectedDeliveryIntersectionId);
 
                         ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.10), c);
@@ -145,7 +144,7 @@ public class HelloController {
                 row.setOnMouseExited(event -> {
                     if (!row.isEmpty()) {
                         // livraison associée à la ligne
-                        long selectedDeliveryIntersectionId = row.getItem().getDestination().getId();
+                        long selectedDeliveryIntersectionId = row.getItem().destination().getId();
                         Circle c = mapView.getDeliveryCircleMap().get(selectedDeliveryIntersectionId);
 
                         ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.10), c);
@@ -184,68 +183,4 @@ public class HelloController {
         stage.show();
     }
 
-    @FXML
-    private void importerMenuItemClicked(ActionEvent event) throws IOException, SAXException {
-        // Assurez-vous que l'événement provient bien d'un MenuItem
-        if (event.getSource() instanceof MenuItem) {
-            MenuItem menuItem = (MenuItem) event.getSource();
-
-            // Créer un FileChooser
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Sélectionner un fichier XML");
-
-            // Ajouter un filtre pour ne montrer que les fichiers XML
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
-
-            // Afficher la boîte de dialogue et attendre que l'utilisateur sélectionne un fichier
-            Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
-            File selectedFile = fileChooser.showOpenDialog(stage);
-
-            // Vérifier si un fichier a été sélectionné
-            if (selectedFile != null) {
-                // Faites quelque chose avec le fichier sélectionné
-                System.out.println("Fichier XML sélectionné : " + selectedFile.getAbsolutePath());
-                dependencyManager.getXmlDeliveriesService().importDeliveriesFromXml(selectedFile.getAbsolutePath());
-                displayDeliveries();
-
-            } else {
-                // L'utilisateur a annulé la sélection
-                System.out.println("Sélection de fichier annulée.");
-            }
-        }
-    }
-
-
-    @FXML
-    private void exporterMenuItemClicked(ActionEvent event) {
-        // Assurez-vous que l'événement provient bien d'un MenuItem
-        if (event.getSource() instanceof MenuItem) {
-            MenuItem menuItem = (MenuItem) event.getSource();
-
-            // Créer un FileChooser
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Sélectionner un fichier XML");
-
-            // Ajouter un filtre pour ne montrer que les fichiers XML
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
-
-            // Afficher la boîte de dialogue et attendre que l'utilisateur sélectionne un fichier
-            Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
-            File selectedFile = fileChooser.showSaveDialog(stage);
-
-            // Vérifier si un fichier a été sélectionné
-            if (selectedFile != null) {
-                // Faites quelque chose avec le fichier sélectionné
-                System.out.println("Fichier XML sélectionné : " + selectedFile.getAbsolutePath());
-                dependencyManager.getXmlDeliveriesService().exportDeliveriesToXml(selectedFile.getAbsolutePath());
-
-                // À partir d'ici, vous pouvez traiter le fichier XML comme nécessaire
-                // (par exemple, lire son contenu, analyser les données, etc.)
-            } else {
-                // L'utilisateur a annulé la sélection
-                System.out.println("Sélection de fichier annulée.");
-            }
-        }
-
-    }
 }

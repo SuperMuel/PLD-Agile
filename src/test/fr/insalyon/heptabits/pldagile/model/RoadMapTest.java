@@ -32,12 +32,12 @@ class RoadMapTest {
     TimeWindow timeWindow = new TimeWindow(LocalTime.of(1, 0), LocalTime.of(2, 0));
     LocalDateTime delivery1ScheduledDateTime = LocalDateTime.of(2021, 1, 1, 1, 15);
 
-    Delivery delivery1 = new Delivery(1, delivery1ScheduledDateTime, intersectionC, 1, 1, timeWindow);
+    Delivery delivery1 = new Delivery( delivery1ScheduledDateTime, intersectionC, 1, 1, timeWindow);
 
 
     LocalDateTime delivery2ScheduledDateTime = LocalDateTime.of(2021, 1, 1, 1, 30);
 
-    Delivery delivery2 = new Delivery(2, delivery2ScheduledDateTime, intersectionD, 1, 1, timeWindow);
+    Delivery delivery2 = new Delivery( delivery2ScheduledDateTime, intersectionD, 1, 1, timeWindow);
 
 
     Leg firstLeg = new Leg(List.of(warehouse, intersectionB, intersectionC), List.of(segmentAB, segmentBC), LocalTime.of(1, 0));
@@ -66,7 +66,7 @@ class RoadMapTest {
 
     @Test
     void constructorDifferentCouriersInDeliveries(){
-        Delivery newDelivery1 = new Delivery(1, delivery1ScheduledDateTime, intersectionC, 12, 2, timeWindow);
+        Delivery newDelivery1 = new Delivery( delivery1ScheduledDateTime, intersectionC, 12, 2, timeWindow);
         assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(newDelivery1, delivery2), List.of(firstLeg)));
     }
 
@@ -126,7 +126,7 @@ class RoadMapTest {
     @Test
     void differentDeliveriesEquals(){
         RoadMap a = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
-        Delivery newDelivery1 = new Delivery(1, delivery1ScheduledDateTime, intersectionC, 1, 2, timeWindow);
+        Delivery newDelivery1 = new Delivery(delivery1ScheduledDateTime, intersectionC, 1, 2, timeWindow);
 
         RoadMap b = new RoadMap(1, List.of(newDelivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
         assertNotEquals(a, b);
@@ -149,6 +149,6 @@ class RoadMapTest {
 
     @Test
     void getDate() {
-        assertEquals(delivery1.getScheduledDateTime().toLocalDate(), roadMap.getDate());
+        assertEquals(delivery1.scheduledDateTime().toLocalDate(), roadMap.getDate());
     }
 }
