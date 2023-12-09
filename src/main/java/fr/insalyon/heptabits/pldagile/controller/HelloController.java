@@ -9,7 +9,6 @@ import fr.insalyon.heptabits.pldagile.model.RoadMap;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.animation.ScaleTransition;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -21,12 +20,10 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import org.xml.sax.SAXException;
 
 
 import java.io.File;
