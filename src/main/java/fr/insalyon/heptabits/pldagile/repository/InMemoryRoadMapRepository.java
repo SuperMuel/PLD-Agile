@@ -39,7 +39,7 @@ public class InMemoryRoadMapRepository implements RoadMapRepository {
 
     @Override
     public void updateById(long id, List<Delivery> deliveries, List<Leg> legs) {
-        if(!roadMaps.containsKey(id)) {
+        if (!roadMaps.containsKey(id)) {
             throw new IllegalArgumentException("RoadMapRepository.updateById: no road map with id " + id);
         }
         roadMaps.put(id, new RoadMap(id, deliveries, legs));

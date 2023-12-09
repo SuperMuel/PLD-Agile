@@ -41,6 +41,6 @@ public class MockMapService implements MapService {
 
         segments = List.of(s12, s23, s24, s25, s31, s35);
 
-        return new Map(1, intersections, segments, 3);
+        return new Map(1, intersections, segments, warehouseId);
     }
 }

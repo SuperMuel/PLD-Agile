@@ -35,7 +35,7 @@ public class RoadMapService implements IRoadMapService {
         return roadMap.getDeliveries().stream().map(DeliveryRequest::new).toList();
     }
 
-    public boolean aRoadMapAlreadyExists(long courierId,LocalDate date) {
+    public boolean aRoadMapAlreadyExists(long courierId, LocalDate date) {
         return roadMapRepository.getByCourierAndDate(courierId, date) != null;
     }
 
@@ -43,6 +43,11 @@ public class RoadMapService implements IRoadMapService {
     public void addRequest(DeliveryRequest newRequest) throws ImpossibleRoadMapException {
         LocalDate date = newRequest.getDate();
         long courierId = newRequest.getCourierId();
+
+        if (newRequest.getDestination().equals(mapService.getCurrentMap().getWarehouse())) {
+            throw new ImpossibleRoadMapException("A request cannot be made at the warehouse");
+        }
+
         final RoadMap existingRoadMap = roadMapRepository.getByCourierAndDate(courierId, date);
 
         List<DeliveryRequest> requests = new ArrayList<>(getDeliveryRequestsForCourierOnDate(courierId, date));
@@ -62,14 +67,11 @@ public class RoadMapService implements IRoadMapService {
 
         if (aRoadMapAlreadyExists(courierId, date)) {
             roadMapRepository.updateById(existingRoadMap.getId(), newRoadMap.getDeliveries(), newRoadMap.getLegs());
-            System.out.println("Roadmap updated" + newRoadMap);
         } else {
             roadMapRepository.create(newRoadMap.getDeliveries(), newRoadMap.getLegs());
-            System.out.println("Roadmap created" + newRoadMap);
         }
 
     }
-
 
 
     public LocalTime getWarehouseDepartureTime() {

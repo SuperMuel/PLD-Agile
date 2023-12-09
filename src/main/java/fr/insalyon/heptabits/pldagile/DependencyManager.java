@@ -25,7 +25,8 @@ public class DependencyManager {
 
     private final RoadMapRepository roadMapRepository;
 
-    private  final RoadMapService roadMapService;
+    private final RoadMapService roadMapService;
+
     public DependencyManager() {
         idGenerator = new IdGenerator();
         courierRepository = new MockCourierRepository(getIdGenerator());
@@ -48,7 +49,7 @@ public class DependencyManager {
         mapService.loadMap(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/ExamplesMap/smallMap.xml"));
 
         this.mapService = mapService;
-        roadMapService = new RoadMapService(roadMapRepository , new NaiveRoadMapOptimizer(), mapService);
+        roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(), mapService);
 
         xmlDeliveriesService = new XmlDeliveriesService(deliveryRepository, mapService, documentBuilder, courierRepository, clientRepository);
     }

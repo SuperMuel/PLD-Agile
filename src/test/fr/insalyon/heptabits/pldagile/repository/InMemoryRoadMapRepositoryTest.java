@@ -99,6 +99,11 @@ class InMemoryRoadMapRepositoryTest {
     }
 
     @Test
+    void updateNotFoundId(){
+        assertThrows(IllegalArgumentException.class, () -> inMemoryRoadMapRepository.updateById(432434, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg)));
+    }
+
+    @Test
     void delete() {
         inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
         inMemoryRoadMapRepository.delete(1);

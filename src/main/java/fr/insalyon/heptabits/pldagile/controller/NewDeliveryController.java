@@ -254,13 +254,14 @@ public class NewDeliveryController {
         final LocalDate chosenDate = datePicker.getValue();
         final TimeWindow chosenTimeWindow = timeWindowChoiceBox.getValue();
 
+        //TODO : check if intersection is not the warehouse. Or make the warehouse not clickable. Or both.
         boolean isValid = chosenCourier != null && chosenClient != null && chosenDate != null && chosenTimeWindow != null && chosenIntersection != null;
 
         if (!isValid) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Validation échouée");
-            alert.setContentText("Veuillez remplir tous les champs");
+            alert.setContentText("Veuillez remplir tous les champs.");
 
             alert.showAndWait();
             return;
@@ -269,9 +270,9 @@ public class NewDeliveryController {
         DeliveryRequest deliveryRequest = new DeliveryRequest(chosenDate, chosenClient.getId(), chosenIntersection, chosenTimeWindow, chosenCourier.getId());
         RoadMapService roadMapService = dependencyManager.getRoadMapService();
 
-        try{
+        try {
             roadMapService.addRequest(deliveryRequest);
-        }catch (ImpossibleRoadMapException exception){
+        } catch (ImpossibleRoadMapException exception) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Validation échouée");

@@ -66,7 +66,7 @@ class RoadMapTest {
 
     @Test
     void constructorDifferentCouriersInDeliveries(){
-        Delivery newDelivery1 = new Delivery(1, delivery1ScheduledDateTime, intersectionC, 1, 2, timeWindow);
+        Delivery newDelivery1 = new Delivery(1, delivery1ScheduledDateTime, intersectionC, 12, 2, timeWindow);
         assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(newDelivery1, delivery2), List.of(firstLeg)));
     }
 

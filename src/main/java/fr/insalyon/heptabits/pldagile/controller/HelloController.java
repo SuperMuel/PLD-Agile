@@ -36,8 +36,8 @@ import java.util.List;
 
 public class HelloController {
 
-    private  final DependencyManager dependencyManager;
-    private  final Color hoveredColor = Color.web("#00BCAD");
+    private final DependencyManager dependencyManager;
+    private final Color hoveredColor = Color.web("#00BCAD");
 
     private MapView mapView;
 
@@ -99,7 +99,6 @@ public class HelloController {
          */
 
 
-
     }
 
     public void initializeMap(Map map, int width) {
@@ -111,9 +110,9 @@ public class HelloController {
     }
 
     @FXML
-    public void displayDeliveries(){
+    public void displayDeliveries() {
         List<Delivery> deliveries = dependencyManager.getDeliveryRepository().findAll();
-        if(deliveries.isEmpty()){
+        if (deliveries.isEmpty()) {
             System.out.println("Pas de livraison prévue");
         } else {
             if (!deliveryTable.getItems().isEmpty()) {
@@ -125,7 +124,7 @@ public class HelloController {
             courierName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getFirstName() + " " + dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getLastName()));
             clientName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getClientRepository().findById(cellData.getValue().getClientId()).getFirstName() + " " + dependencyManager.getClientRepository().findById(cellData.getValue().getClientId()).getLastName()));
             time.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getScheduledDateTime().format(formatter)));
-            for(Delivery d : deliveries){
+            for (Delivery d : deliveries) {
                 deliveryTable.getItems().addAll(d);
 
                 // rendre chaque ligne du tableau hoverable

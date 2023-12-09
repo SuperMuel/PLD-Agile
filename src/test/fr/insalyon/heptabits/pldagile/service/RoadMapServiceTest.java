@@ -138,5 +138,10 @@ class RoadMapServiceTest {
         assertFalse(roadMapService.aRoadMapAlreadyExists(exampleRoadMap.getCourierId(), LocalDate.of(1980, 1, 1)));
     }
 
+    @Test
+    void deliveryRequestedAtWarehouseThrows(){
+        DeliveryRequest request = new DeliveryRequest(exampleRoadMap.getDate(), exampleRoadMap.getCourierId(), mapService.getCurrentMap().getWarehouse(), exampleRoadMap.getDeliveries().getFirst().getTimeWindow(), exampleRoadMap.getCourierId());
+        assertThrows(ImpossibleRoadMapException.class, () -> roadMapService.addRequest(request));
+    }
 
 }

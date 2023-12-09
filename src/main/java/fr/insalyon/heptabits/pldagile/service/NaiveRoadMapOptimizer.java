@@ -9,25 +9,70 @@ import java.util.Collection;
 import java.util.List;
 
 
-
 public class NaiveRoadMapOptimizer implements RoadMapOptimizer {
+
+    private final double courierSpeedMs;
+    private final Duration deliveryDuration;
+
+
+    /**
+     * Default constructor
+     * Courier speed is 15 km/h
+     * Delivery duration is 5 minutes
+     */
+    public NaiveRoadMapOptimizer() {
+        this.deliveryDuration = Duration.ofMinutes(5);
+        this.courierSpeedMs = 15.0 / 3.6; // 15 km/h
+    }
+
+    /**
+     * Constructor
+     *
+     * @param courierSpeedMs   Courier speed in m/s
+     * @param deliveryDuration Duration of a delivery
+     */
+    public NaiveRoadMapOptimizer(double courierSpeedMs, Duration deliveryDuration) {
+        this.courierSpeedMs = courierSpeedMs;
+        this.deliveryDuration = deliveryDuration;
+    }
+
+
+    private boolean aRequestIsBeforeDeparture(Collection<DeliveryRequest> requests, LocalTime departureTime) {
+        for (DeliveryRequest request : requests) {
+            if (request.getTimeWindow().getEnd().isBefore(departureTime)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public RoadMap optimize(Collection<DeliveryRequest> requests, Map map, LocalTime departureTime) throws ImpossibleRoadMapException {
-        final Duration DELIVERY_DURATION = Duration.ofMinutes(5);
-        final double COURIER_SPEED_MS = 15.0 / 3.6; // 15 km/h
+        if (requests.isEmpty()) {
+            throw new IllegalArgumentException("No requests");
+        }
 
+        if (aRequestIsBeforeDeparture(requests, departureTime)) {
+            throw new IllegalArgumentException("One request's time window ends before the courier's departure. The user shouldn't have been able to create such a request.");
+        }
 
-        // Verify that all requests are after departure
-        for(DeliveryRequest request : requests) {
-            if (request.getTimeWindow().getEnd().isBefore(departureTime) || request.getTimeWindow().getEnd().equals(departureTime)) {
-                throw new ImpossibleRoadMapException("Timewindow ends before or at departure");
+        // Check if a request is made at warehouse
+        for (DeliveryRequest request : requests) {
+            if (request.getDestination().equals(map.getWarehouse())) {
+                throw new IllegalArgumentException("A request is made at the warehouse");
             }
         }
 
-        // Trier les requêtes par timewindow
+        // Assert that all requests are for the same day
+        if (requests.stream().map(DeliveryRequest::getDate).distinct().count() != 1) {
+            // This could be an issue in the future if we want to make night deliveries. But for now, we don't.
+            throw new IllegalArgumentException("All requests must be for the same day");
+        }
+
+        // Sort requests by timeWindow start
         List<DeliveryRequest> sortedRequests = new ArrayList<>(requests);
         sortedRequests.sort((r1, r2) -> r1.getTimeWindow().compareStartTo(r2.getTimeWindow()));
-
+        //TODO : on same timewindows, apply tsp
 
         List<Leg> legs = new ArrayList<>();
         List<Delivery> deliveries = new ArrayList<>();
@@ -45,29 +90,29 @@ public class NaiveRoadMapOptimizer implements RoadMapOptimizer {
 
             // Compute the time it takes to go from the previous intersection to the first intersection of the path
             double totalDistance = Segment.getTotalLength(segments);
-            Duration duration = Duration.ofSeconds((long) (totalDistance / COURIER_SPEED_MS));
+            Duration duration = Duration.ofSeconds((long) (totalDistance / courierSpeedMs));
 
 
             LocalTime arrivalAtDeliveryLocationTime = previousTime.plus(duration)
-                    .plus(DELIVERY_DURATION.dividedBy(2)); // The time to get out of the vehicle and get to the door
+                    .plus(deliveryDuration.dividedBy(2)); // The time to get out of the vehicle and get to the door
 
             // If arrival strictly before the start of the timewindow, we wait
-            if(arrivalAtDeliveryLocationTime.isBefore(request.getTimeWindow().getStart())){
+            if (arrivalAtDeliveryLocationTime.isBefore(request.getTimeWindow().getStart())) {
                 arrivalAtDeliveryLocationTime = request.getTimeWindow().getStart();
             }
 
             // If arrival strictly after the end of the timewindow
-            if(arrivalAtDeliveryLocationTime.isAfter(request.getTimeWindow().getEnd())){
+            if (arrivalAtDeliveryLocationTime.isAfter(request.getTimeWindow().getEnd())) {
                 throw new ImpossibleRoadMapException("The computation let to a delivery after the end of the time window");
             }
 
             Leg leg = new Leg(path, segments, previousTime);
             legs.add(leg);
 
-            Delivery delivery =request.toDelivery(-1, arrivalAtDeliveryLocationTime);
+            Delivery delivery = request.toDelivery(-1, arrivalAtDeliveryLocationTime); //TODO : remove deliveryId
             deliveries.add(delivery);
 
-            previousTime = arrivalAtDeliveryLocationTime.plus(DELIVERY_DURATION.dividedBy(2)); // The time to get back in the vehicle
+            previousTime = arrivalAtDeliveryLocationTime.plus(deliveryDuration.dividedBy(2)); // The time to get back in the vehicle
             previousIntersection = path.getLast();
         }
 
