@@ -21,12 +21,12 @@ public class MockMapService implements MapService {
     HashMap<Long, Intersection> intersections;
     List<Segment> segments;
 
-    final Segment s12 = new Segment(1, i1.getId(), i2.getId(), "Street 12", 5.385164807134504);
-    final Segment s23 = new Segment(2, i2.getId(), i3.getId(), "Street 23", 4.123105625617661);
-    final Segment s24 = new Segment(3, i2.getId(), i4.getId(), "Street 24", 3.0);
-    final Segment s25 = new Segment(4, i2.getId(), i5.getId(), "Street 25", 3.0);
-    final Segment s31 = new Segment(5, i3.getId(), i1.getId(), "Street 31", 7.211102550927978);
-    final Segment s35 = new Segment(6, i3.getId(), i5.getId(), "Street 35", 5.656854249492381);
+    final Segment s12 = new Segment( i1, i2, "Street 12", 5.385164807134504);
+    final Segment s23 = new Segment( i2, i3, "Street 23", 4.123105625617661);
+    final Segment s24 = new Segment( i2, i4, "Street 24", 3.0);
+    final Segment s25 = new Segment( i2, i5, "Street 25", 3.0);
+    final Segment s31 = new Segment( i3, i1, "Street 31", 7.211102550927978);
+    final Segment s35 = new Segment( i3, i5, "Street 35", 5.656854249492381);
 
 
     @Override

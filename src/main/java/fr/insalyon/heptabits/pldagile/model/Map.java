@@ -158,7 +158,7 @@ public class Map extends BaseEntity {
      * @return the shortest distance between the two intersections
      */
     private double shortestDistanceBetween(Intersection origin, Intersection destination) {
-        return getShortestSegmentBetween(origin, destination).getLength();
+        return getShortestSegmentBetween(origin, destination).length();
     }
 
     public List<Intersection> getShortestPath(Intersection origin, Intersection destination) {
@@ -233,9 +233,9 @@ public class Map extends BaseEntity {
         double shortestDistance = Double.MAX_VALUE;
         for (Segment s : getConnectedSegments(origin)) {
             if (connectsIntersections(s, origin, destination)) {
-                if (s.getLength() < shortestDistance) {
+                if (s.length() < shortestDistance) {
                     shortestSegment = s;
-                    shortestDistance = s.getLength();
+                    shortestDistance = s.length();
                 }
             }
         }

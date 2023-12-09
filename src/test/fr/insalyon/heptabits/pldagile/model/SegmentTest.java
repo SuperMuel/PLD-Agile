@@ -17,7 +17,7 @@ class SegmentTest {
         origin = new Intersection(0, 0, 1);
         destination = new Intersection(1, 2, 3);
 
-        segment = new Segment(0, origin.getId(), destination.getId(), "Rue 1", 12.1);
+        segment = new Segment( origin, destination, "Rue 1", 12.1);
     }
 
     @Test
@@ -32,12 +32,12 @@ class SegmentTest {
 
     @Test
     void getName() {
-        assertEquals("Rue 1", segment.getName());
+        assertEquals("Rue 1", segment.name());
     }
 
     @Test
     void getLength() {
-        assertEquals(12.1, segment.getLength());
+        assertEquals(12.1, segment.length());
     }
 
     @Test
@@ -45,8 +45,8 @@ class SegmentTest {
         assertEquals(0.0, Segment.getTotalLength(List.of()));
         assertEquals(12.1, Segment.getTotalLength(List.of(segment)));
 
-        Segment a = new Segment(0, origin.getId(), destination.getId(), "Rue 1", 4.0);
-        Segment b = new Segment(1, origin.getId(), destination.getId(), "Rue 2", 5.1);
+        Segment a = new Segment(origin, destination, "Rue 1", 4.0);
+        Segment b = new Segment( origin, destination, "Rue 2", 5.1);
 
         assertEquals(9.1, Segment.getTotalLength(List.of(a, b)));
 

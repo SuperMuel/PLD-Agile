@@ -1,7 +1,6 @@
 package fr.insalyon.heptabits.pldagile.service;
 
 import fr.insalyon.heptabits.pldagile.model.Map;
-import fr.insalyon.heptabits.pldagile.service.XmlMapParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -51,14 +50,9 @@ class XmlMapParserTest {
         assertEquals(2, map.getIntersections().get(2L).getId());
         assertEquals(3, map.getIntersections().get(3L).getId());
         assertEquals(1, map.getSegments().size());
-        assertEquals("s1", map.getSegments().getFirst().getName());
+        assertEquals("s1", map.getSegments().getFirst().name());
 
 
     }
 
-    @Test
-    void segmentIdsStartAt0() {
-        Map map = parser.parse(document, 1L);
-        assertEquals(0, map.getSegments().getFirst().getId());
-    }
 }

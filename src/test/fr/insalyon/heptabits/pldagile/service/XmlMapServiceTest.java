@@ -42,7 +42,7 @@ class XmlMapServiceTest {
         intersections.put(i2.getId(), i2);
         intersections.put(i3.getId(), i3);
 
-        Segment s1 = new Segment(1, i1.getId(), i2.getId(), "s1", 1);
+        Segment s1 = new Segment( i1, i2, "s1", 1);
         List<Segment> segments = new ArrayList<>();
         segments.add(s1);
 

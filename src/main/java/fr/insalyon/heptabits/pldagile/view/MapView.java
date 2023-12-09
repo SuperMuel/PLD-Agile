@@ -172,7 +172,7 @@ public class MapView {
     }
 
     private void addLineEventHandlers(Segment segment, Line line){
-        Tooltip tooltipCircle = new Tooltip(segment.getName());
+        Tooltip tooltipCircle = new Tooltip(segment.name());
         Tooltip.install(line, tooltipCircle);
     }
 
