@@ -2,6 +2,7 @@ package fr.insalyon.heptabits.pldagile.model;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Objects;
 
 public class TimeWindow {
     private final LocalTime start;
@@ -77,4 +78,16 @@ public class TimeWindow {
         return contains(time.toLocalTime());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimeWindow that = (TimeWindow) o;
+        return Objects.equals(start, that.start) && Objects.equals(end, that.end);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, end);
+    }
 }

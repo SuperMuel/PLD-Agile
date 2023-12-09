@@ -45,6 +45,7 @@ public class RoadMapService implements IRoadMapService {
         long courierId = newRequest.getCourierId();
 
         if (newRequest.getDestination().equals(mapService.getCurrentMap().getWarehouse())) {
+            // TODO : Make the warehouse not clickable
             throw new ImpossibleRoadMapException("A request cannot be made at the warehouse");
         }
 
@@ -58,6 +59,7 @@ public class RoadMapService implements IRoadMapService {
                 // This is not the ideal behavior. We would like to be able to have multiple packages delivered at the same place
                 // during the same time window. However, the current implementation of the optimizer doesn't allow it.
                 throw new ImpossibleRoadMapException("A request already exists at this place and time");
+                // TODO : Implement a new Exception type for this case and add a custom message on the UI.
             }
         }
 
@@ -72,7 +74,6 @@ public class RoadMapService implements IRoadMapService {
         }
 
     }
-
 
     public LocalTime getWarehouseDepartureTime() {
         return warehouseDepartureTime;

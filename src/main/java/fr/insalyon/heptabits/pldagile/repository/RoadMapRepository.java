@@ -19,6 +19,8 @@ public interface RoadMapRepository {
 
     RoadMap getByCourierAndDate(long idCourier, LocalDate date);
 
+    List<RoadMap> getByDate(LocalDate date);
+
     void delete(long id); // TODO decide what happens to the deliveries
 
 }

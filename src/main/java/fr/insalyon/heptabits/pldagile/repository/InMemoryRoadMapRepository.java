@@ -55,6 +55,13 @@ public class InMemoryRoadMapRepository implements RoadMapRepository {
     }
 
     @Override
+    public List<RoadMap> getByDate(LocalDate date) {
+        return roadMaps.values().stream()
+                .filter(roadMap -> roadMap.getDate().equals(date))
+                .toList();
+    }
+
+    @Override
     public void delete(long id) {
         roadMaps.remove(id);
     }

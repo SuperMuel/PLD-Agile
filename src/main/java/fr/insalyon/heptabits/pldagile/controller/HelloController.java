@@ -5,6 +5,7 @@ import fr.insalyon.heptabits.pldagile.HelloApplication;
 import fr.insalyon.heptabits.pldagile.model.Delivery;
 import fr.insalyon.heptabits.pldagile.model.Intersection;
 import fr.insalyon.heptabits.pldagile.model.Map;
+import fr.insalyon.heptabits.pldagile.model.RoadMap;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.animation.ScaleTransition;
 import javafx.beans.property.SimpleObjectProperty;
@@ -30,6 +31,7 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -42,9 +44,12 @@ public class HelloController {
     private MapView mapView;
 
     @FXML
+    private DatePicker datePicker;
+
+    @FXML
     private TableView<Delivery> deliveryTable;
     @FXML
-    private TableColumn<Delivery, Long> deliveryId;
+    private TableColumn<Delivery, Long> roadMapId;
     @FXML
     private TableColumn<Delivery, String> courierName;
     @FXML
@@ -68,13 +73,16 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-        File file = new File("src/main/resources/img/del'iferoo-white 1.png");
-        Image image = new Image(file.toURI().toString());
-        logo.setImage(image);
+        File logoFile = new File("src/main/resources/img/del'iferoo-white 1.png");
+        Image logoImage = new Image(logoFile.toURI().toString());
+        logo.setImage(logoImage);
+
+        datePicker.setValue(LocalDate.now());
+        datePicker.setOnAction(e -> displayDeliveries());
+
         Map map = dependencyManager.getMapService().getCurrentMap();
         initializeMap(map, 500);
         displayDeliveries();
-
 
         newDeliveryButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> newDeliveryButton.setStyle("-fx-background-color: #00BCAD"));
         newDeliveryButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> newDeliveryButton.setStyle("-fx-background-color: #00CCBC"));
@@ -92,60 +100,73 @@ public class HelloController {
 
     @FXML
     public void displayDeliveries() {
-        List<Delivery> deliveries = dependencyManager.getDeliveryRepository().findAll();
-        if (deliveries.isEmpty()) {
-            System.out.println("Pas de livraison prévue");
-        } else {
-            if (!deliveryTable.getItems().isEmpty()) {
-                deliveryTable.getItems().clear();
-            }
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-            deliveryId.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
-            address.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDestination()));
-            courierName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getFirstName() + " " + dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getLastName()));
-            clientName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getClientRepository().findById(cellData.getValue().getClientId()).getFirstName() + " " + dependencyManager.getClientRepository().findById(cellData.getValue().getClientId()).getLastName()));
-            time.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getScheduledDateTime().format(formatter)));
-            for (Delivery d : deliveries) {
-                deliveryTable.getItems().addAll(d);
-
-                // rendre chaque ligne du tableau hoverable
-                deliveryTable.setRowFactory(tv -> {
-                    TableRow<Delivery> row = new TableRow<>();
-                    row.setOnMouseEntered(event -> {
-                        if (!row.isEmpty()) {
-                            // livraison associée à la ligne
-                            long selectedDeliveryIntersectionId = row.getItem().getDestination().getId();
-                            Circle c = mapView.getDeliveryCircleMap().get(selectedDeliveryIntersectionId);
-
-                            ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.10), c);
-                            scaleIn.setToX(5);
-                            scaleIn.setToY(5);
-
-                            scaleIn.playFromStart();
-                            c.setFill(Color.web("#18c474"));
-                            c.setOpacity(1);
-                        }
-                    });
-                    row.setOnMouseExited(event -> {
-                        if (!row.isEmpty()) {
-                            // livraison associée à la ligne
-                            long selectedDeliveryIntersectionId = row.getItem().getDestination().getId();
-                            Circle c = mapView.getDeliveryCircleMap().get(selectedDeliveryIntersectionId);
-
-                            ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.10), c);
-                            scaleOut.setToX(1);
-                            scaleOut.setToY(1);
-
-                            scaleOut.playFromStart();
-                            c.setFill(Color.web("#de1c24"));
-                            c.setOpacity(0.5);
-                        }
-                    });
-                    return row;
-                });
-            }
+        if (!deliveryTable.getItems().isEmpty()) {
+            deliveryTable.getItems().clear();
         }
+
+        LocalDate date = datePicker.getValue();
+        List<Delivery> deliveries = dependencyManager.getDeliveryService().getDeliveriesOnDate(date);
+
+        List<RoadMap> roadMaps = dependencyManager.getRoadMapRepository().getByDate(date);
+
+        if (roadMaps.isEmpty()) {
+            System.out.println("Pas de livraison prévue");
+            return;
+        }
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        roadMapId.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
+        address.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDestination()));
+        courierName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getFirstName() + " " + dependencyManager.getCourierRepository().findById(cellData.getValue().getCourierId()).getLastName()));
+        clientName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getClientRepository().findById(cellData.getValue().getClientId()).getFirstName() + " " + dependencyManager.getClientRepository().findById(cellData.getValue().getClientId()).getLastName()));
+        time.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getScheduledDateTime().format(formatter)));
+        for (Delivery d : deliveries) {
+            deliveryTable.getItems().addAll(d);
+
+            // rendre chaque ligne du tableau hoverable
+            deliveryTable.setRowFactory(tv -> {
+                TableRow<Delivery> row = new TableRow<>();
+                row.setOnMouseEntered(event -> {
+                    if (!row.isEmpty()) {
+                        // livraison associée à la ligne
+                        long selectedDeliveryIntersectionId = row.getItem().getDestination().getId();
+                        Circle c = mapView.getDeliveryCircleMap().get(selectedDeliveryIntersectionId);
+
+                        ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.10), c);
+                        scaleIn.setToX(5);
+                        scaleIn.setToY(5);
+
+                        scaleIn.playFromStart();
+                        c.setFill(Color.web("#18c474"));
+                        c.setOpacity(1);
+                    }
+                });
+                row.setOnMouseExited(event -> {
+                    if (!row.isEmpty()) {
+                        // livraison associée à la ligne
+                        long selectedDeliveryIntersectionId = row.getItem().getDestination().getId();
+                        Circle c = mapView.getDeliveryCircleMap().get(selectedDeliveryIntersectionId);
+
+                        ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.10), c);
+                        scaleOut.setToX(1);
+                        scaleOut.setToY(1);
+
+                        scaleOut.playFromStart();
+                        c.setFill(Color.web("#de1c24"));
+                        c.setOpacity(0.5);
+                    }
+                });
+                return row;
+            });
+        }
+
     }
+
+    void addRoadMap(RoadMap roadMap) {
+        // TODO : add the road map to the table
+    }
+
 
     @FXML
     protected void onNewDeliveryButtonClick(InputEvent e) throws IOException {

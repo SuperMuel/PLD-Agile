@@ -19,15 +19,15 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class XmlDeliveriesService implements IXmlDeliveriesService {
-    private final DeliveryRepository deliveryRepository;
     private final MapService mapService;
     private final DocumentBuilder documentBuilder;
     private final CourierRepository courierRepository;
     private final ClientRepository clientRepository;
-    public DeliveryRepository getDeliveryRepository() { return this.deliveryRepository; }
 
-    public XmlDeliveriesService(DeliveryRepository deliveryRepository, MapService mapService, DocumentBuilder documentBuilder, CourierRepository courierRepository, ClientRepository clientRepository) {
-        this.deliveryRepository = deliveryRepository;
+    private final DeliveryService deliveryService;
+
+    public XmlDeliveriesService(DeliveryService deliveryService, MapService mapService, DocumentBuilder documentBuilder, CourierRepository courierRepository, ClientRepository clientRepository) {
+        this.deliveryService = deliveryService;
         this.mapService = mapService;
         this.documentBuilder = documentBuilder;
         this.courierRepository = courierRepository;
@@ -36,7 +36,7 @@ public class XmlDeliveriesService implements IXmlDeliveriesService {
 
     @Override
     public void exportDeliveriesToXml(String filePath) {
-        List<Delivery> deliveryList = deliveryRepository.findAll();
+        List<Delivery> deliveryList = deliveryService.getAll();
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
             writer.write("<deliveries>\n");
@@ -80,7 +80,8 @@ public class XmlDeliveriesService implements IXmlDeliveriesService {
                 if (courier == null || client == null || intersection == null) {
                     System.out.println("Livreur et/ou Client et/ou Intersection du fichier xml introuvable(s).");
                 } else {
-                    deliveryRepository.create(scheduledDateTime, mapService.getCurrentMap().getIntersections().get(destinationId), courierId, clientId, timeWindow);
+                    //TODO : we do not import deliveries but entire roadmaps.
+                    // deliveryRepository.create(scheduledDateTime, mapService.getCurrentMap().getIntersections().get(destinationId), courierId, clientId, timeWindow);
                 }
             }
         }

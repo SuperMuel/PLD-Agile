@@ -11,7 +11,6 @@ import java.nio.file.Path;
 
 public class DependencyManager {
     private final CourierRepository courierRepository;
-    private final DeliveryRepository deliveryRepository;
 
     private final ClientRepository clientRepository;
 
@@ -27,14 +26,15 @@ public class DependencyManager {
 
     private final RoadMapService roadMapService;
 
+    private final DeliveryService deliveryService;
+
     public DependencyManager() {
         idGenerator = new IdGenerator();
         courierRepository = new MockCourierRepository(getIdGenerator());
-        deliveryRepository = new InMemoryDeliveryRepository(getIdGenerator());
         clientRepository = new MockClientRepository(getIdGenerator());
         timeWindowRepository = new FixedTimeWindowRepository();
         roadMapRepository = new InMemoryRoadMapRepository(getIdGenerator());
-
+        deliveryService = new DeliveryService(roadMapRepository);
 
         // MapService initialization
         XmlMapParser mapParser = new XmlMapParser();
@@ -51,7 +51,7 @@ public class DependencyManager {
         this.mapService = mapService;
         roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(), mapService);
 
-        xmlDeliveriesService = new XmlDeliveriesService(deliveryRepository, mapService, documentBuilder, courierRepository, clientRepository);
+         xmlDeliveriesService = new XmlDeliveriesService(deliveryService, mapService, documentBuilder, courierRepository, clientRepository);
     }
 
     public IdGenerator getIdGenerator() {
@@ -60,10 +60,6 @@ public class DependencyManager {
 
     public CourierRepository getCourierRepository() {
         return courierRepository;
-    }
-
-    public DeliveryRepository getDeliveryRepository() {
-        return deliveryRepository;
     }
 
     public ClientRepository getClientRepository() {
@@ -89,4 +85,9 @@ public class DependencyManager {
     public RoadMapService getRoadMapService() {
         return roadMapService;
     }
+
+    public  DeliveryService getDeliveryService() {
+        return deliveryService;
+    }
+
 }
