@@ -99,7 +99,7 @@ public class NewDeliveryController {
 
             // afficher la nouvelle intersection en vert et plus grosse
             if (newId != -1) {
-                Circle newIntersectionCircle = mapView.getDeliveryCircleMap().get(newId);
+                Circle newIntersectionCircle = mapView.getCircleFromIntersectionId(newId);
                 if (newIntersectionCircle != null) {
                     newIntersectionCircle.setStroke(Color.web("#119156"));
                     newIntersectionCircle.setStrokeWidth(1);
@@ -124,7 +124,7 @@ public class NewDeliveryController {
             }
             // réafficher l'intersection sélectionnée précédemment de façon normale
             if (oldId != -1) {
-                Circle oldIntersectionCircle = mapView.getDeliveryCircleMap().get(oldId);
+                Circle oldIntersectionCircle = mapView.getCircleFromIntersectionId(oldId);
                 if (oldIntersectionCircle != null) {
                     oldIntersectionCircle.setStrokeWidth(0);
                     oldIntersectionCircle.setFill(Color.web("de1c24"));

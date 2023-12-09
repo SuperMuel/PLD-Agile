@@ -127,7 +127,7 @@ public class HelloController {
                     if (!row.isEmpty()) {
                         // livraison associée à la ligne
                         long selectedDeliveryIntersectionId = row.getItem().destination().getId();
-                        Circle c = mapView.getDeliveryCircleMap().get(selectedDeliveryIntersectionId);
+                        Circle c = mapView.getCircleFromIntersectionId(selectedDeliveryIntersectionId);
 
                         ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.10), c);
                         scaleIn.setToX(5);
@@ -142,7 +142,7 @@ public class HelloController {
                     if (!row.isEmpty()) {
                         // livraison associée à la ligne
                         long selectedDeliveryIntersectionId = row.getItem().destination().getId();
-                        Circle c = mapView.getDeliveryCircleMap().get(selectedDeliveryIntersectionId);
+                        Circle c = mapView.getCircleFromIntersectionId(selectedDeliveryIntersectionId);
 
                         ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.10), c);
                         scaleOut.setToX(1);

@@ -2,6 +2,7 @@ package fr.insalyon.heptabits.pldagile.view;
 
 import fr.insalyon.heptabits.pldagile.model.Intersection;
 import fr.insalyon.heptabits.pldagile.model.Map;
+import fr.insalyon.heptabits.pldagile.model.MapBoundaries;
 import fr.insalyon.heptabits.pldagile.model.Segment;
 import javafx.animation.ScaleTransition;
 import javafx.scene.Group;
@@ -22,18 +23,13 @@ import java.util.List;
 public class MapView {
 
     private final Map map;
-    private final float minLatitude;
-    private final float minLongitude;
-
-    private final float maxLatitude;
-    private final float maxLongitude;
 
     private final int size;
 
-    private final HashMap<Long, Circle> deliveryCircleMap;
+    private final HashMap<Long, Circle> intersectionsToCircles;
 
-    public HashMap<Long, Circle> getDeliveryCircleMap() {
-        return deliveryCircleMap;
+    public Circle getCircleFromIntersectionId(long id) {
+        return intersectionsToCircles.get(id);
     }
 
     public interface OnIntersectionClicked {
@@ -43,65 +39,85 @@ public class MapView {
     final OnIntersectionClicked onIntersectionClicked;
 
 
+
     public MapView(Map map, int size) {
         this(map, size, null);
     }
 
     public MapView(Map map, int size, OnIntersectionClicked onIntersectionClicked) {
         this.map = map;
-        this.minLatitude = map.getMinLatitude();
-        this.minLongitude = map.getMinLongitude();
-        this.maxLatitude = map.getMaxLatitude();
-        this.maxLongitude = map.getMaxLongitude();
         this.size = size;
         this.onIntersectionClicked = onIntersectionClicked;
-        deliveryCircleMap = new HashMap<>();
+
+        intersectionsToCircles = new HashMap<>();
+
     }
+
+
+    private float latToPixel(double latitude) {
+        MapBoundaries boundaries = map.getBoundaries();
+        return (float) ((latitude - boundaries.minLatitude()) * size / (boundaries.maxLatitude() - boundaries.minLatitude()));
+    }
+
+    private float longToPixel(double longitude) {
+        MapBoundaries boundaries = map.getBoundaries();
+        return (float) ((longitude - boundaries.minLongitude()) * size / (boundaries.maxLongitude() - boundaries.minLongitude()));
+    }
+
 
     public Group createView() {
         Group group = new Group();
-        List<Line> lines = createLines(map.getSegments(), map.getIntersections(), minLatitude, minLongitude, maxLatitude, maxLongitude);
+        List<Line> lines = createLines(map.getSegments(), map.getIntersections());
+        List<Circle> circles = createCircles();
 
-        List<Circle> circles = createCircles(map.getIntersections(), minLatitude, minLongitude, maxLatitude, maxLongitude);
-        ImageView warehouseImageView = createWarehouseImageView(map.getWarehouse(), minLatitude, minLongitude, maxLatitude, maxLongitude, Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/warehouse-location-pin.png"));
+
+        ImageView warehouseImageView = createWarehouseImageView(map.getWarehouse(), Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/warehouse-location-pin.png"));
 
         group.getChildren().addAll(lines);
         group.getChildren().addAll(circles);
+
+        //TODO: Add roadmap lines
+
         group.getChildren().add(warehouseImageView);
 
         return group;
     }
 
 
-    private List<Line> createLines(List<Segment> segments, HashMap<Long, Intersection> intersections, float minLatitude, float minLongitude, float maxLatitude, float maxLongitude) {
+    private List<Line> createLines(List<Segment> segments, HashMap<Long, Intersection> intersections) {
         List<Line> lineList = new ArrayList<>();
 
         for (Segment segment : segments) {
             Long idDestination = segment.getDestinationId();
             Long idOrigin = segment.getOriginId();
 
-            if(intersections.get(idDestination) != null && intersections.get(idOrigin) != null) {
-                float latDestination = (intersections.get(idDestination).getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
-                float longDestination = (intersections.get(idDestination).getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
+            Intersection origin = intersections.get(idOrigin);
+            Intersection destination = intersections.get(idDestination);
 
-                float latOrigin = (intersections.get(idOrigin).getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
-                float longOrigin = (intersections.get(idOrigin).getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
-
-                Line line = new Line(latOrigin, longOrigin, latDestination, longDestination);
-                line.setStrokeWidth(3);
-                line.setStroke(Color.web("#d8e0e7"));
-
-                lineList.add(line);
-                addLineEventHandlers(segment, line);
-            } else {
-                System.out.println("Un segment n'a pas pu être tracé. idDestination = " + idDestination + " ou idOrigin = " + idOrigin + " sont introuvables");
+            if(origin == null || destination ==null) {
+                System.out.println("A segment couldn't be drawn. The Map object is either malformed, or has been misread.");
+                // TODO : add intersections directly in Segment object
+                continue;
             }
+            float originX = longToPixel(intersections.get(idOrigin).getLongitude());
+            float originY = latToPixel(intersections.get(idOrigin).getLatitude());
+
+            float destinationX = longToPixel(intersections.get(idDestination).getLongitude());
+            float destinationY = latToPixel(intersections.get(idDestination).getLatitude());
+
+            Line line = new Line(originX, originY, destinationX, destinationY);
+            line.setStrokeWidth(3);
+            line.setStroke(Color.web("#d8e0e7"));
+
+            lineList.add(line);
+            addLineEventHandlers(segment, line);
+
         }
 
         return lineList;
     }
 
-    private List<Circle> createCircles(HashMap<Long, Intersection> intersections, float minLatitude, float minLongitude, float maxLatitude, float maxLongitude) {
+    private List<Circle> createCircles() {
         List<Circle> circleList = new ArrayList<>();
         final Color CIRCLE_COLOR = Color.web("#de1c24");
         final Color CIRCLE_COLOR_CLICKED = Color.web("#ab151b");
@@ -109,16 +125,15 @@ public class MapView {
         final double CIRCLE_OPACITY_HOVERED = 0.8;
         final double CIRCLE_RADIUS = 3;
 
-        for (java.util.Map.Entry<Long, Intersection> mapentry : intersections.entrySet()) {
-            Intersection temp = mapentry.getValue();
-            float x = (temp.getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
-            float y = (temp.getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
+        for(Intersection intersection : map.getIntersections().values()) {
+            float x = longToPixel(intersection.getLongitude());
+            float y = latToPixel(intersection.getLatitude());
 
             Circle circle = new Circle(x, y, CIRCLE_RADIUS, CIRCLE_COLOR);
             circle.setOpacity(CIRCLE_OPACITY);
 
-            deliveryCircleMap.put(temp.getId(), circle);
-            addCircleEventHandlers(temp, circle, CIRCLE_COLOR_CLICKED, CIRCLE_OPACITY_HOVERED, CIRCLE_OPACITY, CIRCLE_COLOR);
+            intersectionsToCircles.put(intersection.getId(), circle);
+            addCircleEventHandlers(intersection, circle, CIRCLE_COLOR_CLICKED, CIRCLE_OPACITY_HOVERED, CIRCLE_OPACITY, CIRCLE_COLOR);
 
             circleList.add(circle);
         }
@@ -161,11 +176,11 @@ public class MapView {
         Tooltip.install(line, tooltipCircle);
     }
 
-    private ImageView createWarehouseImageView(Intersection warehouse, float minLatitude, float minLongitude, float maxLatitude, float maxLongitude, Path imagePath) {
+    private ImageView createWarehouseImageView(Intersection warehouse, Path imagePath) {
         final int PIN_SIZE = 40;
 
-        float x = (warehouse.getLatitude() - minLatitude) * size / (maxLatitude - minLatitude);
-        float y = (warehouse.getLongitude() - minLongitude) * size / (maxLongitude - minLongitude);
+        float x = longToPixel(warehouse.getLongitude());
+        float y = latToPixel(warehouse.getLatitude());
 
         Image image = new Image(imagePath.toUri().toString(), PIN_SIZE, PIN_SIZE, false, false);
         ImageView imageView = new ImageView(image);
