@@ -67,43 +67,31 @@ public class MapView {
 
     public Group createView() {
         Group group = new Group();
-        List<Line> lines = createLines(map.getSegments(), map.getIntersections());
-        List<Circle> circles = createCircles();
 
-
-        ImageView warehouseImageView = createWarehouseImageView(map.getWarehouse(), Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/warehouse-location-pin.png"));
-
-        group.getChildren().addAll(lines);
-        group.getChildren().addAll(circles);
+        group.getChildren().addAll(createMapLines());
+        group.getChildren().addAll(createMapCircles());
 
         //TODO: Add roadmap lines
 
+        ImageView warehouseImageView = createWarehouseImageView(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/warehouse-location-pin.png"));
         group.getChildren().add(warehouseImageView);
 
         return group;
     }
 
 
-    private List<Line> createLines(List<Segment> segments, HashMap<Long, Intersection> intersections) {
+    private List<Line> createMapLines() {
         List<Line> lineList = new ArrayList<>();
 
-        for (Segment segment : segments) {
-            Long idDestination = segment.getDestinationId();
-            Long idOrigin = segment.getOriginId();
+        for (Segment segment : map.getSegments()) {
+            Intersection origin = segment.origin();
+            Intersection destination = segment.destination();
 
-            Intersection origin = intersections.get(idOrigin);
-            Intersection destination = intersections.get(idDestination);
+            float originX = longToPixel(origin.getLongitude());
+            float originY = latToPixel(origin.getLatitude());
 
-            if(origin == null || destination ==null) {
-                System.out.println("A segment couldn't be drawn. The Map object is either malformed, or has been misread.");
-                // TODO : add intersections directly in Segment object
-                continue;
-            }
-            float originX = longToPixel(intersections.get(idOrigin).getLongitude());
-            float originY = latToPixel(intersections.get(idOrigin).getLatitude());
-
-            float destinationX = longToPixel(intersections.get(idDestination).getLongitude());
-            float destinationY = latToPixel(intersections.get(idDestination).getLatitude());
+            float destinationX = longToPixel(destination.getLongitude());
+            float destinationY = latToPixel(destination.getLatitude());
 
             Line line = new Line(originX, originY, destinationX, destinationY);
             line.setStrokeWidth(3);
@@ -111,18 +99,16 @@ public class MapView {
 
             lineList.add(line);
             addLineEventHandlers(segment, line);
-
         }
 
         return lineList;
     }
 
-    private List<Circle> createCircles() {
+    private List<Circle> createMapCircles() {
         List<Circle> circleList = new ArrayList<>();
         final Color CIRCLE_COLOR = Color.web("#de1c24");
         final Color CIRCLE_COLOR_CLICKED = Color.web("#ab151b");
         final double CIRCLE_OPACITY = 0.5;
-        final double CIRCLE_OPACITY_HOVERED = 0.8;
         final double CIRCLE_RADIUS = 3;
 
         for(Intersection intersection : map.getIntersections().values()) {
@@ -133,7 +119,7 @@ public class MapView {
             circle.setOpacity(CIRCLE_OPACITY);
 
             intersectionsToCircles.put(intersection.getId(), circle);
-            addCircleEventHandlers(intersection, circle, CIRCLE_COLOR_CLICKED, CIRCLE_OPACITY_HOVERED, CIRCLE_OPACITY, CIRCLE_COLOR);
+            addCircleEventHandlers(intersection, circle, CIRCLE_COLOR_CLICKED, CIRCLE_COLOR);
 
             circleList.add(circle);
         }
@@ -141,7 +127,7 @@ public class MapView {
         return circleList;
     }
 
-    private void addCircleEventHandlers(Intersection intersection, Circle circle, Color clickedColor, double hoveredOpacity, double circleOpacity, Color circleColor) {
+    private void addCircleEventHandlers(Intersection intersection, Circle circle, Color clickedColor, Color circleColor) {
         // Animation for mouse hover
         ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.15), circle);
         scaleIn.setToX(3);
@@ -153,14 +139,14 @@ public class MapView {
 
         circle.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             scaleIn.playFromStart(); // Play hover animation
-            circle.setOpacity(hoveredOpacity);
+            circle.setOpacity(0.8);
             Tooltip tooltipCircle = new Tooltip(intersection.toString());
             Tooltip.install(circle, tooltipCircle);
         });
 
         circle.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
             scaleOut.playFromStart(); // Play exit animation
-            circle.setOpacity(circleOpacity);
+            circle.setOpacity(0.5);
         });
 
         circle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
@@ -176,8 +162,10 @@ public class MapView {
         Tooltip.install(line, tooltipCircle);
     }
 
-    private ImageView createWarehouseImageView(Intersection warehouse, Path imagePath) {
+    private ImageView createWarehouseImageView(Path imagePath) {
         final int PIN_SIZE = 40;
+
+        Intersection warehouse = map.getWarehouse();
 
         float x = longToPixel(warehouse.getLongitude());
         float y = latToPixel(warehouse.getLatitude());
