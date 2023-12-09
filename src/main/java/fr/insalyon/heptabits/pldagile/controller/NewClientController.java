@@ -2,12 +2,6 @@ package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
 import fr.insalyon.heptabits.pldagile.HelloApplication;
-import fr.insalyon.heptabits.pldagile.model.Courier;
-import fr.insalyon.heptabits.pldagile.repository.ClientRepository;
-import fr.insalyon.heptabits.pldagile.repository.CourierRepository;
-import fr.insalyon.heptabits.pldagile.repository.TimeWindowRepository;
-import fr.insalyon.heptabits.pldagile.service.MapService;
-import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -15,15 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class NewClientController {
     @FXML
@@ -47,25 +38,13 @@ public class NewClientController {
 
     public void initialize() {
 
-        confirmNewClientButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            confirmNewClientButton.setStyle("-fx-background-color: #00BCAD");
-        });
-        confirmNewClientButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            confirmNewClientButton.setStyle("-fx-background-color: #00CCBC");
-        });
-        confirmNewClientButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            confirmNewClientButton.setStyle("-fx-background-color: #00A093");
-        });
+        confirmNewClientButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> confirmNewClientButton.setStyle("-fx-background-color: #00BCAD"));
+        confirmNewClientButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> confirmNewClientButton.setStyle("-fx-background-color: #00CCBC"));
+        confirmNewClientButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> confirmNewClientButton.setStyle("-fx-background-color: #00A093"));
 
-        returnButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            returnButton.setStyle("-fx-background-color: #00BCAD");
-        });
-        returnButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            returnButton.setStyle("-fx-background-color: #00CCBC");
-        });
-        returnButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            returnButton.setStyle("-fx-background-color: #00A093");
-        });
+        returnButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> returnButton.setStyle("-fx-background-color: #00BCAD"));
+        returnButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> returnButton.setStyle("-fx-background-color: #00CCBC"));
+        returnButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> returnButton.setStyle("-fx-background-color: #00A093"));
 
 
     }

@@ -17,14 +17,15 @@ import java.io.StringReader;
 import static org.junit.jupiter.api.Assertions.*;
 
 class XmlMapParserTest {
-    final String XML_BODY = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<map>\n" +
-            "    <warehouse address=\"1\"/>\n" +
-            "    <intersection id=\"1\" latitude=\"1\" longitude=\"1\"/>\n" +
-            "    <intersection id=\"2\" latitude=\"2\" longitude=\"2\"/>\n" +
-            "    <intersection id=\"3\" latitude=\"3\" longitude=\"3\"/>\n" +
-            "    <segment origin=\"1\" destination=\"2\" length=\"1\" name=\"s1\"/>\n" +
-            "</map>";
+    final String XML_BODY = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <map>
+                <warehouse address="1"/>
+                <intersection id="1" latitude="1" longitude="1"/>
+                <intersection id="2" latitude="2" longitude="2"/>
+                <intersection id="3" latitude="3" longitude="3"/>
+                <segment origin="1" destination="2" length="1" name="s1"/>
+            </map>""";
 
     XmlMapParser parser;
     Document document;
@@ -50,7 +51,7 @@ class XmlMapParserTest {
         assertEquals(2, map.getIntersections().get(2L).getId());
         assertEquals(3, map.getIntersections().get(3L).getId());
         assertEquals(1, map.getSegments().size());
-        assertEquals("s1", map.getSegments().get(0).getName());
+        assertEquals("s1", map.getSegments().getFirst().getName());
 
 
     }
@@ -58,6 +59,6 @@ class XmlMapParserTest {
     @Test
     void segmentIdsStartAt0() {
         Map map = parser.parse(document, 1L);
-        assertEquals(0, map.getSegments().get(0).getId());
+        assertEquals(0, map.getSegments().getFirst().getId());
     }
 }

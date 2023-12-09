@@ -153,9 +153,7 @@ public class MapView {
             onIntersectionClicked.onIntersectionClicked(intersection);
         });
 
-        circle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-            circle.setFill(circleColor);
-        });
+        circle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> circle.setFill(circleColor));
     }
 
     private void addLineEventHandlers(Segment segment, Line line){

@@ -16,7 +16,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
@@ -26,11 +25,8 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 public class NewDeliveryController {
@@ -114,9 +110,7 @@ public class NewDeliveryController {
                         onIntersectionClicked.onIntersectionClicked(mapService.getCurrentMap().getIntersections().get(newId));
                     });
 
-                    newIntersectionCircle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-                        newIntersectionCircle.setFill(Color.web("#18c474"));
-                    });
+                    newIntersectionCircle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> newIntersectionCircle.setFill(Color.web("#18c474")));
 
                     ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.15), newIntersectionCircle);
                     scaleOut.setToX(2);
@@ -142,9 +136,7 @@ public class NewDeliveryController {
                         onIntersectionClicked.onIntersectionClicked(mapService.getCurrentMap().getIntersections().get(oldId));
                     });
 
-                    oldIntersectionCircle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-                        oldIntersectionCircle.setFill(Color.web("de1c24"));
-                    });
+                    oldIntersectionCircle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> oldIntersectionCircle.setFill(Color.web("de1c24")));
 
                     ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.15), oldIntersectionCircle);
                     scaleOut.setToX(1);
@@ -159,45 +151,21 @@ public class NewDeliveryController {
         });
 
 
-        confirmNewDeliveryButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            confirmNewDeliveryButton.setStyle("-fx-background-color: #00BCAD");
-        });
-        confirmNewDeliveryButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            confirmNewDeliveryButton.setStyle("-fx-background-color: #00CCBC");
-        });
-        confirmNewDeliveryButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            confirmNewDeliveryButton.setStyle("-fx-background-color: #00A093");
-        });
+        confirmNewDeliveryButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> confirmNewDeliveryButton.setStyle("-fx-background-color: #00BCAD"));
+        confirmNewDeliveryButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> confirmNewDeliveryButton.setStyle("-fx-background-color: #00CCBC"));
+        confirmNewDeliveryButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> confirmNewDeliveryButton.setStyle("-fx-background-color: #00A093"));
 
-        addNewClientButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            addNewClientButton.setStyle("-fx-background-color: #00BCAD");
-        });
-        addNewClientButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            addNewClientButton.setStyle("-fx-background-color: #00CCBC");
-        });
-        addNewClientButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            addNewClientButton.setStyle("-fx-background-color: #00A093");
-        });
+        addNewClientButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> addNewClientButton.setStyle("-fx-background-color: #00BCAD"));
+        addNewClientButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> addNewClientButton.setStyle("-fx-background-color: #00CCBC"));
+        addNewClientButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> addNewClientButton.setStyle("-fx-background-color: #00A093"));
 
-        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            addNewCourierButton.setStyle("-fx-background-color: #00BCAD");
-        });
-        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            addNewCourierButton.setStyle("-fx-background-color: #00CCBC");
-        });
-        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            addNewCourierButton.setStyle("-fx-background-color: #00A093");
-        });
+        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> addNewCourierButton.setStyle("-fx-background-color: #00BCAD"));
+        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> addNewCourierButton.setStyle("-fx-background-color: #00CCBC"));
+        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> addNewCourierButton.setStyle("-fx-background-color: #00A093"));
 
-        return_button.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            return_button.setStyle("-fx-background-color: #00BCAD");
-        });
-        return_button.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            return_button.setStyle("-fx-background-color: #00CCBC");
-        });
-        return_button.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            return_button.setStyle("-fx-background-color: #00A093");
-        });
+        return_button.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> return_button.setStyle("-fx-background-color: #00BCAD"));
+        return_button.addEventHandler(MouseEvent.MOUSE_EXITED, e -> return_button.setStyle("-fx-background-color: #00CCBC"));
+        return_button.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> return_button.setStyle("-fx-background-color: #00A093"));
 
     }
 
@@ -248,7 +216,7 @@ public class NewDeliveryController {
     }
 
     @FXML
-    public void onValidateNewDeliveryButtonClick(InputEvent e) throws IOException, ImpossibleRoadMapException {
+    public void onValidateNewDeliveryButtonClick(InputEvent e) throws IOException {
         final Courier chosenCourier = courierChoiceBox.getValue();
         final Client chosenClient = clientChoiceBox.getValue();
         final LocalDate chosenDate = datePicker.getValue();

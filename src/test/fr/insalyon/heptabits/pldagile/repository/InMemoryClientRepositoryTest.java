@@ -33,17 +33,17 @@ class InMemoryClientRepositoryTest {
 
     @Test
     void findByName() {
-        assertEquals(repo.findByName("Raph", null).get(0).getFirstName(), "Raphaël");
+        assertEquals(repo.findByName("Raph", null).getFirst().getFirstName(), "Raphaël");
     }
 
     @Test
     void findByLastName() {
-        assertEquals(repo.findByName(null, "SI").get(0).getLastName(), "SIMAR");
+        assertEquals(repo.findByName(null, "SI").getFirst().getLastName(), "SIMAR");
     }
 
     @Test
     void findByLastNameAndName() {
-        assertEquals(repo.findByName("Chlo", "CHA").get(0).getFirstName(), "Chloé");
+        assertEquals(repo.findByName("Chlo", "CHA").getFirst().getFirstName(), "Chloé");
     }
 
     @Test

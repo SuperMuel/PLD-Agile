@@ -1,7 +1,6 @@
 package fr.insalyon.heptabits.pldagile;
 
 import fr.insalyon.heptabits.pldagile.controller.HelloController;
-import fr.insalyon.heptabits.pldagile.model.Map;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

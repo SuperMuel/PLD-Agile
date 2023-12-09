@@ -2,7 +2,6 @@ package fr.insalyon.heptabits.pldagile.model;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 public class TimeWindow {
     private final LocalTime start;

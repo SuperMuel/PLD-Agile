@@ -70,7 +70,7 @@ class NaiveRoadMapOptimizerTest {
     }
 
     @Test
-    void aRequestIsBeforeDeparture() throws ImpossibleRoadMapException {
+    void aRequestIsBeforeDeparture() {
         TimeWindow soonTimeWindow = new TimeWindow(1, 2); // 1h-2h
         LocalTime lateDepartureTime = LocalTime.of(8, 0, 0);
 

@@ -76,28 +76,9 @@ public class HelloController {
         displayDeliveries();
 
 
-        newDeliveryButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            newDeliveryButton.setStyle("-fx-background-color: #00BCAD");
-        });
-        newDeliveryButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            newDeliveryButton.setStyle("-fx-background-color: #00CCBC");
-        });
-        newDeliveryButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            newDeliveryButton.setStyle("-fx-background-color: #00A093");
-        });
-
-        /*fileButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            fileButton.setStyle("-fx-background-color: #00BCAD");
-        });
-        fileButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            fileButton.setStyle("-fx-background-color: #00CCBC");
-        });
-        fileButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            fileButton.setStyle("-fx-background-color: #00A093");
-        });
-
-         */
-
+        newDeliveryButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> newDeliveryButton.setStyle("-fx-background-color: #00BCAD"));
+        newDeliveryButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> newDeliveryButton.setStyle("-fx-background-color: #00CCBC"));
+        newDeliveryButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> newDeliveryButton.setStyle("-fx-background-color: #00A093"));
 
     }
 

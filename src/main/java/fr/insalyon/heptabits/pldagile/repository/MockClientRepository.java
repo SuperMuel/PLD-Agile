@@ -1,9 +1,6 @@
 package fr.insalyon.heptabits.pldagile.repository;
 
-import fr.insalyon.heptabits.pldagile.model.Client;
 import fr.insalyon.heptabits.pldagile.model.IdGenerator;
-
-import java.util.List;
 
 public class MockClientRepository extends InMemoryClientRepository {
 

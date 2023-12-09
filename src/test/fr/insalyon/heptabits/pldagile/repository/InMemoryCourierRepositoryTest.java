@@ -21,7 +21,7 @@ class InMemoryCourierRepositoryTest {
     void create() {
         inMemoryCourierRepository.create("John", "Doe", "johndoe.email.com", "0123456789");
         assertEquals(1, inMemoryCourierRepository.findAll().size());
-        final Courier firstCourier = inMemoryCourierRepository.findAll().get(0);
+        final Courier firstCourier = inMemoryCourierRepository.findAll().getFirst();
         assertEquals("John", firstCourier.getFirstName());
         assertEquals("Doe", firstCourier.getLastName());
         assertEquals("johndoe.email.com", firstCourier.getEmail());
@@ -57,6 +57,6 @@ class InMemoryCourierRepositoryTest {
         inMemoryCourierRepository.create("Jane", "Doe", "janedoe.email.com", "0123456789");
         inMemoryCourierRepository.deleteById(1L);
         assertEquals(1, inMemoryCourierRepository.findAll().size());
-        assertEquals("Jane", inMemoryCourierRepository.findAll().get(0).getFirstName());
+        assertEquals("Jane", inMemoryCourierRepository.findAll().getFirst().getFirstName());
     }
 }
