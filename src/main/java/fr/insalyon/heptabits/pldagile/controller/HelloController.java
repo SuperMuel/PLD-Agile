@@ -88,7 +88,8 @@ public class HelloController {
     }
 
     public void initializeMap(Map map, int width) {
-        mapView = new MapView(map, width);
+        List<RoadMap> roadMaps = dependencyManager.getRoadMapRepository().getByDate(datePicker.getValue());
+        mapView = new MapView(map, width, null, roadMaps);
         Group mapGroup = mapView.createView();
 
         mapContainer.getChildren().clear(); // Clear existing content if necessary
@@ -107,7 +108,6 @@ public class HelloController {
         List<RoadMap> roadMaps = dependencyManager.getRoadMapRepository().getByDate(date);
 
         if (roadMaps.isEmpty()) {
-            System.out.println("Pas de livraison prévue");
             return;
         }
 

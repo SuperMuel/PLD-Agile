@@ -60,12 +60,12 @@ class LegTest {
 
     @Test
     void getIntersections() {
-        assertEquals(intersections, leg.intersections());
+        assertEquals(intersections, leg.getIntersections());
     }
 
     @Test
     void getSegments() {
-        assertEquals(segments, leg.segments());
+        assertEquals(segments, leg.getSegments());
     }
 
     @Test

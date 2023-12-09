@@ -89,7 +89,10 @@ public class NewDeliveryController {
             System.out.println("Intersection clicked: " + intersection);
 
         };
-        final MapView mapView = new MapView(mapService.getCurrentMap(), 500, onIntersectionClicked);
+
+        List<RoadMap> roadMaps = dependencyManager.getRoadMapRepository().getByDate(datePicker.getValue());
+
+        final MapView mapView = new MapView(mapService.getCurrentMap(), 500, onIntersectionClicked, roadMaps);
         mapAnchorPane.getChildren().add(mapView.createView());
 
         // Afficher l'intersection sélectionnée différemment

@@ -18,8 +18,8 @@ public class Map extends BaseEntity {
      * Constructor
      *
      * @param id            the id of the map
-     * @param intersections the list of intersections
-     * @param segments      the list of segments
+     * @param intersections the list of getIntersections
+     * @param segments      the list of getSegments
      * @param warehouseId   the id of the warehouse
      */
     public Map(long id, HashMap<Long, Intersection> intersections, List<Segment> segments, long warehouseId) {
@@ -43,9 +43,9 @@ public class Map extends BaseEntity {
     }
 
     /**
-     * Get an immutable view of segments
+     * Get an immutable view of getSegments
      *
-     * @return the list of segments
+     * @return the list of getSegments
      */
     public List<Segment> getSegments() {
         //immutable view
@@ -110,8 +110,8 @@ public class Map extends BaseEntity {
     @Override
     public String toString() {
         return "Map{" +
-                "intersections=" + intersections +
-                ", segments=" + segments +
+                "getIntersections=" + intersections +
+                ", getSegments=" + segments +
                 ", warehouseId=" + warehouseId +
                 '}';
     }
@@ -151,11 +151,11 @@ public class Map extends BaseEntity {
 
 
     /**
-     * Get the shortest distance between two intersections, or null if there is no segment between them.
+     * Get the shortest distance between two getIntersections, or null if there is no segment between them.
      *
      * @param origin      the origin intersection
      * @param destination the destination intersection
-     * @return the shortest distance between the two intersections
+     * @return the shortest distance between the two getIntersections
      */
     private double shortestDistanceBetween(Intersection origin, Intersection destination) {
         return getShortestSegmentBetween(origin, destination).length();
@@ -222,11 +222,11 @@ public class Map extends BaseEntity {
 
 
     /**
-     * Get the shortest segment between two intersections, or null if there is no segment between them.
+     * Get the shortest segment between two getIntersections, or null if there is no segment between them.
      *
      * @param origin      the origin intersection
      * @param destination the destination intersection
-     * @return the shortest segment between the two intersections
+     * @return the shortest segment between the two getIntersections
      */
     public Segment getShortestSegmentBetween(Intersection origin, Intersection destination) {
         Segment shortestSegment = null;
@@ -255,12 +255,12 @@ public class Map extends BaseEntity {
 
     public List<Segment> getShortestSegmentsBetween(List<Intersection> path){
         if (path == null) throw new IllegalArgumentException("Path cannot be null.");
-        if (path.size() < 2) throw new IllegalArgumentException("Path must contain at least two intersections.");
+        if (path.size() < 2) throw new IllegalArgumentException("Path must contain at least two getIntersections.");
 
-        // If the path contains two consecutive intersections that are equal, throw an exception
+        // If the path contains two consecutive getIntersections that are equal, throw an exception
         for (int i = 0; i < path.size() - 1; i++) {
             if (path.get(i).equals(path.get(i + 1))) {
-                throw new IllegalArgumentException("Path cannot contain two consecutive equal intersections.");
+                throw new IllegalArgumentException("Path cannot contain two consecutive equal getIntersections.");
             }
         }
 

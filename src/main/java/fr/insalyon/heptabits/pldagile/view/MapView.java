@@ -1,9 +1,6 @@
 package fr.insalyon.heptabits.pldagile.view;
 
-import fr.insalyon.heptabits.pldagile.model.Intersection;
-import fr.insalyon.heptabits.pldagile.model.Map;
-import fr.insalyon.heptabits.pldagile.model.MapBoundaries;
-import fr.insalyon.heptabits.pldagile.model.Segment;
+import fr.insalyon.heptabits.pldagile.model.*;
 import javafx.animation.ScaleTransition;
 import javafx.scene.Group;
 import javafx.scene.control.Tooltip;
@@ -38,20 +35,22 @@ public class MapView {
 
     final OnIntersectionClicked onIntersectionClicked;
 
-
+    final List<RoadMap> roadMaps;
 
     public MapView(Map map, int size) {
-        this(map, size, null);
+        this(map, size, null, List.of());
     }
 
-    public MapView(Map map, int size, OnIntersectionClicked onIntersectionClicked) {
+    public MapView(Map map, int size, OnIntersectionClicked onIntersectionClicked, List<RoadMap> roadMaps) {
         this.map = map;
         this.size = size;
         this.onIntersectionClicked = onIntersectionClicked;
 
         intersectionsToCircles = new HashMap<>();
+        this.roadMaps = roadMaps;
 
     }
+
 
 
     private float latToPixel(double latitude) {
@@ -65,13 +64,18 @@ public class MapView {
     }
 
 
+
     public Group createView() {
         Group group = new Group();
 
         group.getChildren().addAll(createMapLines());
         group.getChildren().addAll(createMapCircles());
 
-        //TODO: Add roadmap lines
+
+        for (RoadMap roadMap : roadMaps) {
+            // TODO Get a random color
+            group.getChildren().addAll(createRoadMapLines(roadMap, Color.BLUE));
+        }
 
         ImageView warehouseImageView = createWarehouseImageView(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/warehouse-location-pin.png"));
         group.getChildren().add(warehouseImageView);
@@ -82,25 +86,11 @@ public class MapView {
 
     private List<Line> createMapLines() {
         List<Line> lineList = new ArrayList<>();
-
         for (Segment segment : map.getSegments()) {
-            Intersection origin = segment.origin();
-            Intersection destination = segment.destination();
-
-            float originX = longToPixel(origin.getLongitude());
-            float originY = latToPixel(origin.getLatitude());
-
-            float destinationX = longToPixel(destination.getLongitude());
-            float destinationY = latToPixel(destination.getLatitude());
-
-            Line line = new Line(originX, originY, destinationX, destinationY);
-            line.setStrokeWidth(3);
-            line.setStroke(Color.web("#d8e0e7"));
-
+            Line line = segmentToLine(segment, Color.web("#d8e0e7"));
             lineList.add(line);
             addLineEventHandlers(segment, line);
         }
-
         return lineList;
     }
 
@@ -111,7 +101,7 @@ public class MapView {
         final double CIRCLE_OPACITY = 0.5;
         final double CIRCLE_RADIUS = 3;
 
-        for(Intersection intersection : map.getIntersections().values()) {
+        for (Intersection intersection : map.getIntersections().values()) {
             float x = longToPixel(intersection.getLongitude());
             float y = latToPixel(intersection.getLatitude());
 
@@ -157,10 +147,40 @@ public class MapView {
         circle.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> circle.setFill(circleColor));
     }
 
-    private void addLineEventHandlers(Segment segment, Line line){
+    private void addLineEventHandlers(Segment segment, Line line) {
         Tooltip tooltipCircle = new Tooltip(segment.name());
         Tooltip.install(line, tooltipCircle);
     }
+
+
+    Line segmentToLine(Segment segment, Color lineColor) {
+        Intersection origin = segment.origin();
+        Intersection destination = segment.destination();
+
+        float originX = longToPixel(origin.getLongitude());
+        float originY = latToPixel(origin.getLatitude());
+
+        float destinationX = longToPixel(destination.getLongitude());
+        float destinationY = latToPixel(destination.getLatitude());
+
+        Line line = new Line(originX, originY, destinationX, destinationY);
+        line.setStrokeWidth(3);
+        line.setStroke(lineColor);
+
+        return line;
+    }
+
+    private List<Line> createRoadMapLines(RoadMap roadMap, Color lineColor) {
+        List<Line> lines = new ArrayList<>();
+        for (Leg leg : roadMap.getLegs()) {
+            for (Segment segment : leg.getSegments()) {
+                System.out.println("Drawing  " + segment);
+                lines.add(segmentToLine(segment, lineColor));
+            }
+        }
+        return lines;
+    }
+
 
     private ImageView createWarehouseImageView(Path imagePath) {
         final int PIN_SIZE = 40;
@@ -177,5 +197,6 @@ public class MapView {
 
         return imageView;
     }
+
 
 }

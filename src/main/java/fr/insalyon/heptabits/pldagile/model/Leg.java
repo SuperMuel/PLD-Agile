@@ -4,29 +4,27 @@ import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 
-public record Leg(List<Intersection> intersections, List<Segment> segments, LocalTime departureTime) {
-    @Override
-    public List<Intersection> intersections() {
-        return Collections.unmodifiableList(intersections);
+public record Leg(List<Intersection> getIntersections, List<Segment> getSegments, LocalTime departureTime) {
+    public List<Intersection> getIntersections() {
+        return Collections.unmodifiableList(getIntersections);
     }
 
-    @Override
-    public List<Segment> segments() {
-        return Collections.unmodifiableList(segments);
+    public List<Segment> getSegments() {
+        return Collections.unmodifiableList(getSegments);
     }
 
     public Leg {
-        if (intersections == null || segments == null || departureTime == null) {
+        if (getIntersections == null || getSegments == null || departureTime == null) {
             throw new IllegalArgumentException("Leg constructor: null argument");
         }
 
-        if (intersections.isEmpty()) {
-            throw new IllegalArgumentException("Leg constructor: empty intersections list");
+        if (getIntersections.isEmpty()) {
+            throw new IllegalArgumentException("Leg constructor: empty getIntersections list");
         }
 
-        if (segments.isEmpty()) {
+        if (getSegments.isEmpty()) {
             final String errorMessage = """
-                    Leg constructor: empty segments list
+                    Leg constructor: empty getSegments list
                                         
                     A leg must have at least one segment. If you want to represent that you have multiple deliveries
                     at the same place, we should change the 'Delivery' model, and give it a "list of packages" attribute.
@@ -36,26 +34,26 @@ public record Leg(List<Intersection> intersections, List<Segment> segments, Loca
             throw new IllegalArgumentException(errorMessage);
         }
 
-        if (intersections.size() != segments.size() + 1) {
-            throw new IllegalArgumentException("Leg constructor: intersections and segments size mismatch");
+        if (getIntersections.size() != getSegments.size() + 1) {
+            throw new IllegalArgumentException("Leg constructor: getIntersections and getSegments size mismatch");
         }
 
     }
 
 
     public Intersection getDestination() {
-        return intersections.getLast();
+        return getIntersections.getLast();
     }
 
     public Intersection getOrigin() {
-        return intersections.getFirst();
+        return getIntersections.getFirst();
     }
 
     @Override
     public String toString() {
         return "Leg{" +
-                "intersections=" + intersections + "\n" +
-                ", segments=" + segments + "\n" +
+                "getIntersections=" + getIntersections + "\n" +
+                ", getSegments=" + getSegments + "\n" +
                 ", departureTime=" + departureTime + "\n" +
                 '}';
     }
