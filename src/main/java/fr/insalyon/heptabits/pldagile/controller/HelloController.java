@@ -7,7 +7,6 @@ import fr.insalyon.heptabits.pldagile.model.Intersection;
 import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.model.RoadMap;
 import fr.insalyon.heptabits.pldagile.view.MapView;
-import javafx.animation.ScaleTransition;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -19,7 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -127,30 +125,15 @@ public class HelloController {
                     if (!row.isEmpty()) {
                         // livraison associée à la ligne
                         long selectedDeliveryIntersectionId = row.getItem().destination().getId();
-                        Circle c = mapView.getCircleFromIntersectionId(selectedDeliveryIntersectionId);
+                        mapView.onDeliveryHovered(selectedDeliveryIntersectionId);
 
-                        ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.10), c);
-                        scaleIn.setToX(5);
-                        scaleIn.setToY(5);
-
-                        scaleIn.playFromStart();
-                        c.setFill(Color.web("#18c474"));
-                        c.setOpacity(1);
                     }
                 });
                 row.setOnMouseExited(event -> {
                     if (!row.isEmpty()) {
                         // livraison associée à la ligne
                         long selectedDeliveryIntersectionId = row.getItem().destination().getId();
-                        Circle c = mapView.getCircleFromIntersectionId(selectedDeliveryIntersectionId);
-
-                        ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.10), c);
-                        scaleOut.setToX(1);
-                        scaleOut.setToY(1);
-
-                        scaleOut.playFromStart();
-                        c.setFill(Color.web("#de1c24"));
-                        c.setOpacity(0.5);
+                        mapView.onDeliveryExited(selectedDeliveryIntersectionId);
                     }
                 });
                 return row;

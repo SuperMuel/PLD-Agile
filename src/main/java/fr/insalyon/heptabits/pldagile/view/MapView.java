@@ -198,5 +198,29 @@ public class MapView {
         return imageView;
     }
 
+    public void onDeliveryHovered(long selectedIntersectionId) {
+        Circle c = intersectionsToCircles.get(selectedIntersectionId);
+
+        ScaleTransition scaleIn = new ScaleTransition(Duration.seconds(0.10), c);
+        scaleIn.setToX(5);
+        scaleIn.setToY(5);
+
+        scaleIn.playFromStart();
+        c.setFill(Color.web("#18c474"));
+        c.setOpacity(1);
+    }
+
+    public void onDeliveryExited(long selectedIntersectionId) {
+        Circle c = intersectionsToCircles.get(selectedIntersectionId);
+
+        ScaleTransition scaleOut = new ScaleTransition(Duration.seconds(0.10), c);
+        scaleOut.setToX(1);
+        scaleOut.setToY(1);
+
+        scaleOut.playFromStart();
+        c.setFill(Color.web("#de1c24"));
+        c.setOpacity(0.5);
+    }
+
 
 }
