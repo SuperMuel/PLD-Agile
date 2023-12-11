@@ -18,7 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
 
 
 import java.io.File;
@@ -66,6 +65,8 @@ public class HelloController {
         this.dependencyManager = dependencyManager;
     }
 
+    int mapSize = 500;
+
     @FXML
     public void initialize() {
         File logoFile = new File("src/main/resources/img/del'iferoo-white 1.png");
@@ -73,11 +74,13 @@ public class HelloController {
         logo.setImage(logoImage);
 
         datePicker.setValue(LocalDate.now());
-        datePicker.setOnAction(e -> displayDeliveries());
+        datePicker.setOnAction(e -> {
+            updateDeliveriesTable();
+            updateMap();
+        });
 
-        Map map = dependencyManager.getMapService().getCurrentMap();
-        initializeMap(map, 500);
-        displayDeliveries();
+        updateMap();
+        updateDeliveriesTable();
 
         newDeliveryButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> newDeliveryButton.setStyle("-fx-background-color: #00BCAD"));
         newDeliveryButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> newDeliveryButton.setStyle("-fx-background-color: #00CCBC"));
@@ -85,17 +88,21 @@ public class HelloController {
 
     }
 
-    public void initializeMap(Map map, int width) {
+    public void updateMap() {
+        Map map = dependencyManager.getMapService().getCurrentMap();
         List<RoadMap> roadMaps = dependencyManager.getRoadMapRepository().getByDate(datePicker.getValue());
-        mapView = new MapView(map, width, null, roadMaps);
+        mapView = new MapView(map, mapSize, null, roadMaps);
         Group mapGroup = mapView.createView();
 
         mapContainer.getChildren().clear(); // Clear existing content if necessary
         mapContainer.getChildren().add(mapGroup); // Add the map to the pane
+        System.out.println("Map updated");
     }
 
     @FXML
-    public void displayDeliveries() {
+    public void updateDeliveriesTable() {
+        System.out.println("Updating deliveries");
+
         if (!deliveryTable.getItems().isEmpty()) {
             deliveryTable.getItems().clear();
         }
@@ -141,10 +148,6 @@ public class HelloController {
             });
         }
 
-    }
-
-    void addRoadMap(RoadMap roadMap) {
-        // TODO : add the road map to the table
     }
 
 

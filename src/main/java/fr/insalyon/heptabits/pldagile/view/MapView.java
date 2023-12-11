@@ -37,8 +37,8 @@ public class MapView {
 
     final List<RoadMap> roadMaps;
 
-    public MapView(Map map, int size) {
-        this(map, size, null, List.of());
+    public MapView(Map map, int size, OnIntersectionClicked onIntersectionClicked) {
+        this(map, size, onIntersectionClicked, List.of());
     }
 
     public MapView(Map map, int size, OnIntersectionClicked onIntersectionClicked, List<RoadMap> roadMaps) {

@@ -74,9 +74,7 @@ class XmlMapParserTest {
     void inexistingIntersectionInSegmentThrows() throws ParserConfigurationException, IOException, SAXException {
         Document invalidDocument = documentFromString(INVALID_XML_BODY);
 
-        assertThrows(RuntimeException.class, () -> {
-            parser.parse(invalidDocument, 1L);
-        });
+        assertThrows(RuntimeException.class, () -> parser.parse(invalidDocument, 1L));
 
     }
 

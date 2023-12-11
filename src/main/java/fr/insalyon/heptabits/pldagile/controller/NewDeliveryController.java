@@ -80,7 +80,6 @@ public class NewDeliveryController {
         final TimeWindowRepository timeWindowRepository = dependencyManager.getTimeWindowRepository();
         timeWindowChoiceBox.getItems().addAll(timeWindowRepository.getAll());
 
-        // Add the map to the mapAnchorPanechosenTime
         final MapService mapService = dependencyManager.getMapService();
 
         MapView.OnIntersectionClicked onIntersectionClicked = intersection -> {
@@ -90,9 +89,8 @@ public class NewDeliveryController {
 
         };
 
-        List<RoadMap> roadMaps = dependencyManager.getRoadMapRepository().getByDate(datePicker.getValue());
 
-        final MapView mapView = new MapView(mapService.getCurrentMap(), 500, onIntersectionClicked, roadMaps);
+        final MapView mapView = new MapView(mapService.getCurrentMap(), 500, onIntersectionClicked);
         mapAnchorPane.getChildren().add(mapView.createView());
 
         // Afficher l'intersection sélectionnée différemment
