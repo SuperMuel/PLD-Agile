@@ -49,6 +49,14 @@ class InMemoryCourierRepositoryTest {
 
     @Test
     void update() {
+        inMemoryCourierRepository.create("John", "Doe", "johndoe.email.com", "0123456789");
+        final Courier courier = inMemoryCourierRepository.findById(1L);
+        assertEquals("John", courier.getFirstName());
+
+        Courier updatedCourier = new Courier(1L, "Jane", "Doe", "johndoe.email.com", "0123456789");
+
+        inMemoryCourierRepository.update(updatedCourier);
+        assertEquals("Jane", inMemoryCourierRepository.findById(1L).getFirstName());
     }
 
     @Test
