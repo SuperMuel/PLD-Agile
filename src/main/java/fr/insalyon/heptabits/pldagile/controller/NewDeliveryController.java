@@ -85,8 +85,6 @@ public class NewDeliveryController {
         MapView.OnIntersectionClicked onIntersectionClicked = intersection -> {
             chosenIntersection = intersection;
             intersectionTextField.setText(chosenIntersection.toString());
-            System.out.println("Intersection clicked: " + intersection);
-
         };
 
 

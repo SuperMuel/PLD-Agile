@@ -130,8 +130,10 @@ public class MapView {
             circle.setOpacity(CIRCLE_OPACITY);
 
             intersectionsToCircles.put(intersection.getId(), circle);
-            addCircleEventHandlers(intersection, circle, CIRCLE_COLOR_CLICKED, CIRCLE_COLOR);
 
+            if(onIntersectionClicked != null) {
+                addCircleEventHandlers(intersection, circle, CIRCLE_COLOR_CLICKED, CIRCLE_COLOR);
+            }
             circleList.add(circle);
         }
 

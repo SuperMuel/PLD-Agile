@@ -57,7 +57,6 @@ public class NewClientController {
         final boolean isValid = lastName != null && firstName != null  && phoneNumber != null;
 
         if (!isValid) {
-            System.out.println("Invalid Client");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Validation échouée");
@@ -67,7 +66,6 @@ public class NewClientController {
         }
 
         dependencyManager.getClientRepository().create(firstName, lastName, phoneNumber);
-        System.out.println("New Client created");
 
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();

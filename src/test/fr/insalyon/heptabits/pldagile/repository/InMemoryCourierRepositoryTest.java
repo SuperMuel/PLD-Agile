@@ -37,7 +37,6 @@ class InMemoryCourierRepositoryTest {
         assertEquals("Doe", courier.getLastName());
         assertEquals("johndoe.email.com", courier.getEmail());
         assertEquals("0123456789", courier.getPhoneNumber());
-
     }
 
     @Test

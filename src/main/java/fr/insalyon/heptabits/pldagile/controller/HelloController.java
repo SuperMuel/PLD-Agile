@@ -96,13 +96,10 @@ public class HelloController {
 
         mapContainer.getChildren().clear(); // Clear existing content if necessary
         mapContainer.getChildren().add(mapGroup); // Add the map to the pane
-        System.out.println("Map updated");
     }
 
     @FXML
     public void updateDeliveriesTable() {
-        System.out.println("Updating deliveries");
-
         if (!deliveryTable.getItems().isEmpty()) {
             deliveryTable.getItems().clear();
         }

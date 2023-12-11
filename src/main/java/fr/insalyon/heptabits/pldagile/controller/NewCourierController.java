@@ -58,7 +58,6 @@ public class NewCourierController {
         final boolean isValid = lastName != null && firstName != null  && phoneNumber != null && email != null;
 
         if (!isValid) {
-            System.out.println("Invalid Client");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Validation échouée");
