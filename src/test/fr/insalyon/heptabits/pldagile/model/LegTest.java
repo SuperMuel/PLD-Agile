@@ -18,11 +18,18 @@ class LegTest {
 
     LocalTime departureTime;
 
+    Intersection i1 = new Intersection(1, 1,1);
+    Intersection i2 = new Intersection(2, 2, 2);
+    Intersection i3 = new Intersection(3, 3,3);
+
+    Segment s12 = new Segment(i1,i2, "Segment 1-2", 1.2);
+    Segment s23 = new Segment(i2,i3, "Segment 2-3", 2.3);
+
 
     @BeforeEach
     void setUp() {
-        intersections = List.of(new Intersection(1, 1, 1), new Intersection(2, 2, 2), new Intersection(3, 3, 3));
-        segments = List.of(new Segment(1, 1, 1, "1", 1), new Segment(2, 2, 2, "2", 2));
+        intersections = List.of(i1,i2,i3);
+        segments = List.of(s12, s23);
         departureTime = LocalTime.of(1, 1, 1);
         leg = new Leg(intersections, segments, departureTime);
     }
@@ -46,8 +53,9 @@ class LegTest {
 
     @Test
     void constructorIntersectionsSegmentsSizeMismatch() {
-        assertThrows(IllegalArgumentException.class, () -> new Leg(List.of(new Intersection(1, 1, 1)), segments, departureTime));
-        assertThrows(IllegalArgumentException.class, () -> new Leg(intersections, List.of(new Segment(1, 1, 1, "1", 1)), departureTime));
+        assertThrows(IllegalArgumentException.class, () -> new Leg(List.of(i1), List.of(s12,s23), departureTime));
+        assertThrows(IllegalArgumentException.class, () -> new Leg(List.of(i1,i2), List.of(s12,s23), departureTime));
+        assertThrows(IllegalArgumentException.class, () -> new Leg(List.of(i1,i2,i3), List.of(s12), departureTime));
     }
 
     @Test
@@ -62,7 +70,7 @@ class LegTest {
 
     @Test
     void getDepartureTime() {
-        assertEquals(departureTime, leg.getDepartureTime());
+        assertEquals(departureTime, leg.departureTime());
     }
 
     @Test
@@ -90,8 +98,9 @@ class LegTest {
 
     @Test
     void equalsDifferentSegments() {
-        List<Segment> newSegments = List.of(new Segment(1, 1, 1, "one", 1), new Segment(2, 2, 2, "2", 2));
-        Leg leg2 = new Leg(intersections, newSegments, departureTime);
+        Leg leg1 = new Leg(List.of(i1,i2), List.of(s12), departureTime);
+        Leg leg2 = new Leg(List.of(i1,i2), List.of(new Segment(i1,i2, "another name", 1.2)), departureTime);
+
         assertNotEquals(leg, leg2);
 
     }

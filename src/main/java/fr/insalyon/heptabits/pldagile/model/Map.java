@@ -1,5 +1,6 @@
 package fr.insalyon.heptabits.pldagile.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,8 +18,8 @@ public class Map extends BaseEntity {
      * Constructor
      *
      * @param id            the id of the map
-     * @param intersections the list of intersections
-     * @param segments      the list of segments
+     * @param intersections the list of getIntersections
+     * @param segments      the list of getSegments
      * @param warehouseId   the id of the warehouse
      */
     public Map(long id, HashMap<Long, Intersection> intersections, List<Segment> segments, long warehouseId) {
@@ -42,9 +43,9 @@ public class Map extends BaseEntity {
     }
 
     /**
-     * Get an immutable view of segments
+     * Get an immutable view of getSegments
      *
-     * @return the list of segments
+     * @return the list of getSegments
      */
     public List<Segment> getSegments() {
         //immutable view
@@ -109,11 +110,169 @@ public class Map extends BaseEntity {
     @Override
     public String toString() {
         return "Map{" +
-                "intersections=" + intersections +
-                ", segments=" + segments +
+                "getIntersections=" + intersections +
+                ", getSegments=" + segments +
                 ", warehouseId=" + warehouseId +
                 '}';
     }
+
+    public Intersection getOriginOf(Segment segment) {
+        return intersections.get(segment.getOriginId());
+    }
+
+    public Intersection getDestinationOf(Segment segment) {
+        return intersections.get(segment.getDestinationId());
+    }
+
+    public List<Segment> getConnectedSegments(Intersection intersection) {
+        List<Segment> outgoingSegments = new ArrayList<>();
+        for (Segment s : segments) {
+            if (getOriginOf(s).equals(intersection)) {
+                outgoingSegments.add(s);
+            } else if (getDestinationOf(s).equals(intersection)) {
+                outgoingSegments.add(s);
+            }
+        }
+        return outgoingSegments;
+    }
+
+
+    public List<Intersection> getNeighbors(Intersection intersection) {
+        List<Intersection> neighbors = new ArrayList<>();
+        for (Segment s : getConnectedSegments(intersection)) {
+            if (getOriginOf(s).equals(intersection)) {
+                neighbors.add(getDestinationOf(s));
+            } else if (getDestinationOf(s).equals(intersection)) {
+                neighbors.add(getOriginOf(s));
+            }
+        }
+        return neighbors;
+    }
+
+
+    /**
+     * Get the shortest distance between two getIntersections, or null if there is no segment between them.
+     *
+     * @param origin      the origin intersection
+     * @param destination the destination intersection
+     * @return the shortest distance between the two getIntersections
+     */
+    private double shortestDistanceBetween(Intersection origin, Intersection destination) {
+        return getShortestSegmentBetween(origin, destination).length();
+    }
+
+    public List<Intersection> getShortestPath(Intersection origin, Intersection destination) {
+        if(origin.equals(destination)) {
+            throw new IllegalArgumentException("Origin and destination must be different.");
+        }
+        if(!intersections.containsKey(origin.getId())) {
+            throw new IllegalArgumentException("Origin must be an intersection of the map.");
+        }
+        if(!intersections.containsKey(destination.getId())) {
+            throw new IllegalArgumentException("Destination must be an intersection of the map.");
+        }
+
+        HashMap<Intersection, Double> distances = new HashMap<>();
+        HashMap<Intersection, Intersection> previous = new HashMap<>();
+        HashMap<Intersection, Boolean> visited = new HashMap<>();
+        for (Intersection i : intersections.values()) {
+            distances.put(i, Double.MAX_VALUE);
+            previous.put(i, null);
+            visited.put(i, false);
+        }
+        distances.put(origin, 0.0);
+        Intersection current = origin;
+        while (current != null) {
+            visited.put(current, true);
+            for(Intersection neighbor : getNeighbors(current)) {
+                if (!visited.get(neighbor)) {
+                    double newDistance = distances.get(current) + shortestDistanceBetween(current, neighbor);
+                    if (newDistance < distances.get(neighbor)) {
+                        distances.put(neighbor, newDistance);
+
+                        previous.put(neighbor, current);
+                    }
+                }
+            }
+            current = null;
+            double minDistance = Double.MAX_VALUE;
+            for (Intersection i : intersections.values()) {
+                if (!visited.get(i) && distances.get(i) < minDistance) {
+                    current = i;
+                    minDistance = distances.get(i);
+                }
+            }
+        }
+        if (distances.get(destination) == Double.MAX_VALUE) {
+            return null;
+        }
+        List<Intersection> path = new ArrayList<>();
+        current = destination;
+        while (current != null) {
+            path.addFirst(current);
+            current = previous.get(current);
+        }
+        return path;
+    }
+
+    public boolean connectsIntersections(Segment s, Intersection origin, Intersection destination) {
+        return (getOriginOf(s).equals(origin) && getDestinationOf(s).equals(destination)) ||
+                (getDestinationOf(s).equals(origin) && getOriginOf(s).equals(destination));
+    }
+
+
+    /**
+     * Get the shortest segment between two getIntersections, or null if there is no segment between them.
+     *
+     * @param origin      the origin intersection
+     * @param destination the destination intersection
+     * @return the shortest segment between the two getIntersections
+     */
+    public Segment getShortestSegmentBetween(Intersection origin, Intersection destination) {
+        Segment shortestSegment = null;
+        double shortestDistance = Double.MAX_VALUE;
+        for (Segment s : getConnectedSegments(origin)) {
+            if (connectsIntersections(s, origin, destination)) {
+                if (s.length() < shortestDistance) {
+                    shortestSegment = s;
+                    shortestDistance = s.length();
+                }
+            }
+        }
+        return shortestSegment;
+    }
+
+    public List<Segment> getAllSegmentsBetween(Intersection a, Intersection b){
+        List<Segment> segments = new ArrayList<>();
+        for (Segment s : getConnectedSegments(a)) {
+            if (connectsIntersections(s, a, b)) {
+                segments.add(s);
+            }
+        }
+        return segments;
+    }
+
+
+    public List<Segment> getShortestSegmentsBetween(List<Intersection> path){
+        if (path == null) throw new IllegalArgumentException("Path cannot be null.");
+        if (path.size() < 2) throw new IllegalArgumentException("Path must contain at least two getIntersections.");
+
+        // If the path contains two consecutive getIntersections that are equal, throw an exception
+        for (int i = 0; i < path.size() - 1; i++) {
+            if (path.get(i).equals(path.get(i + 1))) {
+                throw new IllegalArgumentException("Path cannot contain two consecutive equal getIntersections.");
+            }
+        }
+
+        List<Segment> segments = new ArrayList<>();
+        for (int i = 0; i < path.size() - 1; i++) {
+            segments.add(getShortestSegmentBetween(path.get(i), path.get(i + 1)));
+        }
+        return segments;
+    }
+
+
+
 
 
 }

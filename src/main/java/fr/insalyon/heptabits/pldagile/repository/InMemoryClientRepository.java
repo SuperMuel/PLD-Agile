@@ -7,7 +7,6 @@ import java.util.*;
 
 
 public class InMemoryClientRepository implements ClientRepository {
-
     final private HashMap<Long,Client> hashMapClients;
 
     final private IdGenerator idGenerator;

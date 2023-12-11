@@ -1,11 +1,11 @@
 package fr.insalyon.heptabits.pldagile.model;
 
-import fr.insalyon.heptabits.pldagile.model.Intersection;
-import fr.insalyon.heptabits.pldagile.model.Segment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SegmentTest {
 
@@ -17,7 +17,7 @@ class SegmentTest {
         origin = new Intersection(0, 0, 1);
         destination = new Intersection(1, 2, 3);
 
-        segment = new Segment(0, origin.getId(), destination.getId(), "Rue 1", 12.1);
+        segment = new Segment( origin, destination, "Rue 1", 12.1);
     }
 
     @Test
@@ -32,11 +32,25 @@ class SegmentTest {
 
     @Test
     void getName() {
-        assertEquals("Rue 1", segment.getName());
+        assertEquals("Rue 1", segment.name());
     }
 
     @Test
     void getLength() {
-        assertEquals(12.1, segment.getLength());
+        assertEquals(12.1, segment.length());
+    }
+
+    @Test
+    void getTotalLength() {
+        assertEquals(0.0, Segment.getTotalLength(List.of()));
+        assertEquals(12.1, Segment.getTotalLength(List.of(segment)));
+
+        Segment a = new Segment(origin, destination, "Rue 1", 4.0);
+        Segment b = new Segment( origin, destination, "Rue 2", 5.1);
+
+        assertEquals(9.1, Segment.getTotalLength(List.of(a, b)));
+
+
+
     }
 }

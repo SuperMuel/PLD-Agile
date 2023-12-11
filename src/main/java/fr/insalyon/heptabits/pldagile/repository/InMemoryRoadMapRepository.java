@@ -5,6 +5,7 @@ import fr.insalyon.heptabits.pldagile.model.IdGenerator;
 import fr.insalyon.heptabits.pldagile.model.Leg;
 import fr.insalyon.heptabits.pldagile.model.RoadMap;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,8 +38,27 @@ public class InMemoryRoadMapRepository implements RoadMapRepository {
     }
 
     @Override
-    public void update(RoadMap roadMap) {
-        roadMaps.put(roadMap.getId(), roadMap);
+    public void updateById(long id, List<Delivery> deliveries, List<Leg> legs) {
+        if (!roadMaps.containsKey(id)) {
+            throw new IllegalArgumentException("RoadMapRepository.updateById: no road map with id " + id);
+        }
+        roadMaps.put(id, new RoadMap(id, deliveries, legs));
+    }
+
+
+    @Override
+    public RoadMap getByCourierAndDate(long idCourier, LocalDate date) {
+        return roadMaps.values().stream()
+                .filter(roadMap -> roadMap.getCourierId() == idCourier && roadMap.getDate().equals(date))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public List<RoadMap> getByDate(LocalDate date) {
+        return roadMaps.values().stream()
+                .filter(roadMap -> roadMap.getDate().equals(date))
+                .toList();
     }
 
     @Override

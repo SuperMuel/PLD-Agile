@@ -3,11 +3,6 @@ package fr.insalyon.heptabits.pldagile.controller;
 import fr.insalyon.heptabits.pldagile.DependencyManager;
 import fr.insalyon.heptabits.pldagile.HelloApplication;
 import fr.insalyon.heptabits.pldagile.model.Courier;
-import fr.insalyon.heptabits.pldagile.repository.ClientRepository;
-import fr.insalyon.heptabits.pldagile.repository.CourierRepository;
-import fr.insalyon.heptabits.pldagile.repository.TimeWindowRepository;
-import fr.insalyon.heptabits.pldagile.service.MapService;
-import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -15,15 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class NewCourierController {
     @FXML
@@ -49,19 +41,11 @@ public class NewCourierController {
 
     public void initialize() {
 
-        confirmNewCourierButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            confirmNewCourierButton.setStyle("-fx-background-color: #00BCAD");
-        });
-        confirmNewCourierButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            confirmNewCourierButton.setStyle("-fx-background-color: #00CCBC");
-        });
-        confirmNewCourierButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            confirmNewCourierButton.setStyle("-fx-background-color: #00A093");
-        });
+        confirmNewCourierButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> confirmNewCourierButton.setStyle("-fx-background-color: #00BCAD"));
+        confirmNewCourierButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> confirmNewCourierButton.setStyle("-fx-background-color: #00CCBC"));
+        confirmNewCourierButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> confirmNewCourierButton.setStyle("-fx-background-color: #00A093"));
 
-        returnButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-            returnButton.setStyle("-fx-background-color: #00A093");
-        });
+        returnButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> returnButton.setStyle("-fx-background-color: #00A093"));
 
     }
     @FXML
@@ -74,7 +58,6 @@ public class NewCourierController {
         final boolean isValid = lastName != null && firstName != null  && phoneNumber != null && email != null;
 
         if (!isValid) {
-            System.out.println("Invalid Client");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Validation échouée");
@@ -83,7 +66,7 @@ public class NewCourierController {
             return;
         }
 
-        dependencyManager.getCourierRepository().create(firstName, lastName, email, phoneNumber);
+        Courier courier = dependencyManager.getCourierRepository().create(firstName, lastName, email, phoneNumber);
         System.out.println("New Courier created");
 
         Node source = (Node) e.getSource();
