@@ -64,6 +64,24 @@ public class MapView {
     }
 
 
+    public static Color mapIdToColor(long id) {
+        // Hash the id to generate a long
+        long hash = id;
+        hash = ((hash >> 32) ^ hash) * 0x45d9f3b;
+        hash = ((hash >> 32) ^ hash) * 0x45d9f3b;
+        hash = (hash >> 32) ^ hash;
+
+
+        // Use the hash to generate the hue value (0-360)
+        // Saturation and Brightness values are kept high to avoid dark or desaturated colors
+        float hue = Math.abs(hash % 360);
+        float saturation = 0.7f; // Saturation set to 70%
+        float brightness = 0.9f; // Brightness set to 90%
+
+        // Create color from HSB values
+        return Color.hsb(hue, saturation, brightness);
+    }
+
 
     public Group createView() {
         Group group = new Group();
@@ -73,8 +91,11 @@ public class MapView {
 
 
         for (RoadMap roadMap : roadMaps) {
-            // TODO Get a random color
-            group.getChildren().addAll(createRoadMapLines(roadMap, Color.BLUE));
+            System.out.println(roadMap.getId());
+            Color color = mapIdToColor(roadMap.getId());
+            group.getChildren().addAll(createRoadMapLines(roadMap, color));
+            group.getChildren().addAll(createDeliveriesCircles(roadMap.getDeliveries(), color));
+
         }
 
         ImageView warehouseImageView = createWarehouseImageView(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/warehouse-location-pin.png"));
@@ -151,9 +172,11 @@ public class MapView {
         Tooltip tooltipCircle = new Tooltip(segment.name());
         Tooltip.install(line, tooltipCircle);
     }
-
-
     Line segmentToLine(Segment segment, Color lineColor) {
+        return segmentToLine(segment, lineColor, 3);
+    }
+
+    Line segmentToLine(Segment segment, Color lineColor, int strokeWidth) {
         Intersection origin = segment.origin();
         Intersection destination = segment.destination();
 
@@ -164,7 +187,7 @@ public class MapView {
         float destinationY = latToPixel(destination.getLatitude());
 
         Line line = new Line(originX, originY, destinationX, destinationY);
-        line.setStrokeWidth(3);
+        line.setStrokeWidth(strokeWidth);
         line.setStroke(lineColor);
 
         return line;
@@ -174,11 +197,31 @@ public class MapView {
         List<Line> lines = new ArrayList<>();
         for (Leg leg : roadMap.getLegs()) {
             for (Segment segment : leg.getSegments()) {
-                System.out.println("Drawing  " + segment);
-                lines.add(segmentToLine(segment, lineColor));
+                lines.add(segmentToLine(segment, lineColor, 5));
             }
         }
         return lines;
+    }
+
+    private List<Circle> createDeliveriesCircles(List<Delivery> deliveries, Color color){
+        List<Circle> circles = new ArrayList<>();
+        for(Delivery delivery:deliveries){
+            Circle circle = new Circle();
+
+            circle.setRadius(5);
+            circle.setFill(Color.WHITE); // Set the fill color to white
+            circle.setStroke(color); // Set the stroke (outline) color
+            circle.setStrokeWidth(3); // Set the stroke width
+
+            circle.setCenterX(longToPixel(delivery.destination().getLongitude()));
+            circle.setCenterY(latToPixel(delivery.destination().getLatitude()));
+
+            circles.add(circle);
+
+
+        }
+        return circles;
+
     }
 
 

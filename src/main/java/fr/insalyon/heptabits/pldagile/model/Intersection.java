@@ -30,6 +30,10 @@ public class Intersection extends BaseEntity {
                 '}';
     }
 
+    public String latLongPrettyPrint() {
+        return String.format("%.4f, %.4f", latitude, longitude);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

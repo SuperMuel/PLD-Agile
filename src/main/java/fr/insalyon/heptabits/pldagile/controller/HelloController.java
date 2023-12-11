@@ -2,10 +2,7 @@ package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
 import fr.insalyon.heptabits.pldagile.HelloApplication;
-import fr.insalyon.heptabits.pldagile.model.Delivery;
-import fr.insalyon.heptabits.pldagile.model.Intersection;
-import fr.insalyon.heptabits.pldagile.model.Map;
-import fr.insalyon.heptabits.pldagile.model.RoadMap;
+import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.animation.ScaleTransition;
 import javafx.beans.property.SimpleObjectProperty;
@@ -45,14 +42,17 @@ public class HelloController {
 
     @FXML
     private TableView<Delivery> deliveryTable;
-    @FXML
-    private TableColumn<Delivery, Long> roadMapId;
+
     @FXML
     private TableColumn<Delivery, String> courierName;
     @FXML
-    private TableColumn<Delivery, Intersection> address;
+    private TableColumn<Delivery, String> address;
     @FXML
     private TableColumn<Delivery, String> time;
+
+    @FXML
+    private TableColumn<Delivery, TimeWindow> timeWindow;
+
     @FXML
     private TableColumn<Delivery, String> clientName;
     @FXML
@@ -112,11 +112,12 @@ public class HelloController {
         }
 
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        address.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().destination()));
+        DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        address.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().destination().latLongPrettyPrint()));
         courierName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getCourierRepository().findById(cellData.getValue().courierId()).getFirstName() + " " + dependencyManager.getCourierRepository().findById(cellData.getValue().courierId()).getLastName()));
         clientName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(dependencyManager.getClientRepository().findById(cellData.getValue().clientId()).getFirstName() + " " + dependencyManager.getClientRepository().findById(cellData.getValue().clientId()).getLastName()));
-        time.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().scheduledDateTime().format(formatter)));
+        time.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().scheduledDateTime().format(dtFormatter)));
+        timeWindow.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().timeWindow()));
         for (Delivery d : deliveries) {
             deliveryTable.getItems().addAll(d);
 

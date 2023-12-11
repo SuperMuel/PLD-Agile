@@ -65,8 +65,8 @@
             <children>
             <TableView fx:id="deliveryTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="482.0" prefWidth="775.0">
               <columns>
-                <TableColumn fx:id="roadMapId" maxWidth="20.0" minWidth="70.0" prefWidth="20.0" style="-fx-background-color: #00CCBC;" text="Livraison" />
                 <TableColumn fx:id="time" maxWidth="50.0" minWidth="70.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Horaire" />
+                <TableColumn fx:id="timeWindow" maxWidth="50.0" minWidth="70.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Créneau" />
                 <TableColumn fx:id="address" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Adresse" />
                 <TableColumn fx:id="clientName" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Client" />
                 <TableColumn fx:id="courierName" maxWidth="200.0" minWidth="134.0" prefWidth="135.0" style="-fx-background-color: #00CCBC;" text="Livreur" />
