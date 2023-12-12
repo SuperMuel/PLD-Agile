@@ -66,23 +66,22 @@
     </top>
    <center>
        <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="720.0" prefViewportHeight="720.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
-           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;">
-               <Pane layoutX="274.0" layoutY="38.0" prefHeight="550.0" prefWidth="550.0">
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1250.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;">
+               <Pane layoutX="277.0" layoutY="14.0" prefHeight="550.0" prefWidth="550.0">
                <children>
-                  <Pane layoutY="26.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="900.0">
+                  <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="550.0">
                      <StackPane fx:id="mapContainer">
                    <!-- Other UI elements if needed -->
                </StackPane>
                  </Pane>
                </children></Pane>
-            <Separator layoutX="-24.0" layoutY="683.0" prefHeight="15.0" prefWidth="1147.0" />
-            <TextArea fx:id="courierItinirary" layoutX="92.0" layoutY="754.0" prefHeight="500.0" prefWidth="900.0" />
-               <Label layoutX="176.0" layoutY="38.0">
+            <TextArea fx:id="courierItinirary" layoutX="90.0" layoutY="660.0" prefHeight="450.0" prefWidth="900.0" />
+               <Label layoutX="90.0" layoutY="600.0" prefHeight="50.0" prefWidth="233.0" text="Itinéraire :">
                    <font>
                        <Font name="Inter Semi Bold" size="40.0" />
                    </font>
                </Label>
-               <Button layoutX="372.0" layoutY="1268.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="335.0" style="-fx-background-color: #00CCBC;" text="Télécharger la feuille de route" textFill="WHITE">
+               <Button layoutX="374.0" layoutY="1139.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="335.0" style="-fx-background-color: #00CCBC;" text="Télécharger la feuille de route" textFill="WHITE">
                    <font>
                        <Font name="Inter Semi Bold" size="20.0" />
                    </font>
@@ -96,6 +95,7 @@
                      </color></DropShadow>
                    </effect>
                </Button>
+            <Separator layoutX="-32.0" layoutY="579.0" prefHeight="15.0" prefWidth="1147.0" />
            </AnchorPane>
        </ScrollPane>
    </center>

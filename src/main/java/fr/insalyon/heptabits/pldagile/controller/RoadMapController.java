@@ -2,8 +2,7 @@ package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
 import fr.insalyon.heptabits.pldagile.HelloApplication;
-import fr.insalyon.heptabits.pldagile.model.Courier;
-import fr.insalyon.heptabits.pldagile.model.Map;
+import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.repository.RoadMapRepository;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.fxml.FXML;
@@ -20,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class RoadMapController {
 
@@ -51,7 +51,33 @@ public class RoadMapController {
         initializeMap(map, 500);
         courierName.setText(courier.getFirstName() + " " + courier.getLastName() + " :");
         date.setText(chosenDate.toString());
-        courierItinirary.setText(roadMapRepository.getByCourierAndDate(courier.getId(), chosenDate).toString());
+        initializeRoadMap();
+
+
+    }
+
+
+    public void initializeRoadMap(){
+        RoadMap roadMap = roadMapRepository.getByCourierAndDate(courier.getId(), chosenDate);
+        List<Delivery> deliveries = roadMap.getDeliveries();
+        //System.out.print(deliveries);
+        List<Leg> legs = roadMap.getLegs();
+        String itinerary = " ";
+        for (int i = 0; i<legs.size(); i++){
+            if(i == 0){
+                itinerary += (i+1) + "ère étape\n";
+            } else {
+                itinerary += (i+1) + "ème étape\n";
+            }
+            List<Segment> segments = legs.get(i).getSegments();
+            for(int j = 0; j<segments.size(); j++){
+                if(!segments.get(j).getName().isEmpty()){
+                    itinerary += " - " + segments.get(j).getName() + "\n" ;
+                }
+
+            }
+        }
+        courierItinirary.setText(itinerary);
 
 
     }
