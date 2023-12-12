@@ -53,7 +53,7 @@ public class RoadMap extends BaseEntity {
 
         // Assert that each leg's departure point matches the previous leg's arrival point
         for (int i = 1; i < legs.size(); i++) {
-            if (!(legs.get(i).getIntersections().getFirst() == (legs.get(i - 1).getDestination()))) {
+            if (!(legs.get(i).intersections().getFirst() == (legs.get(i - 1).getDestination()))) {
                 throw new IllegalArgumentException("RoadMap constructor: leg departure point must match previous leg destination");
             }
         }

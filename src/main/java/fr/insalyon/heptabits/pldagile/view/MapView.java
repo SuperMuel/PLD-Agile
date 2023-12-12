@@ -198,7 +198,7 @@ public class MapView {
     private List<Line> createRoadMapLines(RoadMap roadMap, Color lineColor) {
         List<Line> lines = new ArrayList<>();
         for (Leg leg : roadMap.getLegs()) {
-            for (Segment segment : leg.getSegments()) {
+            for (Segment segment : leg.segments()) {
                 lines.add(segmentToLine(segment, lineColor, 5));
             }
         }
