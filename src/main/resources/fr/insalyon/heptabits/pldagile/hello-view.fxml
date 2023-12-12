@@ -12,7 +12,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#displayDeliveries" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
   <top>
     <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="60.0" style="-fx-background-color: #00CCBC;">
          <children>
@@ -20,8 +20,8 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Fichier">
                   <items>
-                    <MenuItem mnemonicParsing="false" onAction="#importerMenuItemClicked" text="Importer un fichier de livraisons..." />
-                        <MenuItem mnemonicParsing="false" onAction="#exporterMenuItemClicked" text="Exporter les livraisons sous..." />
+<!--                    <MenuItem mnemonicParsing="false" onAction="#importerMenuItemClicked" text="Importer un fichier de livraisons..." />
+                        <MenuItem mnemonicParsing="false" onAction="#exporterMenuItemClicked" text="Exporter les livraisons sous..." /> -->
                   </items>
                 </Menu>
               </menus>
@@ -68,11 +68,11 @@
             <children>
             <TableView fx:id="deliveryTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="482.0" prefWidth="775.0" stylesheets="@../../../../css/table.css">
               <columns>
-                <TableColumn fx:id="time" maxWidth="50.0" minWidth="70.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Horaire" />
-                <TableColumn fx:id="timeWindow" maxWidth="50.0" minWidth="70.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Créneau" />
-                <TableColumn fx:id="address" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Adresse" />
-                <TableColumn fx:id="clientName" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" style="-fx-background-color: #00CCBC;" text="Client" />
-                <TableColumn fx:id="courierName" maxWidth="200.0" minWidth="134.0" prefWidth="135.0" style="-fx-background-color: #00CCBC;" text="Livreur" />
+                <TableColumn fx:id="time" maxWidth="50.0" minWidth="70.0" prefWidth="-1.0" text="Horaire" />
+                <TableColumn fx:id="timeWindow" maxWidth="50.0" minWidth="70.0" prefWidth="-1.0" text="Créneau" />
+                <TableColumn fx:id="address" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" text="Adresse" />
+                <TableColumn fx:id="clientName" maxWidth="200.0" minWidth="130.0" prefWidth="-1.0" text="Client" />
+                <TableColumn fx:id="courierName" maxWidth="200.0" minWidth="134.0" prefWidth="135.0" text="Livreur" />
               </columns>
                   <HBox.margin>
                      <Insets right="10.0" />

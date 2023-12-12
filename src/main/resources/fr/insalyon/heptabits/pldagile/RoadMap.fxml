@@ -76,7 +76,7 @@
                  </Pane>
                </children></Pane>
             <Separator layoutX="-24.0" layoutY="683.0" prefHeight="15.0" prefWidth="1147.0" />
-            <TextArea layoutX="92.0" layoutY="754.0" prefHeight="500.0" prefWidth="900.0" />
+            <TextArea fx:id="courierItinirary" layoutX="92.0" layoutY="754.0" prefHeight="500.0" prefWidth="900.0" />
                <Label layoutX="176.0" layoutY="38.0">
                    <font>
                        <Font name="Inter Semi Bold" size="40.0" />

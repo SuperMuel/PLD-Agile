@@ -71,5 +71,6 @@ public class CouriersListController {
         final CourierRepository courierRepository = dependencyManager.getCourierRepository();
         List<Courier> couriers = courierRepository.findAll();
         courierChoiceBox.getItems().addAll(couriers);
+        datePicker.setValue(LocalDate.now());
     }
 }

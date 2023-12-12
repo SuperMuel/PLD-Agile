@@ -76,7 +76,7 @@
                 <GridPane.margin>
                 </GridPane.margin>
             </Label>
-            <DatePicker fx:id="datePicker" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <DatePicker fx:id="datePicker" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" stylesheets="@../../../../css/datePicker.css"/>
 
             <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="131.0" styleClass="form-label" text="Livreur :" textFill="#2e3333" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                 <font>
