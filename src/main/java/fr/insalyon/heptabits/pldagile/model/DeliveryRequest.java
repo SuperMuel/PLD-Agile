@@ -1,6 +1,8 @@
 package fr.insalyon.heptabits.pldagile.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Objects;
 
 public class DeliveryRequest {
     // Doesn't need to carry an ID since it's never stored
@@ -13,6 +15,8 @@ public class DeliveryRequest {
 
     private final long clientId;
 
+    private final long courierId;
+
     public Intersection getDestination() {
         return destination;
     }
@@ -21,7 +25,7 @@ public class DeliveryRequest {
         return timeWindow;
     }
 
-    public DeliveryRequest(LocalDate date, long clientId, Intersection destination, TimeWindow timeWindow) {
+    public DeliveryRequest(LocalDate date, long clientId, Intersection destination, TimeWindow timeWindow, long courierId) {
         if (date == null || destination == null || timeWindow == null) {
             throw new IllegalArgumentException("DeliveryRequest constructor: null argument");
         }
@@ -29,6 +33,7 @@ public class DeliveryRequest {
         this.date = date;
         this.clientId = clientId;
         this.destination = destination;
+        this.courierId = courierId;
         this.timeWindow = timeWindow;
     }
 
@@ -37,10 +42,11 @@ public class DeliveryRequest {
         if (delivery == null) {
             throw new IllegalArgumentException("DeliveryRequest constructor: null argument");
         }
-        this.date = delivery.getScheduledDateTime().toLocalDate();
-        this.clientId = delivery.getClientId();
-        this.destination = delivery.getDestination();
-        this.timeWindow = delivery.getTimeWindow();
+        this.date = delivery.scheduledDateTime().toLocalDate();
+        this.clientId = delivery.clientId();
+        this.destination = delivery.destination();
+        this.timeWindow = delivery.timeWindow();
+        this.courierId = delivery.courierId();
     }
 
 
@@ -53,6 +59,28 @@ public class DeliveryRequest {
         return clientId;
     }
 
+    public long getCourierId() {
+        return courierId;
+    }
+
+
+    public Delivery toDelivery(LocalTime scheduledTime) {
+        return new Delivery(date.atTime(scheduledTime), destination, courierId, clientId, timeWindow);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DeliveryRequest that = (DeliveryRequest) o;
+        return clientId == that.clientId && courierId == that.courierId && Objects.equals(date, that.date) && Objects.equals(destination, that.destination) && Objects.equals(timeWindow, that.timeWindow);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, destination, timeWindow, clientId, courierId);
+    }
+
     @Override
     public String toString() {
         return "DeliveryRequest{" +
@@ -60,6 +88,7 @@ public class DeliveryRequest {
                 ", destination=" + destination +
                 ", timeWindow=" + timeWindow +
                 ", clientId=" + clientId +
+                ", courierId=" + courierId +
                 '}';
     }
 

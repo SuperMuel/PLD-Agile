@@ -43,7 +43,15 @@ public class XmlMapParser implements IXmlMapParser {
                 long destinationId = Long.parseLong(element.getAttribute("destination"));
                 float length = Float.parseFloat(element.getAttribute("length"));
                 String name = element.getAttribute("name");
-                segments.add(new Segment(i, originId, destinationId, name, length));
+
+                Intersection origin = intersections.get(originId);
+                Intersection destination = intersections.get(destinationId);
+
+                if(origin == null || destination == null){
+                    throw new RuntimeException("XML file is not valid : segment with unknown intersection");
+                }
+
+                segments.add(new Segment(origin, destination, name, length));
             }
         }
 

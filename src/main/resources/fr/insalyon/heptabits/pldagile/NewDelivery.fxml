@@ -107,7 +107,7 @@
                 </cursor>
             </Button>
 
-            <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="131.0" styleClass="form-label" text="Livreurs :" textFill="#2e3333" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+            <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="131.0" styleClass="form-label" text="Livreur :" textFill="#2e3333" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="3">
             <font>
                <Font name="Inter Semi Bold" size="20.0" />
             </font>

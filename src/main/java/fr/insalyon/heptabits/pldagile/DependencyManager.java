@@ -2,10 +2,7 @@ package fr.insalyon.heptabits.pldagile;
 
 import fr.insalyon.heptabits.pldagile.model.IdGenerator;
 import fr.insalyon.heptabits.pldagile.repository.*;
-import fr.insalyon.heptabits.pldagile.service.MapService;
-import fr.insalyon.heptabits.pldagile.service.XmlDeliveriesService;
-import fr.insalyon.heptabits.pldagile.service.XmlMapParser;
-import fr.insalyon.heptabits.pldagile.service.XmlMapService;
+import fr.insalyon.heptabits.pldagile.service.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,7 +11,6 @@ import java.nio.file.Path;
 
 public class DependencyManager {
     private final CourierRepository courierRepository;
-    private final DeliveryRepository deliveryRepository;
 
     private final ClientRepository clientRepository;
 
@@ -24,14 +20,20 @@ public class DependencyManager {
 
     private final MapService mapService;
 
-    private final XmlDeliveriesService xmlDeliveriesService;
+
+    private final RoadMapRepository roadMapRepository;
+
+    private final RoadMapService roadMapService;
+
+    private final DeliveryService deliveryService;
 
     public DependencyManager() {
         idGenerator = new IdGenerator();
-        courierRepository = new InMemoryCourierRepository(getIdGenerator());
-        deliveryRepository = new InMemoryDeliveryRepository(getIdGenerator());
-        clientRepository = new InMemoryClientRepository(getIdGenerator());
+        courierRepository = new MockCourierRepository(getIdGenerator());
+        clientRepository = new MockClientRepository(getIdGenerator());
         timeWindowRepository = new FixedTimeWindowRepository();
+        roadMapRepository = new InMemoryRoadMapRepository(getIdGenerator());
+        deliveryService = new DeliveryService(roadMapRepository);
 
         // MapService initialization
         XmlMapParser mapParser = new XmlMapParser();
@@ -46,8 +48,8 @@ public class DependencyManager {
         mapService.loadMap(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/ExamplesMap/smallMap.xml"));
 
         this.mapService = mapService;
+        roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(), mapService);
 
-        xmlDeliveriesService = new XmlDeliveriesService(deliveryRepository, mapService, documentBuilder, courierRepository, clientRepository);
     }
 
     public IdGenerator getIdGenerator() {
@@ -56,10 +58,6 @@ public class DependencyManager {
 
     public CourierRepository getCourierRepository() {
         return courierRepository;
-    }
-
-    public DeliveryRepository getDeliveryRepository() {
-        return deliveryRepository;
     }
 
     public ClientRepository getClientRepository() {
@@ -74,7 +72,17 @@ public class DependencyManager {
         return mapService;
     }
 
-    public XmlDeliveriesService getXmlDeliveriesService() {
-        return xmlDeliveriesService;
+
+    public RoadMapRepository getRoadMapRepository() {
+        return roadMapRepository;
     }
+
+    public RoadMapService getRoadMapService() {
+        return roadMapService;
+    }
+
+    public  DeliveryService getDeliveryService() {
+        return deliveryService;
+    }
+
 }
