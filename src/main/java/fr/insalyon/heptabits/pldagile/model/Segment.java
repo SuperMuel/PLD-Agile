@@ -32,7 +32,6 @@ public record Segment(Intersection origin, Intersection destination, String name
         return destination.getId();
     }
 
-    public String getName(){ return name;}
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

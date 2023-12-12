@@ -71,8 +71,8 @@ public class RoadMapController {
             }
             List<Segment> segments = legs.get(i).getSegments();
             for(int j = 0; j<segments.size(); j++){
-                if(!segments.get(j).getName().isEmpty()){
-                    itinerary += " - " + segments.get(j).getName() + "\n" ;
+                if(!segments.get(j).name().isEmpty()){
+                    itinerary += " - " + segments.get(j).name() + "\n" ;
                 }
 
             }
