@@ -76,7 +76,12 @@ public class Map extends BaseEntity {
     }
 
 
-
+    /**
+     *  Compute the boundaries of the map in a single loop.
+     *  The boundaries are the minimum and maximum latitude and longitude of the map.
+     *
+     *  @return the boundaries of the map.
+     */
     private MapBoundaries computeBoundaries() {
         // compute boundaries in one loop
         float minLatitude = Float.MAX_VALUE;
@@ -212,9 +217,7 @@ public class Map extends BaseEntity {
     /**
      * Get the shortest path between two intersections, or null if there is no path between them.
      *
-     * Uses Dijkstra's algorithm.
-     *
-     *
+     * Uses Dijkstra's algorithm.*
      *
      * @param origin      the origin intersection
      * @param destination the destination intersection

@@ -9,6 +9,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.nio.file.Path;
 
+/**
+ * A class that manages the dependencies between the different components of the application.
+ */
 public class DependencyManager {
     private final CourierRepository courierRepository;
 

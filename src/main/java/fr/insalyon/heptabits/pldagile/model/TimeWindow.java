@@ -4,6 +4,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
+/**
+ * Represents a time window.
+ *
+ * Stores the start and end time.
+ *
+ * All fields are final.
+ */
 public class TimeWindow {
     private final LocalTime start;
     private final LocalTime end;
@@ -19,6 +26,12 @@ public class TimeWindow {
         this(LocalTime.of(startHour, 0), LocalTime.of(endHour, 0));
     }
 
+    /**
+     * Constructor
+     *
+     * @param start Start time of the time window
+     * @param end   End time of the time window
+     */
     public TimeWindow(LocalTime start, LocalTime end) {
         this.start = start;
         this.end = end;
@@ -32,10 +45,17 @@ public class TimeWindow {
         }
     }
 
+
+    /**
+     * @return the start time of the time window
+     */
     public LocalTime getStart() {
         return start;
     }
 
+    /**
+     * @return the end time of the time window
+     */
     public LocalTime getEnd() {
         return end;
     }
@@ -47,12 +67,22 @@ public class TimeWindow {
     }
 
 
-    // help functions
-
+    /**
+     * Compare the start time of two time windows
+     *
+     * @param other Time window to compare to
+     * @return 0 if the start time of the two time windows are equal, a negative number if the start time of this time window is before the start time of the other time window, a positive number otherwise
+     */
     public int compareStartTo(TimeWindow other) {
         return this.getStart().compareTo(other.getStart());
     }
 
+    /**
+     * Compare the end time of two time windows
+     *
+     * @param other Time window to compare to
+     * @return 0 if the end time of the two time windows are equal, a negative number if the end time of this time window is before the end time of the other time window, a positive number otherwise
+     */
     public int compareEndTo(TimeWindow other) {
         return this.getEnd().compareTo(other.getEnd());
     }
