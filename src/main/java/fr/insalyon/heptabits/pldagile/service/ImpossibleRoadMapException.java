@@ -8,8 +8,4 @@ public class ImpossibleRoadMapException extends Exception{
         super(message);
     }
 
-    public ImpossibleRoadMapException() {
-        super("Impossible to create a road map with the given constraints.");
-    }
-
 }

@@ -46,7 +46,6 @@ class TimeWindowTest {
         assertThrows(DateTimeException.class, () -> new TimeWindow(0, 24));
     }
 
-
     @Test
     void negativeDurationThrows() {
         assertThrows(IllegalArgumentException.class, () -> new TimeWindow(10, 9));
@@ -82,5 +81,25 @@ class TimeWindowTest {
         assertFalse(timeWindow.contains(LocalTime.of(10, 0, 1)));
     }
 
+    @Test
+    void equals() {
+        assertEquals(new TimeWindow(9, 10), new TimeWindow(9, 10));
+        assertNotEquals(new TimeWindow(9, 10), new TimeWindow(9, 11));
+        assertNotEquals(new TimeWindow(8, 10), new TimeWindow(9, 10));
+    }
 
+    @Test
+    void getStart() {
+        assertEquals(LocalTime.of(9, 0), timeWindow.getStart());
+    }
+
+    @Test
+    void getEnd() {
+        assertEquals(LocalTime.of(10, 0), timeWindow.getEnd());
+    }
+
+    @Test
+    void testToString() {
+        assertEquals("9h à 10h", timeWindow.toString());
+    }
 }

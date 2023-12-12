@@ -46,7 +46,7 @@ public class XmlMapService implements MapService {
         }
         try {
             Document doc = documentBuilder.parse(xmlPath.toFile());
-            currentMap = parser.parse(doc, 0);
+            currentMap = parser.parse(doc, 0); // TODO : When multiple maps are created, the id should be passed as a parameter
 
         } catch (IOException | SAXException e) {
             throw new RuntimeException(e);

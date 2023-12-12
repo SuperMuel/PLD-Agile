@@ -45,4 +45,12 @@ class IntersectionTest {
         assertNotEquals(new Intersection(0, 0, 0), null);
         assertNotEquals(new Intersection(0, 0, 0), new Object());
     }
+
+    @Test
+    void latLongPrettyPrint() {
+        Intersection intersection = new Intersection(0, 0.123456789f, 1.123456789f);
+        assertEquals("0,1235, 1,1235", intersection.latLongPrettyPrint());
+    }
+
+
 }

@@ -1,5 +1,7 @@
 package fr.insalyon.heptabits.pldagile.model;
 
+import java.util.Locale;
+
 /**
  * Represents an intersection.
  *
@@ -60,7 +62,7 @@ public class Intersection extends BaseEntity {
      * Example: "45.7541, 4.8576"
      */
     public String latLongPrettyPrint() {
-        return String.format("%.4f, %.4f", latitude, longitude);
+        return String.format(Locale.FRANCE, "%.4f, %.4f", latitude, longitude);
     }
 
     @Override

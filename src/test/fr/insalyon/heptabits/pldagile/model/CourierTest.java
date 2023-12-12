@@ -36,4 +36,9 @@ class CourierTest {
     void getPhoneNumber() {
         assertEquals(phoneNumber, courier.getPhoneNumber());
     }
+
+    @Test
+    void testToString() {
+        assertEquals(firstName + " " + lastName, courier.toString());
+    }
 }

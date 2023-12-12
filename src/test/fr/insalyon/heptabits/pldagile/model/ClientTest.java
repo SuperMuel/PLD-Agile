@@ -13,11 +13,6 @@ class ClientTest {
         client = new Client(0, "Chloé", "CHABAL", "0123456789");
     }
     @Test
-    void getName() {
-        assertEquals("Chloé", client.getFirstName());
-    }
-
-    @Test
     void getLastName() {
         assertEquals("CHABAL", client.getLastName());
     }
@@ -25,5 +20,15 @@ class ClientTest {
     @Test
     void getPhoneNumber() {
         assertEquals("0123456789", client.getPhoneNumber());
+    }
+
+    @Test
+    void getFirstName() {
+        assertEquals("Chloé", client.getFirstName());
+    }
+
+    @Test
+    void testToString() {
+        assertEquals("Chloé CHABAL", client.toString());
     }
 }

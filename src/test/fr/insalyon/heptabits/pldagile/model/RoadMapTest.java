@@ -97,6 +97,30 @@ class RoadMapTest {
         assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1), List.of(leg1, leg2)));
     }
 
+    @Test
+    void constructorLegsDepartureTimeMustBeAfterPreviousLegDepartureTime() {
+        Leg leg1 = new Leg(List.of(warehouse, iB, iC), List.of(segmentAB, segmentBC), LocalTime.of(1, 0));
+        Leg leg2 = new Leg(List.of(iC, iD), List.of(segmentCD), LocalTime.of(1, 1));
+        Leg leg3 = new Leg(List.of(iD, warehouse), List.of(segmentDA), LocalTime.of(1, 2));
+
+        assertDoesNotThrow(() -> new RoadMap(1, List.of(delivery1,delivery2), List.of(leg1, leg2, leg3)));
+
+        Leg leg4 = new Leg(List.of(warehouse, iB, iC), List.of(segmentAB, segmentBC), LocalTime.of(1, 0));
+        Leg leg5 = new Leg(List.of(iC, iD), List.of(segmentCD), LocalTime.of(1, 1));
+        Leg leg6 = new Leg(List.of(iD, warehouse), List.of(segmentDA), LocalTime.of(1, 1));
+
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1,delivery2), List.of(leg4, leg5, leg6)));
+
+        Leg leg7 = new Leg(List.of(warehouse, iB, iC), List.of(segmentAB, segmentBC), LocalTime.of(1, 0));
+        Leg leg8 = new Leg(List.of(iC, iD), List.of(segmentCD), LocalTime.of(1, 1));
+        Leg leg9 = new Leg(List.of(iD, warehouse), List.of(segmentDA), LocalTime.of(0, 0));
+
+        assertThrows(IllegalArgumentException.class, () -> new RoadMap(1, List.of(delivery1,delivery2), List.of(leg7, leg8, leg9)));
+
+
+
+    }
+
 
     @Test
     void getDeliveries() {

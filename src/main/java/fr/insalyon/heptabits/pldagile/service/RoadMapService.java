@@ -48,7 +48,7 @@ public class RoadMapService implements IRoadMapService {
      */
     public List<DeliveryRequest> getDeliveryRequestsForCourierOnDate(long courierId, LocalDate date) {
         if (date == null) {
-            return new ArrayList<>();
+            throw new NullPointerException("Date cannot be null");
         }
 
         RoadMap roadMap = roadMapRepository.getByCourierAndDate(courierId, date);
