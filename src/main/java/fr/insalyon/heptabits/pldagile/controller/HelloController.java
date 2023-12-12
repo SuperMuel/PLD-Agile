@@ -144,10 +144,21 @@ public class HelloController {
                 return row;
             });
         }
-
     }
+    @FXML
+    protected void onViewRoadMapsButtonClick(InputEvent e) throws IOException{
+        Node source = (Node) e.getSource();
+        Stage oldStage = (Stage) source.getScene().getWindow();
 
-
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(HelloApplication.class.getResource("couriersList.fxml"));
+        fxmlLoader.setController(new CouriersListController(dependencyManager, oldStage));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setTitle("DEL'IFEROO");
+        stage.setScene(scene);
+        stage.show();
+    }
     @FXML
     protected void onNewDeliveryButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
