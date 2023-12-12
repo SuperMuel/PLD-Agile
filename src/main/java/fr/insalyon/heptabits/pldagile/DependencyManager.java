@@ -8,6 +8,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalTime;
 
 public class DependencyManager {
     private final CourierRepository courierRepository;
@@ -26,6 +28,7 @@ public class DependencyManager {
     private final RoadMapService roadMapService;
 
     private final DeliveryService deliveryService;
+
 
     public DependencyManager() {
         idGenerator = new IdGenerator();
@@ -48,7 +51,10 @@ public class DependencyManager {
         mapService.loadMap(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/ExamplesMap/smallMap.xml"));
 
         this.mapService = mapService;
-        roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(), mapService);
+
+        final double courierSpeedMs = 15/3.6; // 15kmh
+        RoadMapBuilder roadMapBuilder = new RoadMapBuilderImpl(idGenerator, Duration.ofMinutes(5), LocalTime.of(7,45), courierSpeedMs);
+        roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(roadMapBuilder), mapService);
 
     }
 
