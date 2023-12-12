@@ -69,7 +69,7 @@ public class RoadMapController {
             } else {
                 itinerary += (i+1) + "ème étape\n";
             }
-            List<Segment> segments = legs.get(i).getSegments();
+            List<Segment> segments = legs.get(i).segments();
             for(int j = 0; j<segments.size(); j++){
                 if(!segments.get(j).name().isEmpty()){
                     itinerary += " - " + segments.get(j).name() + "\n" ;
