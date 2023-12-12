@@ -4,6 +4,7 @@ import fr.insalyon.heptabits.pldagile.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -52,7 +53,7 @@ class InMemoryRoadMapRepositoryTest {
     RoadMap roadMap;
 
 
-    InMemoryRoadMapRepository inMemoryRoadMapRepository;
+    InMemoryRoadMapRepository repository;
 
     IdGenerator idGenerator;
 
@@ -60,56 +61,106 @@ class InMemoryRoadMapRepositoryTest {
     @BeforeEach
     void setUp() {
         idGenerator = new IdGenerator();
-        inMemoryRoadMapRepository = new InMemoryRoadMapRepository(idGenerator);
+        repository = new InMemoryRoadMapRepository(idGenerator);
         roadMap = new RoadMap(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
     }
 
     @Test
     void getAll() {
-        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
-        assertEquals(1, inMemoryRoadMapRepository.getAll().size());
+        repository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        assertEquals(1, repository.getAll().size());
     }
 
     @Test
     void getById() {
-        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
-        assertEquals(roadMap, inMemoryRoadMapRepository.getById(1));
+        repository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        assertEquals(roadMap, repository.getById(1));
     }
 
     @Test
     void getByIdNull() {
-        assertNull(inMemoryRoadMapRepository.getById(1));
+        assertNull(repository.getById(1));
     }
 
     @Test
     void create() {
-        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
-        assertEquals(roadMap, inMemoryRoadMapRepository.getById(1));
+        repository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        assertEquals(roadMap, repository.getById(1));
     }
 
     @Test
     void update() {
-        RoadMap firstRoadMap = inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        RoadMap firstRoadMap = repository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
         LocalDateTime newDelivery1ScheduledDateTime = delivery1ScheduledDateTime.plusMinutes(1);
         Delivery updatedDelivery1 = new Delivery( newDelivery1ScheduledDateTime, iC, 1, 1, timeWindow);
         RoadMap updatedRoadmap = new RoadMap(firstRoadMap.getId(), List.of(updatedDelivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
-        inMemoryRoadMapRepository.updateById(firstRoadMap.getId(), updatedRoadmap.getDeliveries(), updatedRoadmap.getLegs());
+        repository.updateById(firstRoadMap.getId(), updatedRoadmap.getDeliveries(), updatedRoadmap.getLegs());
 
-        assertEquals(inMemoryRoadMapRepository.getById(1).getDeliveries().getFirst(), updatedDelivery1);
-        assertEquals(updatedRoadmap, inMemoryRoadMapRepository.getById(1));
+        assertEquals(repository.getById(1).getDeliveries().getFirst(), updatedDelivery1);
+        assertEquals(updatedRoadmap, repository.getById(1));
 
 
     }
 
     @Test
     void updateNotFoundId(){
-        assertThrows(IllegalArgumentException.class, () -> inMemoryRoadMapRepository.updateById(432434, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg)));
+        assertThrows(IllegalArgumentException.class, () -> repository.updateById(432434, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg)));
     }
 
     @Test
     void delete() {
-        inMemoryRoadMapRepository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
-        inMemoryRoadMapRepository.delete(1);
-        assertNull(inMemoryRoadMapRepository.getById(1));
+        repository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+        repository.delete(1);
+        assertNull(repository.getById(1));
+    }
+
+    @Test
+    void updateById() {
+
+        assertTrue(repository.getAll().isEmpty());
+
+        Delivery delivery1 = new Delivery( delivery1ScheduledDateTime, iC, 1, 1, timeWindow);
+
+        repository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+
+        Delivery newDelivery1 = new Delivery(delivery1ScheduledDateTime, iC, 1, 1324, timeWindow);
+
+        repository.updateById(1, List.of(newDelivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+
+        assertEquals(newDelivery1, repository.getById(1).getDeliveries().getFirst());
+
+    }
+
+    @Test
+    void updateNonExistingRoadMap() {
+        assertThrows(IllegalArgumentException.class, () -> repository.updateById(1, List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg)));
+    }
+
+
+
+    @Test
+    void getByCourierAndDate() {
+        LocalDate date = delivery1.scheduledDateTime().toLocalDate();
+        long courierId = delivery1.courierId();
+        assertNull(repository.getByCourierAndDate(courierId, date));
+
+        repository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+
+        assertEquals(roadMap, repository.getByCourierAndDate(courierId, date));
+        assertNull(repository.getByCourierAndDate(courierId, date.plusDays(1)));
+        assertNull(repository.getByCourierAndDate(courierId + 1, date));
+    }
+
+
+    @Test
+    void getByDate() {
+        LocalDate date = delivery1.scheduledDateTime().toLocalDate();
+        assertEquals(0, repository.getByDate(date).size());
+
+        repository.create(List.of(delivery1, delivery2), List.of(firstLeg, secondLeg, thirdLeg));
+
+        assertEquals(roadMap, repository.getByDate(date).getFirst());
+
+        assertEquals(0, repository.getByDate(date.plusDays(1)).size());
     }
 }

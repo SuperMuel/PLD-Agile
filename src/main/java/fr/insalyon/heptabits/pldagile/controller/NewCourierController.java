@@ -17,6 +17,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller to handle the creation of a new courier.
+ */
 public class NewCourierController {
     @FXML
     private TextField lastNameField;
@@ -39,6 +42,9 @@ public class NewCourierController {
         this.dependencyManager = dependencyManager;
     }
 
+    /**
+     * Initializes the controller.
+     */
     public void initialize() {
 
         confirmNewCourierButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> confirmNewCourierButton.setStyle("-fx-background-color: #00BCAD"));
@@ -48,6 +54,13 @@ public class NewCourierController {
         returnButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> returnButton.setStyle("-fx-background-color: #00A093"));
 
     }
+
+    /**
+     * Handles the click on the validate new courier button.
+     *
+     * @param e the event
+     * @throws IOException if the next view cannot be loaded
+     */
     @FXML
     protected void onValidateNewCourierButtonClick(InputEvent e) throws IOException {
         final String lastName = lastNameField.getText();
@@ -83,6 +96,12 @@ public class NewCourierController {
         stage.show();
     }
 
+    /**
+     * Handles the click on the return button.
+     *
+     * @param e the event
+     * @throws IOException if the next view cannot be loaded
+     */
     public void onReturnButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();

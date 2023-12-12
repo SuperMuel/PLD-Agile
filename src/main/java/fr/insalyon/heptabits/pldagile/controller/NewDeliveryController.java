@@ -61,7 +61,9 @@ public class NewDeliveryController {
     }
 
 
-    // Initialize the list of couriers in your controller's initialize method or constructor.
+    /**
+     * Initializes the controller.
+     */
     @FXML
     public void initialize() {
         // Add the courier names to the ChoiceBox
@@ -168,6 +170,14 @@ public class NewDeliveryController {
 
     }
 
+
+    /**
+     * Handles the click on the return button.
+     *
+     * @param e the event
+     * @throws IOException if an error occurs while loading the next view
+     */
+    @FXML
     public void onReturnButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
@@ -184,6 +194,13 @@ public class NewDeliveryController {
     }
 
 
+    /**
+     * Handles the click on the add new client button.
+     *
+     * @param e the event
+     * @throws IOException if an error occurs while loading the next view
+     */
+    @FXML
     public void onNewClientButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
@@ -199,6 +216,13 @@ public class NewDeliveryController {
         stage.show();
     }
 
+    /**
+     * Handles the click on the add new courier button.
+     *
+     * @param e the event
+     * @throws IOException if an error occurs while loading the next view
+     */
+    @FXML
     public void onNewCourierButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();

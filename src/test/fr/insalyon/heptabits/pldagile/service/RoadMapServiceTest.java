@@ -58,6 +58,10 @@ class RoadMapServiceTest {
         requests = roadMapService.getDeliveryRequestsForCourierOnDate(exampleRoadMap.getCourierId(), exampleRoadMap.getDate());
 
         assertEquals(exampleRoadMap.getDeliveries().size(), requests.size());
+
+        // test with null date, should throw
+        assertThrows(NullPointerException.class, () -> roadMapService.getDeliveryRequestsForCourierOnDate(exampleRoadMap.getCourierId(), null));
+
     }
 
 
