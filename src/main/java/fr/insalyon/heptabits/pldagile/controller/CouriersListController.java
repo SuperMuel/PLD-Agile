@@ -3,7 +3,9 @@ package fr.insalyon.heptabits.pldagile.controller;
 import fr.insalyon.heptabits.pldagile.DependencyManager;
 import fr.insalyon.heptabits.pldagile.HelloApplication;
 import fr.insalyon.heptabits.pldagile.model.Courier;
+import fr.insalyon.heptabits.pldagile.model.RoadMap;
 import fr.insalyon.heptabits.pldagile.repository.CourierRepository;
+import fr.insalyon.heptabits.pldagile.repository.RoadMapRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -54,6 +56,8 @@ public class CouriersListController {
         Courier courier = courierChoiceBox.getValue();
         LocalDate chosenDate = datePicker.getValue();
 
+        // TODO ensure a the courier and date are not null
+
         newStage.close();
         this.stage.close();
 
@@ -68,9 +72,15 @@ public class CouriersListController {
     }
 
     public void initialize(){
+        LocalDate date = LocalDate.now();
+        datePicker.setValue(date);
+
+        final RoadMapRepository roadMapRepository = dependencyManager.getRoadMapRepository();
         final CourierRepository courierRepository = dependencyManager.getCourierRepository();
-        List<Courier> couriers = courierRepository.findAll();
+
+        final List<RoadMap> roadMaps = roadMapRepository.getByDate(date);
+        final List<Courier> couriers = roadMaps.stream().map(RoadMap::getCourierId).distinct().map(courierRepository::findById).toList();
+        //TODO If no couriers, show message
         courierChoiceBox.getItems().addAll(couriers);
-        datePicker.setValue(LocalDate.now());
     }
 }
