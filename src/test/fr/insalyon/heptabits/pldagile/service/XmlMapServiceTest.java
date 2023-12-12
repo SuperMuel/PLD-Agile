@@ -9,9 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,6 +78,15 @@ class XmlMapServiceTest {
     @Test
     void loadVoidMap() {
         assertThrows(IllegalArgumentException.class, () -> service.loadMap(null));
+    }
+
+    @Test
+    void loapMapWithException() throws Exception {
+        when(mockDocumentBuilder.parse(any(File.class))).thenThrow(new IOException());
+        assertThrows(RuntimeException.class, () -> service.loadMap(Path.of("test.xml")));
+
+        when(mockDocumentBuilder.parse(any(File.class))).thenThrow(new SAXException());
+        assertThrows(RuntimeException.class, () -> service.loadMap(Path.of("test.xml")));
     }
 
     @Test

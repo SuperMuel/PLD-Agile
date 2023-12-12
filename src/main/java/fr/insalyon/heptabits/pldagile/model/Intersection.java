@@ -1,10 +1,30 @@
 package fr.insalyon.heptabits.pldagile.model;
 
+import java.util.Locale;
+
+/**
+ * Represents an intersection.
+ *
+ * Stores the latitude and longitude of the intersection.
+ *
+ * The id is inherited from BaseEntity.
+ *
+ * All fields are final.
+ */
 public class Intersection extends BaseEntity {
 
     private final float latitude;
     private final float longitude;
 
+    /**
+     * Creates a new intersection.
+     *
+     * @param id the id of the intersection
+     * @param latitude the latitude of the intersection
+     * @param longitude the longitude of the intersection
+     *
+     * No validation is done on the latitude and longitude.
+     */
     public Intersection(long id, float latitude, float longitude) {
         super(id);
         this.latitude = latitude;
@@ -12,10 +32,16 @@ public class Intersection extends BaseEntity {
     }
 
 
+    /**
+     * @return the latitude of the intersection
+     */
     public float getLatitude() {
         return latitude;
     }
 
+    /**
+     * @return the longitude of the intersection
+     */
     public float getLongitude() {
         return longitude;
     }
@@ -30,8 +56,13 @@ public class Intersection extends BaseEntity {
                 '}';
     }
 
+    /**
+     * @return a pretty printed version of the latitude and longitude.
+     *
+     * Example: "45.7541, 4.8576"
+     */
     public String latLongPrettyPrint() {
-        return String.format("%.4f, %.4f", latitude, longitude);
+        return String.format(Locale.FRANCE, "%.4f, %.4f", latitude, longitude);
     }
 
     @Override

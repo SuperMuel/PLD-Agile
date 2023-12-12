@@ -1,6 +1,7 @@
 package fr.insalyon.heptabits.pldagile.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,12 +16,14 @@ public class Map extends BaseEntity {
     private final MapBoundaries boundaries;
 
     /**
-     * Constructor
+     * Creates a new map.
      *
      * @param id            the id of the map
-     * @param intersections the list of getIntersections
-     * @param segments      the list of getSegments
+     * @param intersections the list of intersections
+     * @param segments      the list of segments
      * @param warehouseId   the id of the warehouse
+     *
+     * @throws IllegalArgumentException if the warehouse id is not an intersection
      */
     public Map(long id, HashMap<Long, Intersection> intersections, List<Segment> segments, long warehouseId) {
         super(id);
@@ -32,20 +35,25 @@ public class Map extends BaseEntity {
             throw new IllegalArgumentException("Warehouse id must be an intersection");
         }
 
+        // A cache, to avoid recomputing the boundaries every time
         this.boundaries = computeBoundaries();
 
     }
 
-
-    public HashMap<Long, Intersection> getIntersections() {
+    /**
+     * Get an immutable view of intersections
+     *
+     * @return the map of intersections
+     */
+    public java.util.Map<Long, Intersection> getIntersections() {
         //immutable view
-        return new HashMap<>(intersections);
+        return Collections.unmodifiableMap(intersections);
     }
 
     /**
-     * Get an immutable view of getSegments
+     * Get an immutable view of segments
      *
-     * @return the list of getSegments
+     * @return the list of segments
      */
     public List<Segment> getSegments() {
         //immutable view
@@ -53,15 +61,27 @@ public class Map extends BaseEntity {
     }
 
 
+    /**
+     * @return the id of the warehouse
+     */
     public long getWarehouseId() {
         return warehouseId;
     }
 
+    /**
+     * @return the warehouse
+     */
     public Intersection getWarehouse() {
         return intersections.get(warehouseId);
     }
 
 
+    /**
+     *  Compute the boundaries of the map in a single loop.
+     *  The boundaries are the minimum and maximum latitude and longitude of the map.
+     *
+     *  @return the boundaries of the map.
+     */
     private MapBoundaries computeBoundaries() {
         // compute boundaries in one loop
         float minLatitude = Float.MAX_VALUE;
@@ -87,22 +107,38 @@ public class Map extends BaseEntity {
         return new MapBoundaries(minLatitude, maxLatitude, minLongitude, maxLongitude);
     }
 
+    /**
+     * @return the boundaries of the map
+     */
     public MapBoundaries getBoundaries() {
         return boundaries;
     }
 
+
+    /**
+     * @return the minimum latitude of the map
+     */
     public float getMinLatitude() {
         return boundaries.minLatitude();
     }
 
+    /**
+     * @return the minimum longitude of the map
+     */
     public float getMinLongitude() {
         return boundaries.minLongitude();
     }
 
+    /**
+     * @return the maximum latitude of the map
+     */
     public float getMaxLatitude() {
     return boundaries.maxLatitude();
     }
 
+    /**
+     * @return the maximum longitude of the map
+     */
     public float getMaxLongitude() {
       return boundaries.maxLongitude();
     }
@@ -110,20 +146,32 @@ public class Map extends BaseEntity {
     @Override
     public String toString() {
         return "Map{" +
-                "getIntersections=" + intersections +
-                ", getSegments=" + segments +
+                "intersections=" + intersections +
+                ", segments=" + segments +
                 ", warehouseId=" + warehouseId +
                 '}';
     }
 
+
+    /**
+     * @return the origin of the segment
+     * Note : a segment is not directed.
+     */
     public Intersection getOriginOf(Segment segment) {
         return intersections.get(segment.getOriginId());
     }
 
+    /**
+     * @return the destination of the segment
+     * Note : a segment is not directed.
+     */
     public Intersection getDestinationOf(Segment segment) {
         return intersections.get(segment.getDestinationId());
     }
 
+    /**
+     * @return all the segments connected to the intersection.
+     */
     public List<Segment> getConnectedSegments(Intersection intersection) {
         List<Segment> outgoingSegments = new ArrayList<>();
         for (Segment s : segments) {
@@ -137,6 +185,9 @@ public class Map extends BaseEntity {
     }
 
 
+    /**
+     * @return all the neighbors of the intersection.
+     */
     public List<Intersection> getNeighbors(Intersection intersection) {
         List<Intersection> neighbors = new ArrayList<>();
         for (Segment s : getConnectedSegments(intersection)) {
@@ -151,16 +202,29 @@ public class Map extends BaseEntity {
 
 
     /**
-     * Get the shortest distance between two getIntersections, or null if there is no segment between them.
+     * Get the shortest distance between two intersections, or null if there is no segment between them.
+     *
+     * This is useful since there can be multiple segments between two intersections.
      *
      * @param origin      the origin intersection
      * @param destination the destination intersection
-     * @return the shortest distance between the two getIntersections
+     * @return the shortest distance between the two intersections
      */
     private double shortestDistanceBetween(Intersection origin, Intersection destination) {
         return getShortestSegmentBetween(origin, destination).length();
     }
 
+    /**
+     * Get the shortest path between two intersections, or null if there is no path between them.
+     *
+     * Uses Dijkstra's algorithm.*
+     *
+     * @param origin      the origin intersection
+     * @param destination the destination intersection
+     * @return the shortest path between the two intersections. The path is a list of intersections, that
+     *         starts with the origin and ends with the destination. The segments between the intersections
+     *         are not included in the path, but can be obtained with getShortestSegmentsBetween(path).
+     */
     public List<Intersection> getShortestPath(Intersection origin, Intersection destination) {
         if(origin.equals(destination)) {
             throw new IllegalArgumentException("Origin and destination must be different.");
@@ -215,6 +279,10 @@ public class Map extends BaseEntity {
         return path;
     }
 
+
+    /**
+     * @return true if the segment connects the two intersections, false otherwise.
+     */
     public boolean connectsIntersections(Segment s, Intersection origin, Intersection destination) {
         return (getOriginOf(s).equals(origin) && getDestinationOf(s).equals(destination)) ||
                 (getDestinationOf(s).equals(origin) && getOriginOf(s).equals(destination));
@@ -222,11 +290,13 @@ public class Map extends BaseEntity {
 
 
     /**
-     * Get the shortest segment between two getIntersections, or null if there is no segment between them.
+     * Get the shortest segment between two intersections, or null if there is no segment between them.
+     *
+     * This is useful since there can be multiple segments between two intersections.
      *
      * @param origin      the origin intersection
      * @param destination the destination intersection
-     * @return the shortest segment between the two getIntersections
+     * @return the shortest segment between the two intersections
      */
     public Segment getShortestSegmentBetween(Intersection origin, Intersection destination) {
         Segment shortestSegment = null;
@@ -242,6 +312,19 @@ public class Map extends BaseEntity {
         return shortestSegment;
     }
 
+
+    /**
+     * Get all the segments between two intersections.
+     *
+     * This is useful since there can be multiple segments between two intersections.
+     *
+     * Warning: this method doesn't find a path between the two intersections. It only returns the segments
+     * that connect the two intersections.
+     *
+     * @param a      the origin intersection
+     * @param b      the destination intersection
+     * @return the segments between the two intersections
+     */
     public List<Segment> getAllSegmentsBetween(Intersection a, Intersection b){
         List<Segment> segments = new ArrayList<>();
         for (Segment s : getConnectedSegments(a)) {
@@ -253,14 +336,23 @@ public class Map extends BaseEntity {
     }
 
 
+    /**
+     * Get the shortest segments between a list of intersections.
+     *
+     * @param path      the list of intersections. Must not be null and contain at least two intersections.
+     *                  Each pair of consecutive intersections must be connected by at least one segment.
+     *                  Each pair of consecutive intersections must be different.
+     * @return the shortest segments between the intersections. The segments are ordered in the same way as the
+     * intersections.
+     */
     public List<Segment> getShortestSegmentsBetween(List<Intersection> path){
         if (path == null) throw new IllegalArgumentException("Path cannot be null.");
-        if (path.size() < 2) throw new IllegalArgumentException("Path must contain at least two getIntersections.");
+        if (path.size() < 2) throw new IllegalArgumentException("Path must contain at least two intersections.");
 
-        // If the path contains two consecutive getIntersections that are equal, throw an exception
+        // If the path contains two consecutive intersections that are equal, throw an exception
         for (int i = 0; i < path.size() - 1; i++) {
             if (path.get(i).equals(path.get(i + 1))) {
-                throw new IllegalArgumentException("Path cannot contain two consecutive equal getIntersections.");
+                throw new IllegalArgumentException("Path cannot contain two consecutive equal intersections.");
             }
         }
 
@@ -270,9 +362,4 @@ public class Map extends BaseEntity {
         }
         return segments;
     }
-
-
-
-
-
 }

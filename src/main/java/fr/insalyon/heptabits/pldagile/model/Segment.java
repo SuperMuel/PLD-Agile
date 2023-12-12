@@ -3,33 +3,40 @@ package fr.insalyon.heptabits.pldagile.model;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Represents a segment.
+ *
+ * Stores the origin, the destination, the name and the length.
+ *
+ * We consider an origin and a destination to be consistent with the map files we read. Howerver,
+ * the segment is not oriented, so the origin and the destination are interchangeable.
+ *
+ * All fields are final.
+ */
 public record Segment(Intersection origin, Intersection destination, String name, double length) {
 
-    @Override
-    public String toString() {
-        return "Segment{" +
-                "origin=" + origin +
-                ", destination=" + destination +
-                ", name='" + name + '\'' +
-                ", length=" + length +
-                '}';
-    }
 
-
-    static public double getTotalLength(List<Segment> segments) {
-        double totalLength = 0;
-        for (Segment segment : segments) {
-            totalLength += segment.length();
-        }
-        return totalLength;
-    }
-
+    /**
+     * @return the id of the origin of the segment
+     */
     public long getOriginId() {
         return origin.getId();
     }
 
+    /**
+     * @return the id of the origin of the segment
+     */
     public long getDestinationId() {
         return destination.getId();
+    }
+
+
+    /**
+     * @param segments
+     * @return the total length of the segments
+     */
+    static public double getTotalLength(List<Segment> segments) {
+        return segments.stream().mapToDouble(Segment::length).sum();
     }
 
     @Override

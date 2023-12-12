@@ -1,5 +1,10 @@
 package fr.insalyon.heptabits.pldagile.model;
 
+/**
+ * Base class for all entities.
+ *
+ * Stores the id of the entity.
+ */
 public abstract class BaseEntity {
     protected final long id;
 

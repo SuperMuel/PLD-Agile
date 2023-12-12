@@ -11,6 +11,9 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalTime;
 
+/**
+ * A class that manages the dependencies between the different components of the application.
+ */
 public class DependencyManager {
     private final CourierRepository courierRepository;
 

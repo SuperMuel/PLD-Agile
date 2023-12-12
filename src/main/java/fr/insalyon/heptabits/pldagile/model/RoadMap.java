@@ -30,13 +30,11 @@ public class RoadMap extends BaseEntity {
             throw new IllegalArgumentException("RoadMap constructor: empty deliveries list");
         }
 
-
         // Check that all deliveries are made by the same courier
         final long numberOfCouriers = deliveries.stream().map(Delivery::courierId).distinct().count();
         if (numberOfCouriers != 1) {
             throw new IllegalArgumentException("RoadMap constructor: deliveries must be made by the same courier");
         }
-
 
         if (legs.isEmpty()) {
             throw new IllegalArgumentException("RoadMap constructor: empty legs list");
@@ -53,11 +51,17 @@ public class RoadMap extends BaseEntity {
 
         // Assert that each leg's departure point matches the previous leg's arrival point
         for (int i = 1; i < legs.size(); i++) {
-            if (!(legs.get(i).getIntersections().getFirst() == (legs.get(i - 1).getDestination()))) {
+            if (!(legs.get(i).intersections().getFirst() == (legs.get(i - 1).getDestination()))) {
                 throw new IllegalArgumentException("RoadMap constructor: leg departure point must match previous leg destination");
             }
         }
 
+        // Assert that each leg's departure time is before the next leg's departure time
+        for (int i = 1; i < legs.size(); i++) {
+            if (!(legs.get(i).departureTime().isAfter(legs.get(i - 1).departureTime()))) {
+                throw new IllegalArgumentException("RoadMap constructor: leg departure time must be after previous leg departure time");
+            }
+        }
 
         this.deliveries = deliveries;
         this.legs = legs;
@@ -100,8 +104,6 @@ public class RoadMap extends BaseEntity {
 
 
     /**
-     * Returns the id of the courier who will make the deliveries in the road map.
-     *
      * @return The id of the courier who will make the deliveries in the road map.
      */
     public long getCourierId() {
@@ -110,8 +112,6 @@ public class RoadMap extends BaseEntity {
 
 
     /**
-     * Returns the date of the first delivery in the road map.
-     *
      * @return The date of the first delivery in the road map.
      */
     public LocalDate getDate() {
@@ -121,11 +121,10 @@ public class RoadMap extends BaseEntity {
     @Override
     public String toString() {
         return "RoadMap{" +
-                "id=" + getId() + "\n" +
-                ", deliveries=" + deliveries + "\n" +
-                ", legs=" + legs + "\n" +
+                "id=" + getId() +
+                ", deliveries=" + deliveries +
+                ", legs=" + legs +
                 '}';
     }
-
 
 }

@@ -87,4 +87,27 @@ class DeliveryRequestTest {
         assertEquals(deliveryRequest.getClientId(), delivery.clientId());
         assertEquals(deliveryRequest.getCourierId(), delivery.courierId());
     }
+
+    @Test
+    void equals(){
+        final DeliveryRequest deliveryRequest1 = new DeliveryRequest(date, clientId, destination, timeWindow, courierId);
+        final DeliveryRequest deliveryRequest2 = new DeliveryRequest(date, clientId, destination, timeWindow, courierId);
+        assertEquals(deliveryRequest1, deliveryRequest2);
+
+        final DeliveryRequest deliveryRequest3 = new DeliveryRequest(date, clientId, destination, timeWindow, 1);
+        assertNotEquals(deliveryRequest1, deliveryRequest3);
+
+        final DeliveryRequest deliveryRequest4 = new DeliveryRequest(date, clientId, destination, new TimeWindow(12,19), courierId);
+        assertNotEquals(deliveryRequest1, deliveryRequest4);
+
+        final DeliveryRequest deliveryRequest5 = new DeliveryRequest(date, clientId, new Intersection(0, 0, 1), timeWindow, courierId);
+        assertNotEquals(deliveryRequest1, deliveryRequest5);
+
+        final DeliveryRequest deliveryRequest6 = new DeliveryRequest(date, 1, destination, timeWindow, courierId);
+        assertNotEquals(deliveryRequest1, deliveryRequest6);
+
+        final DeliveryRequest deliveryRequest7 = new DeliveryRequest(LocalDate.of(2020, 1, 2), clientId, destination, timeWindow, courierId);
+        assertNotEquals(deliveryRequest1, deliveryRequest7);
+    }
+
 }

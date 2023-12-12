@@ -151,7 +151,7 @@ class MapTest {
 
     @Test
     void getIslandNeighbors() {
-        // An island is a set of getIntersections that are not connected to the rest of the map.
+        // An island is a set of intersections that are not connected to the rest of the map.
 
         // create island
         Intersection i6 = new Intersection(6, 10, 10);
@@ -200,7 +200,7 @@ class MapTest {
 
     @Test
     void getShortestPathOnIsland() {
-        // An island is a set of getIntersections that are not connected to the rest of the map.
+        // An island is a set of intersections that are not connected to the rest of the map.
 
         // create island
         Intersection i6 = new Intersection(6, 10, 10);

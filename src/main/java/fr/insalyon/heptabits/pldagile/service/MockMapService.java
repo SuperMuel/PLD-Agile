@@ -7,6 +7,9 @@ import fr.insalyon.heptabits.pldagile.model.Segment;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * A mock for the map service.
+ */
 public class MockMapService implements MapService {
 
     final Intersection i1 = new Intersection(1, -2, -1);

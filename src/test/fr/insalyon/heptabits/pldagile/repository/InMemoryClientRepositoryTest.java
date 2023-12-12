@@ -32,8 +32,22 @@ class InMemoryClientRepositoryTest {
     }
 
     @Test
-    void findByName() {
+    void findByName()
+    {
         assertEquals(repo.findByName("Raph", null).getFirst().getFirstName(), "Raphaël");
+        assertEquals(repo.findByName(null, "CHAB").getFirst().getLastName(), "CHABAL");
+    }
+
+
+    @Test
+    void findByNameIsCaseInsensitive() {
+        assertEquals(repo.findByName("raph", null).getFirst().getFirstName(), "Raphaël");
+        assertEquals(repo.findByName(null, "chab").getFirst().getLastName(), "CHABAL");
+    }
+
+    @Test
+    void findByNameNull() {
+     assertThrows(NullPointerException.class, () -> repo.findByName(null, null));
     }
 
     @Test

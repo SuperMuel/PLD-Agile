@@ -12,7 +12,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * An XML map parser.
+ */
 public class XmlMapParser implements IXmlMapParser {
+
+    /**
+     * Parses a XML document to a map.
+     *
+     * @param document the XML document to parse
+     * @param mapId the id of the map
+     * @return the parsed map
+     */
     public Map parse(Document document, long mapId) {
         document.getDocumentElement().normalize();
 

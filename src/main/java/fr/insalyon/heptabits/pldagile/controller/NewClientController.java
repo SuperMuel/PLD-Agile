@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller to handle the creation of a new client.
+ */
 public class NewClientController {
     @FXML
     private TextField firstNameField;
@@ -36,6 +39,9 @@ public class NewClientController {
         this.dependencyManager = dependencyManager;
     }
 
+    /**
+     * Initializes the controller.
+     */
     public void initialize() {
 
         confirmNewClientButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> confirmNewClientButton.setStyle("-fx-background-color: #00BCAD"));
@@ -48,6 +54,13 @@ public class NewClientController {
 
 
     }
+
+    /**
+     * Handles the click on the validate new client button.
+     *
+     * @param e the event
+     * @throws IOException if an error occurs while loading the next view
+     */
     @FXML
     protected void onValidateNewClientButtonClick(InputEvent e) throws IOException {
         final String lastName = lastNameField.getText();
@@ -81,6 +94,12 @@ public class NewClientController {
         stage.show();
     }
 
+    /**
+     * Handles the click on the return button.
+     *
+     * @param e the event
+     * @throws IOException if an error occurs while loading the next view
+     */
     public void onReturnButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();

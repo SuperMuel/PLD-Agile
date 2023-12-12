@@ -8,6 +8,13 @@ import java.util.Collection;
 import java.util.List;
 
 
+/**
+ * A naive implementation of the RoadMapOptimizer interface.
+ *
+ * It sorts the requests by time window start, and then computes
+ * the shortest path between each request.
+ *
+ */
 public class NaiveRoadMapOptimizer implements RoadMapOptimizer {
     private final RoadMapBuilder roadMapBuilder;
 
@@ -21,6 +28,13 @@ public class NaiveRoadMapOptimizer implements RoadMapOptimizer {
     }
 
 
+    /**
+     * Checks if a request is made before the departure time
+     *
+     * @param requests      The requests to check
+     * @param departureTime The departure time
+     * @return true if a request is made before the departure time, false otherwise
+     */
     private boolean aRequestIsBeforeDeparture(Collection<DeliveryRequest> requests, LocalTime departureTime) {
         for (DeliveryRequest request : requests) {
             if (request.getTimeWindow().getEnd().isBefore(departureTime)) {
@@ -30,6 +44,15 @@ public class NaiveRoadMapOptimizer implements RoadMapOptimizer {
         return false;
     }
 
+    /**
+     * Optimizes a road map.
+     *
+     * @param requests      The requests to optimize
+     * @param map           The map to use
+     * @param departureTime The departure time of the courier from the warehouse
+     * @return The optimized road map
+     * @throws ImpossibleRoadMapException if the road map is impossible to compute
+     */
     @Override
     public RoadMap optimize(Collection<DeliveryRequest> requests, Map map, LocalTime departureTime) throws ImpossibleRoadMapException {
         if (requests.isEmpty()) {

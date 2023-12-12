@@ -17,6 +17,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * A view for the map.
+ *
+ * It creates a JavaFX Group containing the map.
+ *
+ *
+ */
 public class MapView {
 
     private final Map map;
@@ -25,22 +32,47 @@ public class MapView {
 
     private final HashMap<Long, Circle> intersectionsToCircles;
 
+    /**
+     * Gets the circle corresponding to an intersection.
+     *
+     * @param id the intersection id
+     * @return the circle
+     */
     public Circle getCircleFromIntersectionId(long id) {
         return intersectionsToCircles.get(id);
     }
 
+    /**
+     * An interface for the onIntersectionClicked event.
+     */
     public interface OnIntersectionClicked {
         void onIntersectionClicked(Intersection intersection);
     }
+
 
     final OnIntersectionClicked onIntersectionClicked;
 
     final List<RoadMap> roadMaps;
 
+    /**
+     * Creates a new map view.
+     *
+     * @param map the map
+     * @param size the size of the map
+     * @param onIntersectionClicked the onIntersectionClicked event
+     */
     public MapView(Map map, int size, OnIntersectionClicked onIntersectionClicked) {
         this(map, size, onIntersectionClicked, List.of());
     }
 
+    /**
+     * Creates a new map view.
+     *
+     * @param map the map
+     * @param size the size of the map
+     * @param onIntersectionClicked the onIntersectionClicked event
+     * @param roadMaps the road maps to display
+     */
     public MapView(Map map, int size, OnIntersectionClicked onIntersectionClicked, List<RoadMap> roadMaps) {
         this.map = map;
         this.size = size;
@@ -53,17 +85,35 @@ public class MapView {
 
 
 
+    /**
+     * Converts a latitude to a pixel, relative to the map size.
+     *
+     * @param latitude the latitude
+     * @return the pixel
+     */
     private float latToPixel(double latitude) {
         MapBoundaries boundaries = map.getBoundaries();
         return (float) ((latitude - boundaries.minLatitude()) * size / (boundaries.maxLatitude() - boundaries.minLatitude()));
     }
 
+    /**
+     * Converts a longitude to a pixel, relative to the map size.
+     *
+     * @param longitude the longitude
+     * @return the pixel
+     */
     private float longToPixel(double longitude) {
         MapBoundaries boundaries = map.getBoundaries();
         return (float) ((longitude - boundaries.minLongitude()) * size / (boundaries.maxLongitude() - boundaries.minLongitude()));
     }
 
 
+    /**
+     * Maps an id to a color.
+     *
+     * @param id the id
+     * @return the color
+     */
     public static Color mapIdToColor(long id) {
         // Hash the id to generate a long
         long hash = id;
@@ -83,6 +133,11 @@ public class MapView {
     }
 
 
+    /**
+     * Creates the map view.
+     *
+     * @return the map view
+     */
     public Group createView() {
         Group group = new Group();
 
@@ -103,6 +158,7 @@ public class MapView {
 
         return group;
     }
+
 
 
     private List<Line> createMapLines() {
@@ -174,11 +230,14 @@ public class MapView {
         Tooltip tooltipCircle = new Tooltip(segment.name());
         Tooltip.install(line, tooltipCircle);
     }
-    Line segmentToLine(Segment segment, Color lineColor) {
+
+
+    private Line segmentToLine(Segment segment, Color lineColor) {
         return segmentToLine(segment, lineColor, 3);
     }
 
-    Line segmentToLine(Segment segment, Color lineColor, int strokeWidth) {
+
+    private Line segmentToLine(Segment segment, Color lineColor, int strokeWidth) {
         Intersection origin = segment.origin();
         Intersection destination = segment.destination();
 
@@ -195,10 +254,17 @@ public class MapView {
         return line;
     }
 
+    /**
+     * Creates the road map lines.
+     *
+     * @param roadMap the road map
+     * @param lineColor the color of the lines
+     * @return the road map lines
+     */
     private List<Line> createRoadMapLines(RoadMap roadMap, Color lineColor) {
         List<Line> lines = new ArrayList<>();
         for (Leg leg : roadMap.getLegs()) {
-            for (Segment segment : leg.getSegments()) {
+            for (Segment segment : leg.segments()) {
                 lines.add(segmentToLine(segment, lineColor, 5));
             }
         }
@@ -226,7 +292,12 @@ public class MapView {
 
     }
 
-
+    /**
+     * Creates the warehouse image view.
+     *
+     * @param imagePath the image path
+     * @return the warehouse image view
+     */
     private ImageView createWarehouseImageView(Path imagePath) {
         final int PIN_SIZE = 40;
 
