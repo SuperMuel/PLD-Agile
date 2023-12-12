@@ -36,9 +36,14 @@ class NaiveRoadMapOptimizerTest {
     LocalTime departureTime = LocalTime.of(7, 45, 0);
     TimeWindow timeWindow = new TimeWindow(8, 9); // 8h-9h
 
+    RoadMapBuilder roadMapBuilder;
+
     @BeforeEach
     void setUp() {
-        optimizer = new NaiveRoadMapOptimizer();
+        double courierSpeedMs = 15/3.6; // 15kmh
+        roadMapBuilder = new RoadMapBuilderImpl(new IdGenerator(), Duration.ofMinutes(5), LocalTime.of(7,45), courierSpeedMs);
+
+        optimizer = new NaiveRoadMapOptimizer(roadMapBuilder);
         date = LocalDate.now();
         setUpMap();
     }
@@ -207,7 +212,10 @@ class NaiveRoadMapOptimizerTest {
         DeliveryRequest request = new DeliveryRequest(date, courierId, i4, timeWindow, courierId);
 
         double courierSpeedMs = 0.00001; // Very slow courier, will arrive late
-        NaiveRoadMapOptimizer optimizer = new NaiveRoadMapOptimizer(courierSpeedMs, Duration.ofMinutes(5));
+
+        RoadMapBuilder roadMapBuilder = new RoadMapBuilderImpl(new IdGenerator(), Duration.ofMinutes(5), LocalTime.of(7,45), courierSpeedMs);
+
+        NaiveRoadMapOptimizer optimizer = new NaiveRoadMapOptimizer(roadMapBuilder);
 
         assertThrows(ImpossibleRoadMapException.class, () -> optimizer.optimize(List.of(request), map, departureTime));
     }

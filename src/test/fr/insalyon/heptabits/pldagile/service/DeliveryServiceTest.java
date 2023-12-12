@@ -6,6 +6,7 @@ import fr.insalyon.heptabits.pldagile.repository.RoadMapRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -20,6 +21,7 @@ class DeliveryServiceTest {
 
     RoadMapService roadMapService;
 
+    RoadMapBuilder roadMapBuilder;
 
     Map map;
     Intersection i1;
@@ -34,7 +36,10 @@ class DeliveryServiceTest {
         IdGenerator idGenerator = new IdGenerator();
         roadMapRepository = new InMemoryRoadMapRepository(idGenerator);
 
-        roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(), mapService);
+        double courierSpeedMs = 15/3.6; //15kmh
+        roadMapBuilder = new RoadMapBuilderImpl(new IdGenerator(), Duration.ofMinutes(5), LocalTime.of(7,45), courierSpeedMs);
+
+        roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(roadMapBuilder), mapService);
 
         deliveryService = new DeliveryService(roadMapRepository);
     }
