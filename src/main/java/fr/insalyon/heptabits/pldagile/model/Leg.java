@@ -94,4 +94,9 @@ public record Leg(List<Intersection> intersections, List<Segment> segments, Loca
                 ", departureTime=" + departureTime + "\n" +
                 '}';
     }
+
+    public double getTotalLength() {
+        return Segment.getTotalLength(segments);
+    }
 }
+

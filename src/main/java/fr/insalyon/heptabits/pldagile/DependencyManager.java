@@ -57,8 +57,9 @@ public class DependencyManager {
 
         final double courierSpeedMs = 15/3.6; // 15kmh
         RoadMapBuilder roadMapBuilder = new RoadMapBuilderImpl(idGenerator, Duration.ofMinutes(5), LocalTime.of(7,45), courierSpeedMs);
-        roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(roadMapBuilder), mapService);
 
+        RoadMapOptimizer roadMapOptimizer = new EveryPossibilityRoadMapOptimizer(roadMapBuilder);
+        roadMapService = new RoadMapService(roadMapRepository, roadMapOptimizer, mapService);
     }
 
     public IdGenerator getIdGenerator() {

@@ -127,4 +127,9 @@ public class RoadMap extends BaseEntity {
                 '}';
     }
 
+    public double getTotalLength(){
+        return legs.stream().mapToDouble(Leg::getTotalLength).sum();
+
+    }
+
 }
