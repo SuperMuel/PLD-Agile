@@ -1,6 +1,7 @@
 # PLD-Agile
 
 [![codecov](https://codecov.io/github/SuperMuel/PLD-Agile/graph/badge.svg?token=VL6RZLOBNK)](https://codecov.io/github/SuperMuel/PLD-Agile)
+[![Documentation Status](https://readthedocs.org/projects/pld-agile/badge/?version=latest)](https://pld-agile.readthedocs.io/en/latest/?badge=latest)
 
 ### Getting started
 
