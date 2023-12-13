@@ -2,6 +2,7 @@ package fr.insalyon.heptabits.pldagile.view;
 
 import fr.insalyon.heptabits.pldagile.model.*;
 import javafx.animation.ScaleTransition;
+import javafx.beans.property.adapter.ReadOnlyJavaBeanDoubleProperty;
 import javafx.scene.Group;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -83,8 +84,6 @@ public class MapView {
 
     }
 
-
-
     /**
      * Converts a latitude to a pixel, relative to the map size.
      *
@@ -152,6 +151,24 @@ public class MapView {
             group.getChildren().addAll(createDeliveriesCircles(roadMap.getDeliveries(), color));
 
         }
+
+        ImageView warehouseImageView = createWarehouseImageView(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/warehouse-location-pin.png"));
+        group.getChildren().add(warehouseImageView);
+
+        return group;
+    }
+
+    public Group createView(RoadMap roadMap) {
+        Group group = new Group();
+
+        group.getChildren().addAll(createMapLines());
+        group.getChildren().addAll(createMapCircles());
+
+        System.out.println(roadMap.getId());
+        Color color = mapIdToColor(roadMap.getId());
+        group.getChildren().addAll(createRoadMapLines(roadMap, color));
+        group.getChildren().addAll(createDeliveriesCircles(roadMap.getDeliveries(), color));
+
 
         ImageView warehouseImageView = createWarehouseImageView(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/warehouse-location-pin.png"));
         group.getChildren().add(warehouseImageView);

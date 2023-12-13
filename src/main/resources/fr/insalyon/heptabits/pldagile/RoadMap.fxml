@@ -81,7 +81,7 @@
                        <Font name="Inter Semi Bold" size="40.0" />
                    </font>
                </Label>
-               <Button layoutX="374.0" layoutY="1139.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="335.0" style="-fx-background-color: #00CCBC;" text="Télécharger la feuille de route" textFill="WHITE">
+               <Button layoutX="374.0" layoutY="1139.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="335.0" style="-fx-background-color: #00CCBC;" onAction="#generateRoadMapToPDFButton" text="Télécharger la feuille de route" textFill="WHITE">
                    <font>
                        <Font name="Inter Semi Bold" size="20.0" />
                    </font>
