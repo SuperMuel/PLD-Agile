@@ -12,7 +12,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.StackPane;
@@ -22,7 +21,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class RoadMapController {
@@ -125,6 +123,7 @@ public class RoadMapController {
     protected void generateRoadMapToPDFButton(ActionEvent e) {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
+        String itinerary = courierItinirary.getText();
 
         // Créer un FileChooser
         FileChooser fileChooser = new FileChooser();
@@ -139,8 +138,8 @@ public class RoadMapController {
         // Vérifier si un fichier a été sélectionné
         if (selectedFile != null) {
             // Faites quelque chose avec le fichier sélectionné
-            System.out.println("Fichier PDF sélectionné : " + selectedFile.getAbsolutePath());
 
+            System.out.println("Fichier PDF sélectionné : " + selectedFile.getAbsolutePath());
             // À partir d'ici, vous pouvez traiter le fichier PDF comme nécessaire
             // (par exemple, lire son contenu, analyser les données, etc.)
         } else {
