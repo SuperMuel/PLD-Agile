@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
@@ -23,6 +24,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import org.apache.pdfbox.pdmodel.*;
+import org.apache.pdfbox.pdmodel.font.PDTrueTypeFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.encoding.WinAnsiEncoding;
+
+
 
 public class RoadMapController {
 
@@ -172,7 +179,7 @@ public class RoadMapController {
     }
 
     @FXML
-    protected void generatePdfButton(ActionEvent e) {
+    protected void generatePdfButton(ActionEvent e) throws IOException {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         String itinerary = courierItinirary.getText();
@@ -190,6 +197,24 @@ public class RoadMapController {
         // Vérifier si un fichier a été sélectionné
         if (selectedFile != null) {
             // Faites quelque chose avec le fichier sélectionné
+            PDDocument doc = new PDDocument();
+            PDPage blankPage = new PDPage();
+            doc.addPage( blankPage );
+            PDPage page = doc.getPage(0);
+            PDPageContentStream contentStream = new PDPageContentStream(doc, page);
+            contentStream.beginText();
+            PDTrueTypeFont font = PDTrueTypeFont.load(doc, PDDocument.class.getResourceAsStream(
+                    "/org/apache/pdfbox/resources/ttf/LiberationSans-Regular.ttf"), WinAnsiEncoding.INSTANCE);
+            contentStream.setFont(font, 12);
+            contentStream.newLineAtOffset(10,700);
+            String[] itinerary_list = itinerary.split("\n");
+            for(String s: itinerary_list){
+                contentStream.showText(s);
+                contentStream.newLineAtOffset(0,-15);
+            }
+            contentStream.endText();
+            contentStream.close();
+            doc.save(selectedFile.getAbsolutePath());
 
             System.out.println("Fichier PDF sélectionné : " + selectedFile.getAbsolutePath());
             // À partir d'ici, vous pouvez traiter le fichier PDF comme nécessaire
@@ -199,6 +224,16 @@ public class RoadMapController {
             System.out.println("Sélection de fichier annulée.");
         }
 
+    }
+
+    public   String remove(String bufstr) {
+        StringBuilder b = new StringBuilder();
+        for (int i = 0; i < bufstr.length(); i++) {
+            if (WinAnsiEncoding.INSTANCE.contains(bufstr.charAt(i))) {
+                b.append(bufstr.charAt(i));
+            }
+        }
+        return b.toString();
     }
 
 
