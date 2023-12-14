@@ -53,7 +53,9 @@ public class DependencyManager {
         this.mapService = mapService;
         roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(), mapService);
 
-        xmlRoadMapService = new XmlRoadMapService(roadMapRepository, mapService, documentBuilder, courierRepository, clientRepository);
+        IXmlRoadMapsSerializer xmlRoadMapsSerializer = new XmlRoadMapsSerializerImpl();
+
+        xmlRoadMapService = new XmlRoadMapService(roadMapRepository, mapService, courierRepository, clientRepository, xmlRoadMapsSerializer);
 
     }
 

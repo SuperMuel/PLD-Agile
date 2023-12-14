@@ -24,6 +24,7 @@ import org.xml.sax.SAXException;
 
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -181,7 +182,7 @@ public class HelloController {
     }
 
     @FXML
-    private void exporterMenuItemClicked(ActionEvent event) {
+    private void exporterMenuItemClicked(ActionEvent event) throws IOException {
         if (!(event.getSource() instanceof MenuItem menuItem)) {
             return;
         }
@@ -201,7 +202,9 @@ public class HelloController {
         }
 
 
-        dependencyManager.getXmlRoadMapService().exportRoadMapsToXml(selectedFile);
+        FileWriter fileWriter = new FileWriter(selectedFile);
+
+        dependencyManager.getXmlRoadMapService().exportRoadMapsToXml(fileWriter);
 
 
     }
