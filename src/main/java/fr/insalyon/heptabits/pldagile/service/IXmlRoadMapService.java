@@ -2,11 +2,12 @@ package fr.insalyon.heptabits.pldagile.service;
 
 import org.xml.sax.SAXException;
 
+import java.io.File;
 import java.io.IOException;
 
 public interface IXmlRoadMapService {
 
-    void exportRoadMapsToXml(String filePath);
+    void exportRoadMapsToXml(File file);
 
-    void importRoadMapsFromXml(String filePath) throws IOException, SAXException;
+    void importRoadMapsFromXml(File file) throws IOException, SAXException;
 }

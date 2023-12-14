@@ -148,8 +148,9 @@ public class HelloController {
             });
         }
     }
+
     @FXML
-    protected void onViewRoadMapsButtonClick(InputEvent e) throws IOException{
+    protected void onViewRoadMapsButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
         Stage oldStage = (Stage) source.getScene().getWindow();
 
@@ -162,6 +163,7 @@ public class HelloController {
         stage.setScene(scene);
         stage.show();
     }
+
     @FXML
     protected void onNewDeliveryButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
@@ -180,65 +182,54 @@ public class HelloController {
 
     @FXML
     private void exporterMenuItemClicked(ActionEvent event) {
-        // Assurez-vous que l'événement provient bien d'un MenuItem
-        if (event.getSource() instanceof MenuItem menuItem) {
-
-            // Créer un FileChooser
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Sélectionner un fichier XML");
-
-            // Ajouter un filtre pour ne montrer que les fichiers XML
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
-
-            // Afficher la boîte de dialogue et attendre que l'utilisateur sélectionne un fichier
-            Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
-            File selectedFile = fileChooser.showSaveDialog(stage);
-
-            // Vérifier si un fichier a été sélectionné
-            if (selectedFile != null) {
-                // Faites quelque chose avec le fichier sélectionné
-                System.out.println("Fichier XML sélectionné : " + selectedFile.getAbsolutePath());
-                dependencyManager.getXmlRoadMapService().exportRoadMapsToXml(selectedFile.getAbsolutePath());
-
-                // À partir d'ici, vous pouvez traiter le fichier XML comme nécessaire
-                // (par exemple, lire son contenu, analyser les données, etc.)
-            } else {
-                // L'utilisateur a annulé la sélection
-                System.out.println("Sélection de fichier annulée.");
-            }
+        if (!(event.getSource() instanceof MenuItem menuItem)) {
+            return;
         }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner un fichier XML");
+
+        // Only show XML files
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
+
+        // Show the dialog and wait for the user to select a file
+        Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        File selectedFile = fileChooser.showSaveDialog(stage);
+
+        if (selectedFile == null) {
+            return;
+        }
+
+
+        dependencyManager.getXmlRoadMapService().exportRoadMapsToXml(selectedFile);
+
 
     }
 
     @FXML
     private void importerMenuItemClicked(ActionEvent event) throws IOException, SAXException {
-        // Assurez-vous que l'événement provient bien d'un MenuItem
-        if (event.getSource() instanceof MenuItem menuItem) {
-
-            // Créer un FileChooser
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Sélectionner un fichier XML");
-
-            // Ajouter un filtre pour ne montrer que les fichiers XML
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
-
-            // Afficher la boîte de dialogue et attendre que l'utilisateur sélectionne un fichier
-            Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
-            File selectedFile = fileChooser.showOpenDialog(stage);
-
-            // Vérifier si un fichier a été sélectionné
-            if (selectedFile != null) {
-                // Faites quelque chose avec le fichier sélectionné
-                System.out.println("Fichier XML sélectionné : " + selectedFile.getAbsolutePath());
-                dependencyManager.getXmlRoadMapService().importRoadMapsFromXml(selectedFile.getAbsolutePath());
-                updateDeliveriesTable();
-                updateMap();
-
-            } else {
-                // L'utilisateur a annulé la sélection
-                System.out.println("Sélection de fichier annulée.");
-            }
+        if (!(event.getSource() instanceof MenuItem menuItem)) {
+            return;
         }
-    }
 
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner un fichier XML");
+
+        // Only show XML files
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
+        fileChooser.setInitialFileName("roadmaps.xml");
+
+        // Show the dialog and wait for the user to select a file
+        Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+
+        if (selectedFile == null) {
+            return;
+        }
+
+        dependencyManager.getXmlRoadMapService().importRoadMapsFromXml(selectedFile);
+        updateDeliveriesTable();
+        updateMap();
+    }
 }

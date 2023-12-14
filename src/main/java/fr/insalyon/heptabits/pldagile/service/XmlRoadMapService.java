@@ -11,6 +11,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -25,7 +26,6 @@ public class XmlRoadMapService implements IXmlRoadMapService {
     private final DocumentBuilder documentBuilder;
     private final CourierRepository courierRepository;
     private final ClientRepository clientRepository;
-    public RoadMapRepository getRoadMapRepository() { return this.roadMapRepository; }
 
     public XmlRoadMapService(RoadMapRepository roadMapRepository, MapService mapService, DocumentBuilder documentBuilder, CourierRepository courierRepository, ClientRepository clientRepository) {
         this.roadMapRepository = roadMapRepository;
@@ -36,10 +36,10 @@ public class XmlRoadMapService implements IXmlRoadMapService {
     }
 
     @Override
-    public void exportRoadMapsToXml(String filePath) {
+    public void exportRoadMapsToXml(File file) {
 
         List<RoadMap> roadmapList = roadMapRepository.getAll();
-        try (FileWriter writer = new FileWriter(filePath)) {
+        try (FileWriter writer = new FileWriter(file)) {
             writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
             writer.write("<roadmaps>\n");
 
@@ -105,10 +105,9 @@ public class XmlRoadMapService implements IXmlRoadMapService {
     }
 
     @Override
-    public void importRoadMapsFromXml(String filePath) throws IOException, SAXException {
+    public void importRoadMapsFromXml(File file) throws IOException, SAXException {
         Document document;
-        Path file = Path.of(filePath);
-        document = this.documentBuilder.parse(file.toFile());
+        document = this.documentBuilder.parse(file);
         NodeList roadmapList = document.getElementsByTagName("roadmap");
         for (int i = 0; i < roadmapList.getLength(); i++) {
             Node roadMapNode = roadmapList.item(i);
