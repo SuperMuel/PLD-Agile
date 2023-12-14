@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * A naive implementation of the RoadMapOptimizer interface.
- *
+ * <p>
  * It sorts the requests by time window start, and then computes
  * the shortest path between each request.
  *

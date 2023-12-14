@@ -4,9 +4,9 @@ import fr.insalyon.heptabits.pldagile.model.TimeWindow;
 
 /**
  * Repository for time windows.
- *
+ * <p>
  * These time windows are hard-coded.
- *
+ * <p>
  * Returns 1h time windows from 8am to 12am.
  */
 public class FixedTimeWindowRepository implements TimeWindowRepository {

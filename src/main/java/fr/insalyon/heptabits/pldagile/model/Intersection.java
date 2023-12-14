@@ -4,11 +4,11 @@ import java.util.Locale;
 
 /**
  * Represents an intersection.
- *
+ * <p>
  * Stores the latitude and longitude of the intersection.
- *
+ * <p>
  * The id is inherited from BaseEntity.
- *
+ * <p>
  * All fields are final.
  */
 public class Intersection extends BaseEntity {

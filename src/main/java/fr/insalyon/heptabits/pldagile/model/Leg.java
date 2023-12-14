@@ -6,14 +6,14 @@ import java.util.List;
 
 /**
  * Represents a part of a RoadMap between two deliveries.
- *
+ * <p>
  * Stores the intersections and the segments between them.
- *
+ * <p>
  * The origin, the destination of the leg, as well as all the other intermediate
  * intersections are stored. Thus, the number of intersections is always equal to the number of segments + 1.
- *
+ * <p>
  * The departure time is the time at which the courier leaves the origin of the leg.
- *
+ * <p>
  * All fields are final.
  */
 public record Leg(List<Intersection> intersections, List<Segment> segments, LocalTime departureTime) {
@@ -35,7 +35,7 @@ public record Leg(List<Intersection> intersections, List<Segment> segments, Loca
 
     /**
      * Creates a new leg.
-     *
+     * <p>
      * Describes a path between two deliveries. `intersections` should contain every intersection
      * where the courier will go through, including the origin and the destination of the leg.
      * `segments` should contain every segment between the intersections.

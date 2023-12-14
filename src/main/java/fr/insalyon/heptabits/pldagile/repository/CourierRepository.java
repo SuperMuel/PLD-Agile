@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Repository for couriers.
- *
+ * <p>
  * This interface is used to abstract the storage of couriers.
  * It is used to create, find, update and delete couriers.
  */

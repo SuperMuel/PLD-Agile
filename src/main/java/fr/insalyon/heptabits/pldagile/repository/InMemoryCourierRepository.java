@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Repository for couriers to create, find, update and delete couriers.
- *
+ * <p>
  * This implementation stores couriers in memory, so this it not persistent.
  */
 public class InMemoryCourierRepository implements CourierRepository {
