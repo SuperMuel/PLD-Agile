@@ -63,42 +63,56 @@ public class TSPRoadMapOptimizer implements RoadMapOptimizer {
         List<DeliveryRequest> requestsByTimeWindow = new ArrayList<>();
         TimeWindow timeWindow = sortedRequests.get(0).getTimeWindow();
         Intersection start = map.getWarehouse();
-        for(int i=0; i<sortedRequests.size(); i++){
-            if(timeWindow != sortedRequests.get(i).getTimeWindow()) {
+        for(DeliveryRequest request : sortedRequests){
+            if(timeWindow.getStart() != request.getTimeWindow().getStart()) {
                 sortedOptimizedRequests.addAll(getOptimizeItinerary(requestsByTimeWindow, map, start));
                 requestsByTimeWindow.clear();
                 start = sortedOptimizedRequests.getLast().getDestination();
+                timeWindow = request.getTimeWindow();
             }
-            requestsByTimeWindow.add(sortedRequests.get(i));
+            requestsByTimeWindow.add(request);
         }
+        sortedOptimizedRequests.addAll(getOptimizeItinerary(requestsByTimeWindow, map, start));
 
         return roadMapBuilder.buildRoadMapFromSortedRequests(sortedOptimizedRequests, map);
     }
 
     public List<DeliveryRequest> getOptimizeItinerary(List<DeliveryRequest> requests, Map map, Intersection start) {
-        List<DeliveryRequest> sortedRequests = new ArrayList<>();
 
         //Obtenir la liste de chemins possibles
         List<List<DeliveryRequest>> possiblePaths = generatePaths(requests);
 
-        //Calcul de celui le plus optimal
+        //Calcul des chemins pour avoir le plus optimal
+        List<DeliveryRequest> sortedRequests = new ArrayList<>();
         double minimumCost = MAX_VALUE;
-        for(int i=0; i<possiblePaths.size(); i++){
+        for(List<DeliveryRequest> possiblePath : possiblePaths){
+            //Initialisation pour chaque itinéraire
             double currentCost = 0;
+
+            //Calcul de la distance entre le départ et le premier élément de la liste
+            List<Intersection> firstStepIntersections = map.getShortestPath(start, possiblePath.get(0).getDestination());
+            List<Segment> firstSegments = map.getShortestSegmentsBetween(firstStepIntersections);
+            for(int k=0; k<firstSegments.size(); k++){
+                currentCost+=firstSegments.get(k).length();
+            }
+
+            //Calcul de la distance entre les différents éléments de la liste
             int j = 0;
-            while(minimumCost>currentCost && j<possiblePaths.get(i).size()){
-                List<Intersection> itinerary = map.getShortestPath(possiblePaths.get(i).getFirst().getDestination(), possiblePaths.get(i).getLast().getDestination());
+            while(minimumCost>currentCost && j<possiblePath.size()-1){
+                List<Intersection> itinerary = map.getShortestPath(possiblePath.get(j).getDestination(), possiblePath.get(j+1).getDestination());
                 List<Segment> itinerarySegments = map.getShortestSegmentsBetween(itinerary);
                 for(int k=0; k<itinerarySegments.size(); k++){
                     currentCost+=itinerarySegments.get(k).length();
                 }
                 j++;
             }
+
             if (minimumCost>currentCost){
                 minimumCost = currentCost;
-                sortedRequests = possiblePaths.get(i);
+                sortedRequests = possiblePath;
             }
         }
+
         return sortedRequests;
     }
 

@@ -25,6 +25,10 @@ public class RoadMapBuilderImpl implements RoadMapBuilder {
 
     @Override
     public RoadMap buildRoadMapFromSortedRequests(List<DeliveryRequest> sortedRequests, Map map) throws ImpossibleRoadMapException {
+        // TODO : handle error where there are no requests
+        if(sortedRequests.isEmpty()){
+            throw new IllegalArgumentException("List of requests is empty. Can't build a roadMap.");
+        }
 
         List<Leg> legs = new ArrayList<>();
         List<Delivery> deliveries = new ArrayList<>();
