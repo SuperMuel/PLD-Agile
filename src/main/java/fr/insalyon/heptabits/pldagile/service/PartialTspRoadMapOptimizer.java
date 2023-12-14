@@ -1,5 +1,7 @@
 package fr.insalyon.heptabits.pldagile.service;
 
+import org.apache.commons.collections4.iterators.PermutationIterator;
+
 import fr.insalyon.heptabits.pldagile.model.*;
 
 import java.time.LocalTime;
@@ -31,19 +33,19 @@ public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
         Intersection start = map.getWarehouse();
         for (DeliveryRequest request : sortedRequests) {
             if (timeWindow.getStart() != request.getTimeWindow().getStart()) {
-                sortedOptimizedRequests.addAll(getOptimizeItinerary(requestsByTimeWindow, map, start));
+                sortedOptimizedRequests.addAll(getOptimizedItinerary(requestsByTimeWindow, map, start));
                 requestsByTimeWindow.clear();
                 start = sortedOptimizedRequests.getLast().getDestination();
                 timeWindow = request.getTimeWindow();
             }
             requestsByTimeWindow.add(request);
         }
-        sortedOptimizedRequests.addAll(getOptimizeItinerary(requestsByTimeWindow, map, start));
+        sortedOptimizedRequests.addAll(getOptimizedItinerary(requestsByTimeWindow, map, start));
 
         return roadMapBuilder.buildRoadMapFromSortedRequests(sortedOptimizedRequests, map);
     }
 
-    public List<DeliveryRequest> getOptimizeItinerary(List<DeliveryRequest> requests, Map map, Intersection start) {
+    public List<DeliveryRequest> getOptimizedItinerary(List<DeliveryRequest> requests, Map map, Intersection start) {
         //Obtenir la liste de chemins possibles
         List<List<DeliveryRequest>> possiblePaths = generatePaths(requests);
 
@@ -55,7 +57,7 @@ public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
             double currentCost = 0;
 
             //Calcul de la distance entre le départ et le premier élément de la liste
-            List<Intersection> firstStepIntersections = map.getShortestPath(start, possiblePath.get(0).getDestination());
+            List<Intersection> firstStepIntersections = map.getShortestPath(start, possiblePath.getFirst().getDestination());
             List<Segment> firstSegments = map.getShortestSegmentsBetween(firstStepIntersections);
             for (int k = 0; k < firstSegments.size(); k++) {
                 currentCost += firstSegments.get(k).length();
@@ -82,27 +84,15 @@ public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
     }
 
     public List<List<DeliveryRequest>> generatePaths(List<DeliveryRequest> requests) {
+        PermutationIterator<DeliveryRequest> iterator = new PermutationIterator<>(requests);
         List<List<DeliveryRequest>> allPathPossibilities = new ArrayList<>();
-        generate(new ArrayList<>(), requests, allPathPossibilities);
-        return allPathPossibilities;
-    }
 
-    public void generate(List<DeliveryRequest> prefix, List<DeliveryRequest> rest, List<List<DeliveryRequest>> possibilities) {
-        if (rest.size() <= 1) {
-            List<DeliveryRequest> permutation = new ArrayList<>(prefix);
-            permutation.addAll(rest);
-            possibilities.add(permutation);
-        } else {
-            for (int i = 0; i < rest.size(); i++) {
-                List<DeliveryRequest> pathPossibility = new ArrayList<>(prefix);
-                pathPossibility.add(rest.get(i));
-
-                List<DeliveryRequest> newRest = new ArrayList<>(rest.subList(0, i));
-                newRest.addAll(rest.subList(i + 1, rest.size()));
-
-                generate(pathPossibility, newRest, possibilities);
-            }
+        while (iterator.hasNext()) {
+            List<DeliveryRequest> perm = iterator.next();
+            allPathPossibilities.add(perm);
         }
+
+        return allPathPossibilities;
     }
 }
 
