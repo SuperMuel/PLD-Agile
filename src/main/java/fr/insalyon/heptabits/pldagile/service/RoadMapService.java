@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Service used to manage road maps.
- *
+ * <p>
  * The only way to update a road map is to add a delivery request.
  * The service then uses it's optimizer to try to add the request to the road map.
  * If it is impossible, an exception is thrown.
@@ -73,7 +73,7 @@ public class RoadMapService implements IRoadMapService {
 
     /**
      * Adds a delivery request to the road map service.
-     *
+     * <p>
      * It is not possible to :
      * - add a request at the warehouse
      * - add a request at the same place and time window as an existing request

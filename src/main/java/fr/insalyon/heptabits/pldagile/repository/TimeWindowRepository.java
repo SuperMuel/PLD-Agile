@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Repository for time windows.
- *
+ * <p>
  * This interface is used to abstract the storage of time windows.
  * For the moment, it is only used to get all time windows.
  */

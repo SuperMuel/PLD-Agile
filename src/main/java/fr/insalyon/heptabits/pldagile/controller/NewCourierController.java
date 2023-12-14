@@ -79,8 +79,7 @@ public class NewCourierController {
             return;
         }
 
-        Courier courier = dependencyManager.getCourierRepository().create(firstName, lastName, email, phoneNumber);
-        System.out.println("New Courier created");
+        dependencyManager.getCourierRepository().create(firstName, lastName, email, phoneNumber);
 
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();

@@ -6,9 +6,9 @@ import java.util.Objects;
 
 /**
  * Represents a time window.
- *
+ * <p>
  * Stores the start and end time.
- *
+ * <p>
  * All fields are final.
  */
 public class TimeWindow {

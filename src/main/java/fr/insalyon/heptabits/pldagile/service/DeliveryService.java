@@ -12,9 +12,9 @@ import java.util.List;
 
 /**
  * Service that provide a view of deliveries.
- *
+ * <p>
  * It fetches the deliveries from the road map repository.
- *
+ * <p>
  * It can't create, update or delete deliveries. You should use the road map service for that.
  *
  */

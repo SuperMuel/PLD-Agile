@@ -203,7 +203,7 @@ public class Map extends BaseEntity {
 
     /**
      * Get the shortest distance between two intersections, or null if there is no segment between them.
-     *
+     * <p>
      * This is useful since there can be multiple segments between two intersections.
      *
      * @param origin      the origin intersection
@@ -216,7 +216,7 @@ public class Map extends BaseEntity {
 
     /**
      * Get the shortest path between two intersections, or null if there is no path between them.
-     *
+     * <p>
      * Uses Dijkstra's algorithm.*
      *
      * @param origin      the origin intersection
@@ -291,7 +291,7 @@ public class Map extends BaseEntity {
 
     /**
      * Get the shortest segment between two intersections, or null if there is no segment between them.
-     *
+     * <p>
      * This is useful since there can be multiple segments between two intersections.
      *
      * @param origin      the origin intersection
@@ -315,9 +315,9 @@ public class Map extends BaseEntity {
 
     /**
      * Get all the segments between two intersections.
-     *
+     * <p>
      * This is useful since there can be multiple segments between two intersections.
-     *
+     * <p>
      * Warning: this method doesn't find a path between the two intersections. It only returns the segments
      * that connect the two intersections.
      *

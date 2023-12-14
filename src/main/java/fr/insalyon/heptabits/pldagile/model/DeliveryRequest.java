@@ -6,13 +6,13 @@ import java.util.Objects;
 
 /**
  * Represents a delivery request.
- *
+ * <p>
  * Stores the date, the destination, the client and the time window.
- *
+ * <p>
  * This class is used to represent a delivery request before it is scheduled (and becomes a Delivery).
- *
+ * <p>
  * The id is inherited from BaseEntity.
- *
+ * <p>
  * All fields are final.
  */
 public class DeliveryRequest {
@@ -74,7 +74,7 @@ public class DeliveryRequest {
 
     /**
      * Creates a new delivery request from a delivery.
-     *
+     * <p>
      * The delivery request will have the same destination, courier, client, date and TimeWindow.
      * (Only the scheduled time is discarded)
      *
@@ -115,7 +115,7 @@ public class DeliveryRequest {
 
     /**
      * Transforms the delivery request into a delivery.
-     *
+     * <p>
      * The delivery will have the same destination, courier, client, date and time window.
      *
      * @param scheduledTime the scheduled time of the delivery

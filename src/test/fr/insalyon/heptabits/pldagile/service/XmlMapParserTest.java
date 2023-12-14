@@ -48,7 +48,6 @@ class XmlMapParserTest {
     @Test
     void parse() {
         Map map = parser.parse(document, 1L);
-        System.out.println(map);
         assertEquals(1, map.getWarehouseId());
         assertEquals(3, map.getIntersections().size());
         assertEquals(1, map.getIntersections().get(1L).getId());

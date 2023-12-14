@@ -55,7 +55,7 @@ public class XmlMapService implements MapService {
 
     /**
      * Gets the current map.
-     *
+     * <p>
      * You must call loadMap before calling this method.
      *
      * @throws IllegalStateException if no map is loaded

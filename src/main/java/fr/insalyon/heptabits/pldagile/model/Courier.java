@@ -2,11 +2,11 @@ package fr.insalyon.heptabits.pldagile.model;
 
 /**
  * Represents a courier.
- *
+ * <p>
  * Stores the first name, last name, email and phone number of the courier.
- *
+ * <p>
  * The id is inherited from BaseEntity.
- *
+ * <p>
  * All fields are final.
  */
 public class Courier extends BaseEntity {

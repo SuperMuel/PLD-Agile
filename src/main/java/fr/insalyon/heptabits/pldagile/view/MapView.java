@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * A view for the map.
- *
+ * <p>
  * It creates a JavaFX Group containing the map.
  *
  *
@@ -145,7 +145,6 @@ public class MapView {
 
 
         for (RoadMap roadMap : roadMaps) {
-            System.out.println(roadMap.getId());
             Color color = mapIdToColor(roadMap.getId());
             group.getChildren().addAll(createRoadMapLines(roadMap, color));
             group.getChildren().addAll(createDeliveriesCircles(roadMap.getDeliveries(), color));
@@ -164,7 +163,6 @@ public class MapView {
         group.getChildren().addAll(createMapLines());
         group.getChildren().addAll(createMapCircles());
 
-        System.out.println(roadMap.getId());
         Color color = mapIdToColor(roadMap.getId());
         group.getChildren().addAll(createRoadMapLines(roadMap, color));
         group.getChildren().addAll(createDeliveriesCircles(roadMap.getDeliveries(), color));

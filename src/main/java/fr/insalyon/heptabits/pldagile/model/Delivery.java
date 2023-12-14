@@ -5,11 +5,11 @@ import java.time.LocalDateTime;
 
 /**
  * Represents a delivery.
- *
+ * <p>
  * Stores the scheduled date and time, the destination, the courier and the client.
- *
+ * <p>
  * The id is inherited from BaseEntity.
- *
+ * <p>
  * All fields are final.
  */
 public record Delivery(LocalDateTime scheduledDateTime, Intersection destination, long courierId, long clientId,
@@ -29,7 +29,7 @@ public record Delivery(LocalDateTime scheduledDateTime, Intersection destination
 
     /**
      * Transforms the delivery into a delivery request.
-     *
+     * <p>
      * The request will have the same destination, courier, client and TimeWindow.
      *
      * @return the delivery request

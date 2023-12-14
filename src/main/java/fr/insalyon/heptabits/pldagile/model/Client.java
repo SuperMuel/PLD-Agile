@@ -2,11 +2,11 @@ package fr.insalyon.heptabits.pldagile.model;
 
 /**
  * Represents a client.
- *
+ * <p>
  * Stores the first name, last name and phone number of the client.
- *
+ * <p>
  * The id is inherited from BaseEntity.
- *
+ * <p>
  * All fields are final.
  */
 public class Client extends BaseEntity {

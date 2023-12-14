@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * Repository to create, find, update and delete clients.
- *
+ * <p>
  * The entities are stored in memory and are not persisted.
  */
 public class InMemoryClientRepository implements ClientRepository {
@@ -33,7 +33,7 @@ public class InMemoryClientRepository implements ClientRepository {
      * @param lastName the last name of the client
      * @param phoneNumber the phone number of the client
      * @return the created client
-     *
+     * <p>
      * No validation is done on the parameters. It is the responsibility of the
      * caller to ensure that the parameters are valid.
      */
@@ -59,7 +59,7 @@ public class InMemoryClientRepository implements ClientRepository {
 
     /**
      * Finds a client by its firstName and/or surname.
-     *
+     * <p>
      * Case-insensitive. Matches if the name or the surname contains the given
      * name or surname.
      *
@@ -117,7 +117,7 @@ public class InMemoryClientRepository implements ClientRepository {
      *
      * @param client the client to update
      * @return the updated client
-     *
+     * <p>
      * No validation is done on the parameters. It is the responsibility of the
      * caller to ensure that the parameters are valid.
      */

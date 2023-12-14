@@ -5,12 +5,12 @@ import java.util.Objects;
 
 /**
  * Represents a segment.
- *
+ * <p>
  * Stores the origin, the destination, the name and the length.
- *
+ * <p>
  * We consider an origin and a destination to be consistent with the map files we read. Howerver,
  * the segment is not oriented, so the origin and the destination are interchangeable.
- *
+ * <p>
  * All fields are final.
  */
 public record Segment(Intersection origin, Intersection destination, String name, double length) {

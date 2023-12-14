@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Repository for clients.
- *
+ * <p>
  * This interface is used to abstract the storage of clients.
  * It is used to create, find, update and delete clients.
  */
