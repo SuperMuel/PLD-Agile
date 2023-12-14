@@ -5,6 +5,7 @@ import fr.insalyon.heptabits.pldagile.HelloApplication;
 import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -15,12 +16,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import org.xml.sax.SAXException;
 
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -145,8 +149,9 @@ public class HelloController {
             });
         }
     }
+
     @FXML
-    protected void onViewRoadMapsButtonClick(InputEvent e) throws IOException{
+    protected void onViewRoadMapsButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
         Stage oldStage = (Stage) source.getScene().getWindow();
 
@@ -159,6 +164,7 @@ public class HelloController {
         stage.setScene(scene);
         stage.show();
     }
+
     @FXML
     protected void onNewDeliveryButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
@@ -175,4 +181,58 @@ public class HelloController {
         stage.show();
     }
 
+    @FXML
+    private void exporterMenuItemClicked(ActionEvent event) throws IOException {
+        if (!(event.getSource() instanceof MenuItem menuItem)) {
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner un fichier XML");
+
+        // Only show XML files
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
+
+        // Show the dialog and wait for the user to select a file
+        Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        File selectedFile = fileChooser.showSaveDialog(stage);
+
+        if (selectedFile == null) {
+            return;
+        }
+
+
+        FileWriter fileWriter = new FileWriter(selectedFile);
+
+        dependencyManager.getXmlRoadMapService().exportRoadMapsToXml(fileWriter);
+
+
+    }
+
+    @FXML
+    private void importerMenuItemClicked(ActionEvent event) throws IOException, SAXException {
+        if (!(event.getSource() instanceof MenuItem menuItem)) {
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner un fichier XML");
+
+        // Only show XML files
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
+        fileChooser.setInitialFileName("roadmaps.xml");
+
+        // Show the dialog and wait for the user to select a file
+        Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+
+        if (selectedFile == null) {
+            return;
+        }
+
+        dependencyManager.getXmlRoadMapService().importRoadMapsFromXml(selectedFile);
+        updateDeliveriesTable();
+        updateMap();
+    }
 }

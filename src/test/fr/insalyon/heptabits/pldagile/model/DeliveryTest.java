@@ -14,7 +14,7 @@ class DeliveryTest {
 
     LocalDateTime nowDt;
 
-    TimeWindow timeWindow = new TimeWindow(LocalDateTime.now().toLocalTime(), LocalDateTime.now().plusHours(1).toLocalTime());
+    TimeWindow timeWindow = new TimeWindow(8,9);
 
     @BeforeEach
     void setUp() {

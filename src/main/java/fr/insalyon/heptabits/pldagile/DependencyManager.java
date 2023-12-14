@@ -23,7 +23,7 @@ public class DependencyManager {
 
     private final MapService mapService;
 
-
+    private final XmlRoadMapService xmlRoadMapService;
     private final RoadMapRepository roadMapRepository;
 
     private final RoadMapService roadMapService;
@@ -52,6 +52,10 @@ public class DependencyManager {
 
         this.mapService = mapService;
         roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(), mapService);
+
+        IXmlRoadMapsSerializer xmlRoadMapsSerializer = new XmlRoadMapsSerializerImpl();
+
+        xmlRoadMapService = new XmlRoadMapService(roadMapRepository, mapService, courierRepository, clientRepository, xmlRoadMapsSerializer);
 
     }
 
@@ -88,4 +92,5 @@ public class DependencyManager {
         return deliveryService;
     }
 
+    public XmlRoadMapService getXmlRoadMapService() { return xmlRoadMapService; }
 }

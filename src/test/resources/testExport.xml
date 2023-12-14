@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<deliveries>
-    <delivery scheduledDateTime="2023-02-25T08:00" destinationId="1" courierId="2" clientId="1" timeWindowStart="08:00" timeWindowEnd="09:00"/>
-    <delivery scheduledDateTime="2023-02-25T09:00" destinationId="2" courierId="2" clientId="1" timeWindowStart="08:00" timeWindowEnd="09:00"/>
-</deliveries>
