@@ -59,8 +59,8 @@ public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
             //Calcul de la distance entre le départ et le premier élément de la liste
             List<Intersection> firstStepIntersections = map.getShortestPath(start, possiblePath.getFirst().getDestination());
             List<Segment> firstSegments = map.getShortestSegmentsBetween(firstStepIntersections);
-            for (int k = 0; k < firstSegments.size(); k++) {
-                currentCost += firstSegments.get(k).length();
+            for (Segment firstSegment : firstSegments) {
+                currentCost += firstSegment.length();
             }
 
             //Calcul de la distance entre les différents éléments de la liste
@@ -68,8 +68,8 @@ public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
             while (minimumCost > currentCost && j < possiblePath.size() - 1) {
                 List<Intersection> itinerary = map.getShortestPath(possiblePath.get(j).getDestination(), possiblePath.get(j + 1).getDestination());
                 List<Segment> itinerarySegments = map.getShortestSegmentsBetween(itinerary);
-                for (int k = 0; k < itinerarySegments.size(); k++) {
-                    currentCost += itinerarySegments.get(k).length();
+                for (Segment itinerarySegment : itinerarySegments) {
+                    currentCost += itinerarySegment.length();
                 }
                 j++;
             }
