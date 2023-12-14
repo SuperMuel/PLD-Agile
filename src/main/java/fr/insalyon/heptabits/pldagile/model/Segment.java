@@ -32,7 +32,6 @@ public record Segment(Intersection origin, Intersection destination, String name
 
 
     /**
-     * @param segments
      * @return the total length of the segments
      */
     static public double getTotalLength(List<Segment> segments) {
