@@ -2,33 +2,43 @@ package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
 import fr.insalyon.heptabits.pldagile.HelloApplication;
-import fr.insalyon.heptabits.pldagile.model.*;
+import fr.insalyon.heptabits.pldagile.model.Courier;
+import fr.insalyon.heptabits.pldagile.model.Leg;
+import fr.insalyon.heptabits.pldagile.model.Map;
+import fr.insalyon.heptabits.pldagile.model.Segment;
 import fr.insalyon.heptabits.pldagile.repository.RoadMapRepository;
 import fr.insalyon.heptabits.pldagile.view.MapView;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDTrueTypeFont;
+import org.apache.pdfbox.pdmodel.font.encoding.WinAnsiEncoding;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayOutputStream;
+
+
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import org.apache.pdfbox.pdmodel.*;
-import org.apache.pdfbox.pdmodel.font.PDTrueTypeFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.font.encoding.WinAnsiEncoding;
-
 
 
 public class RoadMapController {
@@ -197,16 +207,45 @@ public class RoadMapController {
         // Vérifier si un fichier a été sélectionné
         if (selectedFile != null) {
             // Faites quelque chose avec le fichier sélectionné
+            SnapshotParameters params = new SnapshotParameters();
+            params.setFill(javafx.scene.paint.Color.TRANSPARENT); // Set the fill as needed
+
+            // Take a snapshot of the Group
+            Image image = mapView.createView(roadMapRepository.getByCourierAndDate(courier.getId(), chosenDate)).snapshot(params, null);
+
+            // Convert JavaFX Image to BufferedImage
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+
             PDDocument doc = new PDDocument();
             PDPage blankPage = new PDPage();
             doc.addPage( blankPage );
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", baos);
+            baos.flush();
+            byte[] imageBytes = baos.toByteArray();
+            baos.close();
+
+            // Create a PDImageXObject from the byte array
+            org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject pdImage = org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject.createFromByteArray(doc, imageBytes, "image");
+
+            // Define the position and size of the image on the PDF page
+            float x = 30; // Change the X coordinate as needed
+            float y = 300; // Change the Y coordinate as needed
+            float width = pdImage.getWidth();
+            float height = pdImage.getHeight();
+
+
             PDPage page = doc.getPage(0);
             PDPageContentStream contentStream = new PDPageContentStream(doc, page);
+            // Add the image to the PDF page
+            contentStream.drawImage(pdImage, x, y, width, height);
+
             contentStream.beginText();
             PDTrueTypeFont font = PDTrueTypeFont.load(doc, PDDocument.class.getResourceAsStream(
                     "/org/apache/pdfbox/resources/ttf/LiberationSans-Regular.ttf"), WinAnsiEncoding.INSTANCE);
             contentStream.setFont(font, 12);
-            contentStream.newLineAtOffset(10,700);
+            contentStream.newLineAtOffset(10,280);
             String[] itinerary_list = itinerary.split("\n");
             for(String s: itinerary_list){
                 contentStream.showText(s);
@@ -225,16 +264,5 @@ public class RoadMapController {
         }
 
     }
-
-    public   String remove(String bufstr) {
-        StringBuilder b = new StringBuilder();
-        for (int i = 0; i < bufstr.length(); i++) {
-            if (WinAnsiEncoding.INSTANCE.contains(bufstr.charAt(i))) {
-                b.append(bufstr.charAt(i));
-            }
-        }
-        return b.toString();
-    }
-
 
 }
