@@ -42,7 +42,7 @@ public class NewDeliveryController {
     @FXML
     private StackPane mapContainer;
     @FXML
-    private TextField intersectionTextField;
+    private Label intersectionTextField;
     @FXML
     private ImageView logo;
     @FXML
@@ -87,7 +87,7 @@ public class NewDeliveryController {
 
         MapView.OnIntersectionClicked onIntersectionClicked = intersection -> {
             chosenIntersection = intersection;
-            intersectionTextField.setText(chosenIntersection.toString());
+            intersectionTextField.setText(chosenIntersection.latLongPrettyPrint());
         };
 
 
