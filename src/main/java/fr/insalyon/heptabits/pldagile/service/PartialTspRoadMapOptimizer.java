@@ -11,6 +11,11 @@ import java.util.List;
 
 import static java.lang.Double.MAX_VALUE;
 
+/**
+ * This class is used to find and return an optimal road map per time window. To do this, it starts by sorting the road
+ * map by time window, then for each time window, it looks at which of all the possible permutations has the lowest
+ * cost. Finally, it uses the RoadMapBuilder to check that the deadlines have been met.
+ */
 public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
     private final RoadMapBuilder roadMapBuilder;
 
@@ -18,6 +23,13 @@ public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
         this.roadMapBuilder = roadMapBuilder;
     }
 
+    /**
+     * @param requests      all the delivery requests of the courier
+     * @param map           the map
+     * @param departureTime the departure time
+     * @return              the partial optimized RoadMap
+     * @throws ImpossibleRoadMapException
+     */
     @Override
     public RoadMap optimize(Collection<DeliveryRequest> requests, Map map, LocalTime departureTime) throws ImpossibleRoadMapException {
         verifyRequests(requests, departureTime, map);
@@ -45,6 +57,12 @@ public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
         return roadMapBuilder.buildRoadMapFromSortedRequests(sortedOptimizedRequests, map);
     }
 
+    /**
+     * @param requests  all the delivery requests of the same time-window
+     * @param map       the map
+     * @param start     the point of departure (= warehouse of the map or the last destination of the previous time-window)
+     * @return the optimized itinerary of the time-window
+     */
     public List<DeliveryRequest> getOptimizedItinerary(List<DeliveryRequest> requests, Map map, Intersection start) {
         //Obtenir la liste de chemins possibles
         List<List<DeliveryRequest>> possiblePaths = generatePaths(requests);
@@ -83,6 +101,10 @@ public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
         return sortedRequests;
     }
 
+    /**
+     * @param requests all the delivery requests of the same time-window
+     * @return all the possible permutations
+     */
     public List<List<DeliveryRequest>> generatePaths(List<DeliveryRequest> requests) {
         PermutationIterator<DeliveryRequest> iterator = new PermutationIterator<>(requests);
         List<List<DeliveryRequest>> allPathPossibilities = new ArrayList<>();
