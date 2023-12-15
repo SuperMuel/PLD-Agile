@@ -6,7 +6,6 @@ import fr.insalyon.heptabits.pldagile.model.Leg;
 import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.model.Segment;
 import fr.insalyon.heptabits.pldagile.DeliferooApplication;
-import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.repository.RoadMapRepository;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.embed.swing.SwingFXUtils;
@@ -56,7 +55,7 @@ public class RoadMapController {
     private Label date;
 
     @FXML
-    private Label titre;
+    private Label title;
 
     @FXML
     private TextArea courierItinirary;
@@ -249,7 +248,7 @@ public class RoadMapController {
             contentStreamImg.beginText();
             contentStreamImg.setFont(font, 20);
             contentStreamImg.newLineAtOffset(10, 750);
-            contentStreamImg.showText(courierName.getText() + titre.getText() + date.getText());
+            contentStreamImg.showText(courierName.getText() + title.getText() + date.getText());
             contentStreamImg.endText();
             contentStreamImg.close();
 
