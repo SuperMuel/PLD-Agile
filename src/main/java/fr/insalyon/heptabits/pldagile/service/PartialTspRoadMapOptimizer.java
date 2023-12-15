@@ -23,12 +23,12 @@ public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
         this.roadMapBuilder = roadMapBuilder;
     }
 
+
     /**
-     * @param requests      all the delivery requests of the courier
+     * @param requests      all the delivery requests
+     * @param departureTime the time of departure
      * @param map           the map
-     * @param departureTime the departure time
-     * @return              the partial optimized RoadMap
-     * @throws ImpossibleRoadMapException
+     * @throws ImpossibleRoadMapException if the road map is impossible to build
      */
     @Override
     public RoadMap optimize(Collection<DeliveryRequest> requests, Map map, LocalTime departureTime) throws ImpossibleRoadMapException {
@@ -58,16 +58,18 @@ public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
     }
 
     /**
+     *
+     *
      * @param requests  all the delivery requests of the same time-window
      * @param map       the map
      * @param start     the point of departure (= warehouse of the map or the last destination of the previous time-window)
      * @return the optimized itinerary of the time-window
      */
     public List<DeliveryRequest> getOptimizedItinerary(List<DeliveryRequest> requests, Map map, Intersection start) {
-        //Obtenir la liste de chemins possibles
+        // All the possible permutations in the time-window
         List<List<DeliveryRequest>> possiblePaths = generatePaths(requests);
 
-        //Calcul des chemins pour avoir le plus optimal
+        // Compute the cost of each permutation and return the one with the lowest cost
         List<DeliveryRequest> sortedRequests = new ArrayList<>();
         double minimumCost = MAX_VALUE;
         for (List<DeliveryRequest> possiblePath : possiblePaths) {
@@ -105,7 +107,7 @@ public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
      * @param requests all the delivery requests of the same time-window
      * @return all the possible permutations
      */
-    public List<List<DeliveryRequest>> generatePaths(List<DeliveryRequest> requests) {
+    private List<List<DeliveryRequest>> generatePaths(List<DeliveryRequest> requests) {
         PermutationIterator<DeliveryRequest> iterator = new PermutationIterator<>(requests);
         List<List<DeliveryRequest>> allPathPossibilities = new ArrayList<>();
 
