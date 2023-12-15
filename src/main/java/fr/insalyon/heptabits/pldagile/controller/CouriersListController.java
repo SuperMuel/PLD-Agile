@@ -1,7 +1,7 @@
 package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
-import fr.insalyon.heptabits.pldagile.HelloApplication;
+import fr.insalyon.heptabits.pldagile.DeliferooApplication;
 import fr.insalyon.heptabits.pldagile.model.Courier;
 import fr.insalyon.heptabits.pldagile.model.RoadMap;
 import fr.insalyon.heptabits.pldagile.repository.CourierRepository;
@@ -40,8 +40,8 @@ public class CouriersListController {
         this.stage.close();
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setController(new HelloController(dependencyManager));
-        fxmlLoader.setLocation(HelloApplication.class.getResource("hello-view.fxml"));
+        fxmlLoader.setController(new DeliferooController(dependencyManager));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("deliferoo-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
         stage.setTitle("DEL'IFEROO");
@@ -63,7 +63,7 @@ public class CouriersListController {
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setController(new RoadMapController(dependencyManager, courier, chosenDate));
-        fxmlLoader.setLocation(HelloApplication.class.getResource("RoadMap.fxml"));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("RoadMap.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
         stage.setTitle("DEL'IFEROO");

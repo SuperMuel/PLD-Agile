@@ -1,10 +1,11 @@
 package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
-import fr.insalyon.heptabits.pldagile.HelloApplication;
+import fr.insalyon.heptabits.pldagile.DeliferooApplication;
 import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -15,19 +16,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import org.xml.sax.SAXException;
 
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-public class HelloController {
+public class DeliferooController {
 
     private final DependencyManager dependencyManager;
     private final Color hoveredColor = Color.web("#00BCAD");
@@ -61,7 +65,7 @@ public class HelloController {
     @FXML
     private Button fileButton;
 
-    public HelloController(DependencyManager dependencyManager) {
+    public DeliferooController(DependencyManager dependencyManager) {
         this.dependencyManager = dependencyManager;
     }
 
@@ -145,13 +149,14 @@ public class HelloController {
             });
         }
     }
+
     @FXML
-    protected void onViewRoadMapsButtonClick(InputEvent e) throws IOException{
+    protected void onViewRoadMapsButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
         Stage oldStage = (Stage) source.getScene().getWindow();
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(HelloApplication.class.getResource("couriersList.fxml"));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("couriersList.fxml"));
         fxmlLoader.setController(new CouriersListController(dependencyManager, oldStage));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
@@ -159,6 +164,7 @@ public class HelloController {
         stage.setScene(scene);
         stage.show();
     }
+
     @FXML
     protected void onNewDeliveryButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
@@ -167,7 +173,7 @@ public class HelloController {
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setController(new NewDeliveryController(dependencyManager));
-        fxmlLoader.setLocation(HelloApplication.class.getResource("NewDelivery.fxml"));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("NewDelivery.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
         stage.setTitle("DEL'IFEROO");
@@ -175,4 +181,58 @@ public class HelloController {
         stage.show();
     }
 
+    @FXML
+    private void exporterMenuItemClicked(ActionEvent event) throws IOException {
+        if (!(event.getSource() instanceof MenuItem menuItem)) {
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner un fichier XML");
+
+        // Only show XML files
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
+
+        // Show the dialog and wait for the user to select a file
+        Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        File selectedFile = fileChooser.showSaveDialog(stage);
+
+        if (selectedFile == null) {
+            return;
+        }
+
+
+        FileWriter fileWriter = new FileWriter(selectedFile);
+
+        dependencyManager.getXmlRoadMapService().exportRoadMapsToXml(fileWriter);
+
+
+    }
+
+    @FXML
+    private void importerMenuItemClicked(ActionEvent event) throws IOException, SAXException {
+        if (!(event.getSource() instanceof MenuItem menuItem)) {
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner un fichier XML");
+
+        // Only show XML files
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers XML", "*.xml"));
+        fileChooser.setInitialFileName("roadmaps.xml");
+
+        // Show the dialog and wait for the user to select a file
+        Stage stage = (Stage) menuItem.getParentPopup().getOwnerWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+
+        if (selectedFile == null) {
+            return;
+        }
+
+        dependencyManager.getXmlRoadMapService().importRoadMapsFromXml(selectedFile);
+        updateDeliveriesTable();
+        updateMap();
+    }
 }

@@ -107,6 +107,11 @@
             <artifactId>javafx-swing</artifactId>
             <version>17.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.4</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -130,7 +135,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>fr.insalyon.heptabits.pldagile/fr.insalyon.heptabits.pldagile.HelloApplication
+                            <mainClass>fr.insalyon.heptabits.pldagile/fr.insalyon.heptabits.pldagile.DeliferooApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

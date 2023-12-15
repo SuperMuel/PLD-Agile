@@ -1,11 +1,12 @@
 package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
-import fr.insalyon.heptabits.pldagile.HelloApplication;
 import fr.insalyon.heptabits.pldagile.model.Courier;
 import fr.insalyon.heptabits.pldagile.model.Leg;
 import fr.insalyon.heptabits.pldagile.model.Map;
 import fr.insalyon.heptabits.pldagile.model.Segment;
+import fr.insalyon.heptabits.pldagile.DeliferooApplication;
+import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.repository.RoadMapRepository;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.embed.swing.SwingFXUtils;
@@ -39,7 +40,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
 
 public class RoadMapController {
 
@@ -181,8 +181,8 @@ public class RoadMapController {
         stage.close();
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setController(new HelloController(dependencyManager));
-        fxmlLoader.setLocation(HelloApplication.class.getResource("hello-view.fxml"));
+        fxmlLoader.setController(new DeliferooController(dependencyManager));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("deliferoo-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
         stage.setTitle("DEL'IFEROO");
@@ -277,5 +277,6 @@ public class RoadMapController {
         }
 
     }
+
 
 }

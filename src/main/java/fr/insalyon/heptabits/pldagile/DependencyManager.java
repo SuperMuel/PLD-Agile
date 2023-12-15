@@ -8,6 +8,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalTime;
 
 /**
  * A class that manages the dependencies between the different components of the application.
@@ -23,12 +25,13 @@ public class DependencyManager {
 
     private final MapService mapService;
 
-
+    private final XmlRoadMapService xmlRoadMapService;
     private final RoadMapRepository roadMapRepository;
 
     private final RoadMapService roadMapService;
 
     private final DeliveryService deliveryService;
+
 
     public DependencyManager() {
         idGenerator = new IdGenerator();
@@ -51,7 +54,14 @@ public class DependencyManager {
         mapService.loadMap(Path.of("src/main/resources/fr/insalyon/heptabits/pldagile/ExamplesMap/smallMap.xml"));
 
         this.mapService = mapService;
-        roadMapService = new RoadMapService(roadMapRepository, new NaiveRoadMapOptimizer(), mapService);
+
+        final double courierSpeedMs = 15/3.6; // 15kmh
+        RoadMapBuilder roadMapBuilder = new RoadMapBuilderImpl(idGenerator, Duration.ofMinutes(5), LocalTime.of(7,45), courierSpeedMs);
+        roadMapService = new RoadMapService(roadMapRepository, new PartialTspRoadMapOptimizer(roadMapBuilder), mapService);
+
+        IXmlRoadMapsSerializer xmlRoadMapsSerializer = new XmlRoadMapsSerializerImpl();
+
+        xmlRoadMapService = new XmlRoadMapService(roadMapRepository, mapService, courierRepository, clientRepository, xmlRoadMapsSerializer);
 
     }
 
@@ -88,4 +98,5 @@ public class DependencyManager {
         return deliveryService;
     }
 
+    public XmlRoadMapService getXmlRoadMapService() { return xmlRoadMapService; }
 }

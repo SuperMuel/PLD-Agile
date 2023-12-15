@@ -111,6 +111,7 @@ public class RoadMap extends BaseEntity {
     }
 
 
+
     /**
      * @return The date of the first delivery in the road map.
      */

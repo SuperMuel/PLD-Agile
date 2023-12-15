@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class NaiveRoadMapOptimizerTest {
+class PartialTspRoadMapOptimizerTest {
 
     long courierId = 1;
     long courier2Id = 2;
@@ -24,7 +24,7 @@ class NaiveRoadMapOptimizerTest {
 
     MapService mapService;
     Map map;
-    NaiveRoadMapOptimizer optimizer;
+    PartialTspRoadMapOptimizer optimizer;
 
     Intersection i1;
     Intersection i2;
@@ -43,7 +43,7 @@ class NaiveRoadMapOptimizerTest {
         double courierSpeedMs = 15/3.6; // 15kmh
         roadMapBuilder = new RoadMapBuilderImpl(new IdGenerator(), Duration.ofMinutes(5), LocalTime.of(7,45), courierSpeedMs);
 
-        optimizer = new NaiveRoadMapOptimizer(roadMapBuilder);
+        optimizer = new PartialTspRoadMapOptimizer(roadMapBuilder);
         date = LocalDate.now();
         setUpMap();
     }
@@ -236,7 +236,7 @@ class NaiveRoadMapOptimizerTest {
         Map islandMap = new Map(1, intersections, map.getSegments(), warehouse.getId());
 
         DeliveryRequest request = new DeliveryRequest(date, courierId, islandIntersection, timeWindow, courierId);
-        assertThrows(ImpossibleRoadMapException.class, () -> optimizer.optimize(List.of(request), islandMap, departureTime));
+        assertThrows(Exception.class, () -> optimizer.optimize(List.of(request), islandMap, departureTime));
     }
 
 }

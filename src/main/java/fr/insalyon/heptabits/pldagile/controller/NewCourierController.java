@@ -1,8 +1,7 @@
 package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
-import fr.insalyon.heptabits.pldagile.HelloApplication;
-import fr.insalyon.heptabits.pldagile.model.Courier;
+import fr.insalyon.heptabits.pldagile.DeliferooApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -87,7 +86,7 @@ public class NewCourierController {
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setController(new NewDeliveryController(dependencyManager));
-        fxmlLoader.setLocation(HelloApplication.class.getResource("NewDelivery.fxml"));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("NewDelivery.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
         stage.setTitle("DEL'IFEROO");
@@ -108,7 +107,7 @@ public class NewCourierController {
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setController(new NewDeliveryController(dependencyManager));
-        fxmlLoader.setLocation(HelloApplication.class.getResource("newDelivery.fxml"));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("newDelivery.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
         stage.setTitle("del'IFeroo");
