@@ -89,6 +89,14 @@ public class RoadMap extends BaseEntity {
     }
 
 
+    /**
+     * @return The total length of the road map.
+     */
+    public double getTotalLength(){
+        return legs.stream().mapToDouble(Leg::getTotalLength).sum();
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
