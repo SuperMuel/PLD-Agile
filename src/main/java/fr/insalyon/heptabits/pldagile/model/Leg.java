@@ -86,6 +86,13 @@ public record Leg(List<Intersection> intersections, List<Segment> segments, Loca
         return intersections.getFirst();
     }
 
+    /**
+     * @return the total length of the leg
+     */
+    public double getTotalLength() {
+        return Segment.getTotalLength(segments);
+    }
+
     @Override
     public String toString() {
         return "Leg{" +
