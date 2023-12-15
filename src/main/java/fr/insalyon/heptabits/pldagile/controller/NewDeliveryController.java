@@ -157,13 +157,13 @@ public class NewDeliveryController {
         confirmNewDeliveryButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> confirmNewDeliveryButton.setStyle("-fx-background-color: #00CCBC"));
         confirmNewDeliveryButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> confirmNewDeliveryButton.setStyle("-fx-background-color: #00A093"));
 
-        addNewClientButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> addNewClientButton.setStyle("-fx-background-color: #00BCAD"));
-        addNewClientButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> addNewClientButton.setStyle("-fx-background-color: #00CCBC"));
-        addNewClientButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> addNewClientButton.setStyle("-fx-background-color: #00A093"));
+        addNewClientButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> addNewClientButton.setStyle("-fx-background-color: #00BCAD; -fx-background-radius: 5em"));
+        addNewClientButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> addNewClientButton.setStyle("-fx-background-color: #00CCBC; -fx-background-radius: 5em"));
+        addNewClientButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> addNewClientButton.setStyle("-fx-background-color: #00A093; -fx-background-radius: 5em"));
 
-        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> addNewCourierButton.setStyle("-fx-background-color: #00BCAD"));
-        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> addNewCourierButton.setStyle("-fx-background-color: #00CCBC"));
-        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> addNewCourierButton.setStyle("-fx-background-color: #00A093"));
+        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> addNewCourierButton.setStyle("-fx-background-color: #00BCAD; -fx-background-radius: 5em"));
+        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> addNewCourierButton.setStyle("-fx-background-color: #00CCBC; -fx-background-radius: 5em"));
+        addNewCourierButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> addNewCourierButton.setStyle("-fx-background-color: #00A093; -fx-background-radius: 5em"));
 
         return_button.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> return_button.setStyle("-fx-background-color: #00BCAD"));
         return_button.addEventHandler(MouseEvent.MOUSE_EXITED, e -> return_button.setStyle("-fx-background-color: #00CCBC"));
