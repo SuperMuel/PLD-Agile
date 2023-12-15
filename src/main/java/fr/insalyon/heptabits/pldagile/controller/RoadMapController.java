@@ -1,23 +1,39 @@
 package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
+import fr.insalyon.heptabits.pldagile.model.Courier;
+import fr.insalyon.heptabits.pldagile.model.Leg;
+import fr.insalyon.heptabits.pldagile.model.Map;
+import fr.insalyon.heptabits.pldagile.model.Segment;
 import fr.insalyon.heptabits.pldagile.DeliferooApplication;
-import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.repository.RoadMapRepository;
 import fr.insalyon.heptabits.pldagile.view.MapView;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDTrueTypeFont;
+import org.apache.pdfbox.pdmodel.font.encoding.WinAnsiEncoding;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayOutputStream;
+
+
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -37,6 +53,9 @@ public class RoadMapController {
     private Label courierName;
     @FXML
     private Label date;
+
+    @FXML
+    private Label title;
 
     @FXML
     private TextArea courierItinirary;
@@ -172,7 +191,7 @@ public class RoadMapController {
     }
 
     @FXML
-    protected void generatePdfButton(ActionEvent e) {
+    protected void generatePdfButton(ActionEvent e) throws IOException {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         String itinerary = courierItinirary.getText();
@@ -190,6 +209,63 @@ public class RoadMapController {
         // Vérifier si un fichier a été sélectionné
         if (selectedFile != null) {
             // Faites quelque chose avec le fichier sélectionné
+            SnapshotParameters params = new SnapshotParameters();
+            params.setFill(javafx.scene.paint.Color.TRANSPARENT); // Set the fill as needed
+
+            // Take a snapshot of the Group
+            Image image = mapView.createView(roadMapRepository.getByCourierAndDate(courier.getId(), chosenDate)).snapshot(params, null);
+
+            // Convert JavaFX Image to BufferedImage
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+
+            PDDocument doc = new PDDocument();
+            PDPage blankPageImg = new PDPage();
+            PDPage blankPageText = new PDPage();
+            doc.addPage( blankPageImg );
+            doc.addPage(blankPageText);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", baos);
+            baos.flush();
+            byte[] imageBytes = baos.toByteArray();
+            baos.close();
+
+            // Create a PDImageXObject from the byte array
+            org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject pdImage = org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject.createFromByteArray(doc, imageBytes, "image");
+
+            // Define the position and size of the image on the PDF page
+            float x = 30; // Change the X coordinate as needed
+            float y = 100; // Change the Y coordinate as needed
+            float width = pdImage.getWidth();
+            float height = pdImage.getHeight();
+
+            PDPage pageImg = doc.getPage(0);
+            PDPageContentStream contentStreamImg = new PDPageContentStream(doc, pageImg);
+            PDTrueTypeFont font = PDTrueTypeFont.load(doc, PDDocument.class.getResourceAsStream(
+                    "/org/apache/pdfbox/resources/ttf/LiberationSans-Regular.ttf"), WinAnsiEncoding.INSTANCE);
+
+            contentStreamImg.drawImage(pdImage, x, y, width, height);
+            contentStreamImg.beginText();
+            contentStreamImg.setFont(font, 20);
+            contentStreamImg.newLineAtOffset(10, 750);
+            contentStreamImg.showText(courierName.getText() + title.getText() + date.getText());
+            contentStreamImg.endText();
+            contentStreamImg.close();
+
+            PDPage pageText = doc.getPage(1);
+            PDPageContentStream contentStreamText = new PDPageContentStream(doc, pageText);
+
+            contentStreamText.beginText();
+            contentStreamText.setFont(font, 12);
+            contentStreamText.newLineAtOffset(50,700);
+            String[] itinerary_list = itinerary.split("\n");
+            for(String s: itinerary_list){
+                contentStreamText.showText(s);
+                contentStreamText.newLineAtOffset(0,-15);
+            }
+            contentStreamText.endText();
+            contentStreamText.close();
+            doc.save(selectedFile.getAbsolutePath());
 
             System.out.println("Fichier PDF sélectionné : " + selectedFile.getAbsolutePath());
             // À partir d'ici, vous pouvez traiter le fichier PDF comme nécessaire

@@ -5,6 +5,9 @@ module fr.insalyon.heptabits.pldagile {
     requires javafx.graphics;
     requires javafx.base;
     requires java.xml;
+    requires org.apache.pdfbox;
+    requires java.desktop;
+    requires javafx.swing;
     requires org.apache.commons.collections4;
 
     opens fr.insalyon.heptabits.pldagile to javafx.fxml;
