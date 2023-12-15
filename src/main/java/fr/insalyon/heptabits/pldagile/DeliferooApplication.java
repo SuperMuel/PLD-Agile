@@ -1,6 +1,6 @@
 package fr.insalyon.heptabits.pldagile;
 
-import fr.insalyon.heptabits.pldagile.controller.HelloController;
+import fr.insalyon.heptabits.pldagile.controller.DeliferooController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,15 +9,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class DeliferooApplication extends Application {
 
 
     @Override
     public void start(Stage stage) throws IOException {
         DependencyManager dependencyManager = new DependencyManager();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        HelloController controller = new HelloController(dependencyManager);
+        FXMLLoader fxmlLoader = new FXMLLoader(DeliferooApplication.class.getResource("deliferoo-view.fxml"));
+        DeliferooController controller = new DeliferooController(dependencyManager);
         fxmlLoader.setController(controller);
 
         Parent root = fxmlLoader.load();
