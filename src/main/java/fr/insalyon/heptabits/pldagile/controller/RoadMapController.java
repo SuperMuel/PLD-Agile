@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.InputEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -30,6 +31,7 @@ import org.apache.pdfbox.pdmodel.font.PDTrueTypeFont;
 import org.apache.pdfbox.pdmodel.font.encoding.WinAnsiEncoding;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.ByteArrayOutputStream;
 
 
@@ -53,12 +55,15 @@ public class RoadMapController {
     private Label courierName;
     @FXML
     private Label date;
-
     @FXML
     private Label title;
 
     @FXML
+    private javafx.scene.control.Button generatePDFButton;
+    @FXML
     private TextArea courierItinirary;
+
+
 
     public RoadMapController(DependencyManager dependencyManager, Courier courier, LocalDate chosenDate) {
         this.dependencyManager = dependencyManager;
@@ -73,6 +78,12 @@ public class RoadMapController {
         courierName.setText(courier.getFirstName() + " " + courier.getLastName() + " :");
         date.setText(chosenDate.toString());
         initializeRoadMap();
+
+        generatePDFButton.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> generatePDFButton.setStyle("-fx-background-color: #00BCAD"));
+        generatePDFButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> generatePDFButton.setStyle("-fx-background-color: #00CCBC"));
+        generatePDFButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> generatePDFButton.setStyle("-fx-background-color: #00A093"));
+
+
     }
 
 

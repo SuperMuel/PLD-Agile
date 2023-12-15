@@ -62,8 +62,9 @@ public class DeliferooController {
     private ImageView logo;
     @FXML
     private Button newDeliveryButton;
+
     @FXML
-    private Button fileButton;
+    private Button viewRoadMaps;
 
     public DeliferooController(DependencyManager dependencyManager) {
         this.dependencyManager = dependencyManager;
@@ -90,6 +91,9 @@ public class DeliferooController {
         newDeliveryButton.addEventHandler(MouseEvent.MOUSE_EXITED, e -> newDeliveryButton.setStyle("-fx-background-color: #00CCBC"));
         newDeliveryButton.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> newDeliveryButton.setStyle("-fx-background-color: #00A093"));
 
+        viewRoadMaps.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> viewRoadMaps.setStyle("-fx-background-color: #00BCAD"));
+        viewRoadMaps.addEventHandler(MouseEvent.MOUSE_EXITED, e -> viewRoadMaps.setStyle("-fx-background-color: #00CCBC"));
+        viewRoadMaps.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> viewRoadMaps.setStyle("-fx-background-color: #00A093"));
     }
 
     public void updateMap() {

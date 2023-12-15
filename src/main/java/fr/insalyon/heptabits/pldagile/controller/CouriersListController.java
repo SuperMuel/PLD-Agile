@@ -10,9 +10,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.input.InputEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,6 +26,9 @@ public class CouriersListController {
     private Stage stage;
     @FXML
     private ChoiceBox<Courier> courierChoiceBox;
+
+    @FXML
+    private Button validateCourierSelected;
 
     @FXML
     private DatePicker datePicker;
@@ -82,5 +87,9 @@ public class CouriersListController {
         final List<Courier> couriers = roadMaps.stream().map(RoadMap::getCourierId).distinct().map(courierRepository::findById).toList();
         //TODO If no couriers, show message
         courierChoiceBox.getItems().addAll(couriers);
+
+        validateCourierSelected.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> validateCourierSelected.setStyle("-fx-background-color: #00BCAD"));
+        validateCourierSelected.addEventHandler(MouseEvent.MOUSE_EXITED, e -> validateCourierSelected.setStyle("-fx-background-color: #00CCBC"));
+        validateCourierSelected.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> validateCourierSelected.setStyle("-fx-background-color: #00A093"));
     }
 }
