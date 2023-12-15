@@ -158,17 +158,20 @@
                     <Font name="Inter Semi Bold" size="20.0" />
                 </font>
             </Label>
-            <TextField fx:id="intersectionTextField" prefHeight="40.0" prefWidth="426.0" style="-fx-background-color: #E6FAF9;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+            <Label fx:id="intersectionTextField" prefHeight="40.0" prefWidth="426.0" style="-fx-background-color: #E6FAF9;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
             <VBox.margin>
                <Insets bottom="20.0" />
             </VBox.margin>
         </HBox>
 
-        <AnchorPane fx:id="mapAnchorPane" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-            <padding>
-                <Insets bottom="20.0" left="20.0" top="20.0" />
-            </padding>
-        </AnchorPane>
+        <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="862.0" prefWidth="751.0">
+            <StackPane fx:id="mapContainer">
+                <!-- Other UI elements if needed -->
+            </StackPane>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Pane>
     </VBox>
 
 

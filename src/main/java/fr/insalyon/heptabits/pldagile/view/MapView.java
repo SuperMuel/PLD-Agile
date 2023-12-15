@@ -29,7 +29,9 @@ public class MapView {
 
     private final Map map;
 
-    private final int size;
+    private final int sizeX;
+
+    private final int sizeY;
 
     private final HashMap<Long, Circle> intersectionsToCircles;
 
@@ -59,24 +61,27 @@ public class MapView {
      * Creates a new map view.
      *
      * @param map the map
-     * @param size the size of the map
+     * @param sizeX the sizeX of the map
+     * @param sizeY the sizeX of the map
      * @param onIntersectionClicked the onIntersectionClicked event
      */
-    public MapView(Map map, int size, OnIntersectionClicked onIntersectionClicked) {
-        this(map, size, onIntersectionClicked, List.of());
+    public MapView(Map map, int sizeX, int sizeY, OnIntersectionClicked onIntersectionClicked) {
+        this(map, sizeX, sizeY, onIntersectionClicked, List.of());
     }
 
     /**
      * Creates a new map view.
      *
      * @param map the map
-     * @param size the size of the map
+     * @param sizeX the sizeX of the map
+     * @param sizeY the sizeY of the map
      * @param onIntersectionClicked the onIntersectionClicked event
      * @param roadMaps the road maps to display
      */
-    public MapView(Map map, int size, OnIntersectionClicked onIntersectionClicked, List<RoadMap> roadMaps) {
+    public MapView(Map map, int sizeX, int sizeY, OnIntersectionClicked onIntersectionClicked, List<RoadMap> roadMaps) {
         this.map = map;
-        this.size = size;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
         this.onIntersectionClicked = onIntersectionClicked;
 
         intersectionsToCircles = new HashMap<>();
@@ -92,7 +97,7 @@ public class MapView {
      */
     private float latToPixel(double latitude) {
         MapBoundaries boundaries = map.getBoundaries();
-        return (float) ((latitude - boundaries.minLatitude()) * size / (boundaries.maxLatitude() - boundaries.minLatitude()));
+        return (float) -((latitude - boundaries.minLatitude()) * sizeY / (boundaries.maxLatitude() - boundaries.minLatitude()));
     }
 
     /**
@@ -103,7 +108,7 @@ public class MapView {
      */
     private float longToPixel(double longitude) {
         MapBoundaries boundaries = map.getBoundaries();
-        return (float) ((longitude - boundaries.minLongitude()) * size / (boundaries.maxLongitude() - boundaries.minLongitude()));
+        return (float) ((longitude - boundaries.minLongitude()) * sizeX / (boundaries.maxLongitude() - boundaries.minLongitude()));
     }
 
 

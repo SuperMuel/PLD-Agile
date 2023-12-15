@@ -74,7 +74,7 @@ public class RoadMapController {
 
     public void initialize() {
         Map map = dependencyManager.getMapService().getCurrentMap();
-        initializeMap(map, 500);
+        initializeMap(map, 500, 500);
         courierName.setText(courier.getFirstName() + " " + courier.getLastName() + " :");
         date.setText(chosenDate.toString());
         initializeRoadMap();
@@ -176,8 +176,8 @@ public class RoadMapController {
     }
 
 
-    private void initializeMap(Map map, int width) {
-        mapView = new MapView(map, width, null);
+    private void initializeMap(Map map, int width, int height) {
+        mapView = new MapView(map, width, height, null);
         Group mapGroup = mapView.createView(roadMapRepository.getByCourierAndDate(courier.getId(), chosenDate));
 
         mapContainer.getChildren().clear(); // Clear existing content if necessary
