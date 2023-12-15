@@ -56,6 +56,9 @@ public class RoadMapController {
     private Label date;
 
     @FXML
+    private Label titre;
+
+    @FXML
     private TextArea courierItinirary;
 
     public RoadMapController(DependencyManager dependencyManager, Courier courier, LocalDate chosenDate) {
@@ -217,8 +220,10 @@ public class RoadMapController {
             BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
 
             PDDocument doc = new PDDocument();
-            PDPage blankPage = new PDPage();
-            doc.addPage( blankPage );
+            PDPage blankPageImg = new PDPage();
+            PDPage blankPageText = new PDPage();
+            doc.addPage( blankPageImg );
+            doc.addPage(blankPageText);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(bufferedImage, "png", baos);
@@ -231,28 +236,36 @@ public class RoadMapController {
 
             // Define the position and size of the image on the PDF page
             float x = 30; // Change the X coordinate as needed
-            float y = 300; // Change the Y coordinate as needed
+            float y = 100; // Change the Y coordinate as needed
             float width = pdImage.getWidth();
             float height = pdImage.getHeight();
 
-
-            PDPage page = doc.getPage(0);
-            PDPageContentStream contentStream = new PDPageContentStream(doc, page);
-            // Add the image to the PDF page
-            contentStream.drawImage(pdImage, x, y, width, height);
-
-            contentStream.beginText();
+            PDPage pageImg = doc.getPage(0);
+            PDPageContentStream contentStreamImg = new PDPageContentStream(doc, pageImg);
             PDTrueTypeFont font = PDTrueTypeFont.load(doc, PDDocument.class.getResourceAsStream(
                     "/org/apache/pdfbox/resources/ttf/LiberationSans-Regular.ttf"), WinAnsiEncoding.INSTANCE);
-            contentStream.setFont(font, 12);
-            contentStream.newLineAtOffset(10,280);
+
+            contentStreamImg.drawImage(pdImage, x, y, width, height);
+            contentStreamImg.beginText();
+            contentStreamImg.setFont(font, 20);
+            contentStreamImg.newLineAtOffset(10, 750);
+            contentStreamImg.showText(courierName.getText() + titre.getText() + date.getText());
+            contentStreamImg.endText();
+            contentStreamImg.close();
+
+            PDPage pageText = doc.getPage(1);
+            PDPageContentStream contentStreamText = new PDPageContentStream(doc, pageText);
+
+            contentStreamText.beginText();
+            contentStreamText.setFont(font, 12);
+            contentStreamText.newLineAtOffset(50,700);
             String[] itinerary_list = itinerary.split("\n");
             for(String s: itinerary_list){
-                contentStream.showText(s);
-                contentStream.newLineAtOffset(0,-15);
+                contentStreamText.showText(s);
+                contentStreamText.newLineAtOffset(0,-15);
             }
-            contentStream.endText();
-            contentStream.close();
+            contentStreamText.endText();
+            contentStreamText.close();
             doc.save(selectedFile.getAbsolutePath());
 
             System.out.println("Fichier PDF sélectionné : " + selectedFile.getAbsolutePath());
