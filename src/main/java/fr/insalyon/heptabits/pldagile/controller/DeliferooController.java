@@ -1,7 +1,7 @@
 package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
-import fr.insalyon.heptabits.pldagile.HelloApplication;
+import fr.insalyon.heptabits.pldagile.DeliferooApplication;
 import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.view.MapView;
 import javafx.beans.property.SimpleObjectProperty;
@@ -31,7 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-public class HelloController {
+public class DeliferooController {
 
     private final DependencyManager dependencyManager;
     private final Color hoveredColor = Color.web("#00BCAD");
@@ -65,7 +65,7 @@ public class HelloController {
     @FXML
     private Button fileButton;
 
-    public HelloController(DependencyManager dependencyManager) {
+    public DeliferooController(DependencyManager dependencyManager) {
         this.dependencyManager = dependencyManager;
     }
 
@@ -156,7 +156,7 @@ public class HelloController {
         Stage oldStage = (Stage) source.getScene().getWindow();
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(HelloApplication.class.getResource("couriersList.fxml"));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("couriersList.fxml"));
         fxmlLoader.setController(new CouriersListController(dependencyManager, oldStage));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
@@ -173,7 +173,7 @@ public class HelloController {
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setController(new NewDeliveryController(dependencyManager));
-        fxmlLoader.setLocation(HelloApplication.class.getResource("NewDelivery.fxml"));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("NewDelivery.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
         stage.setTitle("DEL'IFEROO");

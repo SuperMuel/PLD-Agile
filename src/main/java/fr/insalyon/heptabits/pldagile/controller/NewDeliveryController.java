@@ -1,7 +1,7 @@
 package fr.insalyon.heptabits.pldagile.controller;
 
 import fr.insalyon.heptabits.pldagile.DependencyManager;
-import fr.insalyon.heptabits.pldagile.HelloApplication;
+import fr.insalyon.heptabits.pldagile.DeliferooApplication;
 import fr.insalyon.heptabits.pldagile.model.*;
 import fr.insalyon.heptabits.pldagile.repository.ClientRepository;
 import fr.insalyon.heptabits.pldagile.repository.CourierRepository;
@@ -184,8 +184,8 @@ public class NewDeliveryController {
         stage.close();
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setController(new HelloController(dependencyManager));
-        fxmlLoader.setLocation(HelloApplication.class.getResource("hello-view.fxml"));
+        fxmlLoader.setController(new DeliferooController(dependencyManager));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("deliferoo-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
         stage.setTitle("del'IFeroo");
@@ -208,7 +208,7 @@ public class NewDeliveryController {
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setController(new NewClientController(dependencyManager));
-        fxmlLoader.setLocation(HelloApplication.class.getResource("NewClient.fxml"));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("NewClient.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
         stage.setTitle("del'IFeroo");
@@ -230,7 +230,7 @@ public class NewDeliveryController {
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setController(new NewCourierController(dependencyManager));
-        fxmlLoader.setLocation(HelloApplication.class.getResource("NewCourier.fxml"));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("NewCourier.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
         stage.setTitle("del'IFeroo");
@@ -277,8 +277,8 @@ public class NewDeliveryController {
         stage.close();
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setController(new HelloController(dependencyManager));
-        fxmlLoader.setLocation(HelloApplication.class.getResource("hello-view.fxml"));
+        fxmlLoader.setController(new DeliferooController(dependencyManager));
+        fxmlLoader.setLocation(DeliferooApplication.class.getResource("deliferoo-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = new Stage();
         stage.setTitle("del'IFeroo");
