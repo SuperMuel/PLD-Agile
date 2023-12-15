@@ -69,7 +69,8 @@ public class DeliferooController {
         this.dependencyManager = dependencyManager;
     }
 
-    int mapSize = 500;
+    int mapSizeX = 500;
+    int mapSizeY = 500;
 
     @FXML
     public void initialize() {
@@ -95,7 +96,7 @@ public class DeliferooController {
     public void updateMap() {
         Map map = dependencyManager.getMapService().getCurrentMap();
         List<RoadMap> roadMaps = dependencyManager.getRoadMapRepository().getByDate(datePicker.getValue());
-        mapView = new MapView(map, mapSize, null, roadMaps);
+        mapView = new MapView(map, mapSizeX, mapSizeY, null, roadMaps);
         Group mapGroup = mapView.createView();
 
         mapContainer.getChildren().clear(); // Clear existing content if necessary

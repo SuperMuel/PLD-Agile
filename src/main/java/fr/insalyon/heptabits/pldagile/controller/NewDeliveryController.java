@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -39,7 +40,7 @@ public class NewDeliveryController {
     @FXML
     private DatePicker datePicker;
     @FXML
-    private AnchorPane mapAnchorPane;
+    private StackPane mapContainer;
     @FXML
     private TextField intersectionTextField;
     @FXML
@@ -90,8 +91,8 @@ public class NewDeliveryController {
         };
 
 
-        final MapView mapView = new MapView(mapService.getCurrentMap(), 500, onIntersectionClicked);
-        mapAnchorPane.getChildren().add(mapView.createView());
+        final MapView mapView = new MapView(mapService.getCurrentMap(), 600, 500,  onIntersectionClicked);
+        mapContainer.getChildren().add(mapView.createView());
 
         // Afficher l'intersection sélectionnée différemment
         intersectionTextField.textProperty().addListener((observable, oldValue, newValue) -> {

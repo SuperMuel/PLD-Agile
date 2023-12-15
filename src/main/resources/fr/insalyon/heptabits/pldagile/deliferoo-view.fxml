@@ -82,7 +82,7 @@
                      </DropShadow>
                   </effect>
             </TableView>
-            <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="862.0" prefWidth="751.0" style="-fx-border-color: black;">
+            <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="862.0" prefWidth="751.0" >
               <StackPane fx:id="mapContainer">
           <!-- Other UI elements if needed -->
             </StackPane>
