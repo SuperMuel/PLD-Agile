@@ -7,8 +7,33 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Mock implementation of the {@link RoadMapRepository} interface.
+ * <p>
+ * This implementation is used for testing purposes.
+ */
 public class MockRoadMapRepository extends InMemoryRoadMapRepository {
 
+    /**
+     * Creates a new mock road map repository.
+     * <p>
+     * The mock road map repository contains a single road map with two deliveries.
+     * <p>
+     * The road map contains the following legs:
+     * <ul>
+     *     <li>Leg 1: from intersection 3 to intersection 5</li>
+     *     <li>Leg 2: from intersection 5 to intersection 2 to intersection 1</li>
+     *     <li>Leg 3: from intersection 1 to intersection 3</li>
+     * </ul>
+     * <p>
+     * The road map contains the following deliveries:
+     * <ul>
+     *     <li>Delivery 1: at intersection 5, assigned to courier 1, for client 1, with a time window from 8:00 to 9:00</li>
+     *     <li>Delivery 2: at intersection 1, assigned to courier 1, for client 2, with a time window from 8:00 to 9:00</li>
+     * </ul>
+     *
+     * @param idGenerator the ID generator
+     */
     public MockRoadMapRepository(IdGenerator idGenerator, MockMapService mapService) {
         super(idGenerator);
 

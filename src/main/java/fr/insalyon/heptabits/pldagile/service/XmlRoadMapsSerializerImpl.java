@@ -20,6 +20,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used to serialize and deserialize road maps into xml files
+ */
 public class XmlRoadMapsSerializerImpl implements IXmlRoadMapsSerializer {
 
     /**

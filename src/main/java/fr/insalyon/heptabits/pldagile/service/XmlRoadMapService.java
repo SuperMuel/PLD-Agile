@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+/**
+ * This class is used to serialize and deserialize road maps into xml files
+ */
 public class XmlRoadMapService implements IXmlRoadMapService {
     private final RoadMapRepository roadMapRepository;
     private final MapService mapService;
