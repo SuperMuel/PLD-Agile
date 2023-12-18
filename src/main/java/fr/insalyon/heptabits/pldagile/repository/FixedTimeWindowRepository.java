@@ -10,6 +10,13 @@ import fr.insalyon.heptabits.pldagile.model.TimeWindow;
  * Returns 1h time windows from 8am to 12am.
  */
 public class FixedTimeWindowRepository implements TimeWindowRepository {
+    /**
+     * Returns all the time windows.
+     * <p>
+     * Returns 1h time windows from 8am to 12am.
+     *
+     * @return all the time windows
+     */
     public java.util.List<TimeWindow> getAll() {
         //create 4 1hour time windows from 8am to 12am using a loop
         java.util.List<TimeWindow> timeWindows = new java.util.ArrayList<>();

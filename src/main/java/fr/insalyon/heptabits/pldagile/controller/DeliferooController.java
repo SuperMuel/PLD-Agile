@@ -31,6 +31,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
+/**
+ * Controller for the main view.
+ * <p>
+ * This controller is responsible for handling the events on the main view.
+ * <p>
+ * The main view allows the user to select a date and displays the deliveries for this date.
+ * <p>
+ * The main view also displays a map with the roadmaps.
+ */
 public class DeliferooController {
 
     private final DependencyManager dependencyManager;
@@ -65,6 +74,7 @@ public class DeliferooController {
 
     @FXML
     private Button viewRoadMaps;
+
 
     public DeliferooController(DependencyManager dependencyManager) {
         this.dependencyManager = dependencyManager;

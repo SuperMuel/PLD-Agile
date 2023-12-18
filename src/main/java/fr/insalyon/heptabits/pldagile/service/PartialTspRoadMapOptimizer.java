@@ -19,6 +19,11 @@ import static java.lang.Double.MAX_VALUE;
 public class PartialTspRoadMapOptimizer implements RoadMapOptimizer {
     private final RoadMapBuilder roadMapBuilder;
 
+    /**
+     * Creates a new partial tsp road map optimizer.
+     *
+     * @param roadMapBuilder the road map builder to use
+     */
     public PartialTspRoadMapOptimizer(RoadMapBuilder roadMapBuilder) {
         this.roadMapBuilder = roadMapBuilder;
     }

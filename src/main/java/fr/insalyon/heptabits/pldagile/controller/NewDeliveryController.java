@@ -30,6 +30,15 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Controller for the main view.
+ * <p>
+ * This controller is responsible for handling the events on the main view.
+ * <p>
+ * The view allows the user to select a date, a courier, a client, a time window and an intersection. They can then
+ * click on the "Validate" button to create a new delivery.
+ *
+ */
 public class NewDeliveryController {
 
     public ChoiceBox<TimeWindow> timeWindowChoiceBox;

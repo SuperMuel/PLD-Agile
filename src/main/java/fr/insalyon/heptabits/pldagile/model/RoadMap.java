@@ -18,7 +18,21 @@ public class RoadMap extends BaseEntity {
     private final List<Delivery> deliveries;
     private final List<Leg> legs;
 
-
+    /**
+     * Creates a new road map.
+     *
+     * @param id the id of the road map
+     * @param deliveries the list of deliveries
+     * @param legs the list of legs
+     *
+     * The first leg's departure point must match the last leg's destination. (Typically the warehouse)
+     * Each leg's departure point must match the previous leg's arrival point.
+     * The number of legs must be one more than the number of deliveries.
+     * The deliveries must be made by the same courier.
+     * There should be at least one delivery. (If there are no deliveries, the road map is useless)
+     *
+     * @throws IllegalArgumentException if the arguments are invalid
+     */
     public RoadMap(long id, List<Delivery> deliveries, List<Leg> legs) {
         super(id);
 

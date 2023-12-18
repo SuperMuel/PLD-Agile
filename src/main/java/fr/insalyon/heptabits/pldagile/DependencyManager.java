@@ -33,6 +33,12 @@ public class DependencyManager {
     private final DeliveryService deliveryService;
 
 
+    /**
+     * Creates a new dependency manager.
+     *
+     * This creates all the repositories and services, which can be accessed through the getters.
+     *
+     */
     public DependencyManager() {
         idGenerator = new IdGenerator();
         courierRepository = new MockCourierRepository(getIdGenerator());
