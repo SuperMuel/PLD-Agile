@@ -21,6 +21,15 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Controller for the couriers list view.
+ * <p>
+ * This controller is responsible for handling the events on the couriers list view.
+ * <p>
+ * The couriers list view allows the user to select a courier and a date.
+ * <p>
+ * When the user clicks on the "Validate" button, the road map view is displayed.
+ */
 public class CouriersListController {
     private final DependencyManager dependencyManager;
     private Stage stage;
@@ -37,6 +46,14 @@ public class CouriersListController {
         this.stage = stage;
     }
 
+    /**
+     * Handles the click on the "Return" button.
+     * <p>
+     * Closes the current window and displays the main view.
+     *
+     * @param e the event
+     * @throws IOException if the main view cannot be loaded
+     */
     @FXML
     protected void onReturnButtonClick(InputEvent e) throws IOException {
         Node source = (Node) e.getSource();
@@ -54,6 +71,14 @@ public class CouriersListController {
         stage.show();
     }
 
+    /**
+     * Handles the click on the "Validate" button.
+     * <p>
+     * Closes the current window and displays the road map view for the selected courier and date.
+     *
+     * @param e the event
+     * @throws IOException if the road map view cannot be loaded
+     */
     @FXML
     protected void onValidateCourierSelected(InputEvent e) throws IOException{
         Node source = (Node) e.getSource();
@@ -76,6 +101,15 @@ public class CouriersListController {
         stage.show();
     }
 
+
+    /**
+     * Initializes the couriers list view.
+     * <p>
+     * This method is called by the JavaFX framework when the view is loaded.
+     * <p>
+     * It initializes the date picker with the current date and the courier choice box with the couriers of the current date.
+     */
+    @FXML
     public void initialize(){
         LocalDate date = LocalDate.now();
         datePicker.setValue(date);

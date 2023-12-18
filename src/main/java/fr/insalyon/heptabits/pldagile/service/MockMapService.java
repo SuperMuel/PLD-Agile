@@ -12,6 +12,12 @@ import java.util.List;
  */
 public class MockMapService implements MapService {
 
+    /**
+     * Creates a new mock map service.
+     */
+    public MockMapService() {
+    }
+
     final Intersection i1 = new Intersection(1, -2, -1);
     final Intersection i2 = new Intersection(2, 3, 1);
     final Intersection i3 = new Intersection(3, 2, 5);

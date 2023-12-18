@@ -33,6 +33,7 @@ public class Intersection extends BaseEntity {
 
 
     /**
+     *
      * @return the latitude of the intersection
      */
     public float getLatitude() {
@@ -57,7 +58,9 @@ public class Intersection extends BaseEntity {
     }
 
     /**
-     * @return a pretty printed version of the latitude and longitude.
+     * Formats the latitude and longitude of the intersection into a string.
+     *
+     * @return the formatted string, with the latitude and longitude separated by a comma
      *
      * Example: "45.7541, 4.8576"
      */

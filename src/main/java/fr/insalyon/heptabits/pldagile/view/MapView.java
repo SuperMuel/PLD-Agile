@@ -291,6 +291,14 @@ public class MapView {
         return lines;
     }
 
+
+    /**
+     * Creates circles that represent the deliveries.
+     *
+     * @param deliveries the deliveries
+     * @param color the color of the circles
+     * @return the deliveries circles
+     */
     private List<Circle> createDeliveriesCircles(List<Delivery> deliveries, Color color){
         List<Circle> circles = new ArrayList<>();
         for(Delivery delivery:deliveries){
@@ -305,8 +313,6 @@ public class MapView {
             circle.setCenterY(latToPixel(delivery.destination().getLatitude()));
 
             circles.add(circle);
-
-
         }
         return circles;
 
@@ -334,6 +340,12 @@ public class MapView {
         return imageView;
     }
 
+
+    /**
+     * Animates the circle corresponding to the selected intersection.
+     *
+     * @param selectedIntersectionId the id of the selected intersection
+     */
     public void onDeliveryHovered(long selectedIntersectionId) {
         Circle c = intersectionsToCircles.get(selectedIntersectionId);
 
@@ -346,6 +358,11 @@ public class MapView {
         c.setOpacity(1);
     }
 
+    /**
+     * Animates the circle corresponding to the selected intersection.
+     *
+     * @param selectedIntersectionId the id of the selected intersection
+     */
     public void onDeliveryExited(long selectedIntersectionId) {
         Circle c = intersectionsToCircles.get(selectedIntersectionId);
 

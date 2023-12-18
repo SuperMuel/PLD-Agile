@@ -2,8 +2,16 @@ package fr.insalyon.heptabits.pldagile.repository;
 
 import fr.insalyon.heptabits.pldagile.model.IdGenerator;
 
+/**
+ * A mock for the client repository.
+ */
 public class MockClientRepository extends InMemoryClientRepository {
 
+    /**
+     * Creates a new mock client repository.
+     *
+     * @param idGenerator the id generator to use
+     */
     public MockClientRepository(IdGenerator idGenerator) {
         super(idGenerator);
 

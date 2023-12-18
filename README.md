@@ -2,7 +2,16 @@
 
 [![codecov](https://codecov.io/github/SuperMuel/PLD-Agile/graph/badge.svg?token=VL6RZLOBNK)](https://codecov.io/github/SuperMuel/PLD-Agile)
 
-### Getting started
+https://github.com/SuperMuel/PLD-Agile
+
+# Getting started
+Le projet utilise Java JDK 21 et Maven. Les tests peuvent être exécutés via la commande `mvn test`. Les 
+rapports de couverture de code sont générés automatiquement dans le dossier `target/site/jacoco` 
+après l'exécution des tests. Le rapport de couverture de code est également disponible sur
+[codecov.io](https://codecov.io/gh/SuperMuel/PLD-Agile).
+
+
+# Développement
 
 L'utilisation de [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/) est fortement recommandée pour le développement.
 

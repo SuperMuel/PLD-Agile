@@ -30,6 +30,12 @@ public class DeliveryService {
         this.roadMapRepository = roadMapRepository;
     }
 
+    /**
+     * Gets all deliveries on a given date.
+     *
+     * @param date the date to get the deliveries from
+     * @return a list of deliveries on the given date
+     */
     public List<Delivery> getDeliveriesOnDate(LocalDate date){
         List<Delivery> deliveries = new ArrayList<>();
         for(RoadMap roadMap : roadMapRepository.getByDate(date)){

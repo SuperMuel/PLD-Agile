@@ -5,6 +5,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class represents a map.
+ * <p>
+ * A map is a list of intersections, list of segments and a warehouse.
+ * <p>
+ * The map is immutable.
+ */
 public class Map extends BaseEntity {
 
     private final HashMap<Long, Intersection> intersections;
@@ -154,6 +161,7 @@ public class Map extends BaseEntity {
 
 
     /**
+     * @param segment the segment
      * @return the origin of the segment
      * Note : a segment is not directed.
      */
@@ -162,6 +170,7 @@ public class Map extends BaseEntity {
     }
 
     /**
+     * @param segment the segment
      * @return the destination of the segment
      * Note : a segment is not directed.
      */
@@ -170,6 +179,7 @@ public class Map extends BaseEntity {
     }
 
     /**
+     * @param intersection the intersection
      * @return all the segments connected to the intersection.
      */
     public List<Segment> getConnectedSegments(Intersection intersection) {
@@ -186,6 +196,7 @@ public class Map extends BaseEntity {
 
 
     /**
+     * @param intersection the intersection
      * @return all the neighbors of the intersection.
      */
     public List<Intersection> getNeighbors(Intersection intersection) {
@@ -281,6 +292,10 @@ public class Map extends BaseEntity {
 
 
     /**
+     * Check if a segment connects two intersections.
+     * @param s             the segment
+     * @param origin        the origin intersection
+     * @param destination   the destination intersection
      * @return true if the segment connects the two intersections, false otherwise.
      */
     public boolean connectsIntersections(Segment s, Intersection origin, Intersection destination) {

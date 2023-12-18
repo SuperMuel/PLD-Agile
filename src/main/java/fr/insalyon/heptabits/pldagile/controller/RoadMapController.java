@@ -42,6 +42,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Controller for the road map view.
+ * <p>
+ * This controller is responsible for handling the events on the road map view.
+ * <p>
+ * The road map view displays the road map for a courier and a date.
+ */
 public class RoadMapController {
 
     private final DependencyManager dependencyManager;

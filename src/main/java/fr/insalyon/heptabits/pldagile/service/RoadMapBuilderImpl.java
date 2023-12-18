@@ -7,6 +7,11 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the {@link RoadMapBuilder} interface.
+ * <p>
+ * This implementation is responsible for building a valid road map from an ordered list of delivery requests.
+ */
 public class RoadMapBuilderImpl implements RoadMapBuilder {
 
     private final IdGenerator idGenerator;
@@ -16,6 +21,14 @@ public class RoadMapBuilderImpl implements RoadMapBuilder {
 
     private final double courierSpeedMs;
 
+    /**
+     * Creates a new road map builder.
+     *
+     * @param idGenerator       the ID generator
+     * @param deliveryDuration  the duration of a delivery
+     * @param minDepartureTime  the minimum departure time
+     * @param courierSpeedMs    the speed of the courier in m/s
+     */
     public RoadMapBuilderImpl(IdGenerator idGenerator, Duration deliveryDuration, LocalTime minDepartureTime, double courierSpeedMs) {
         this.idGenerator = idGenerator;
         this.deliveryDuration = deliveryDuration;
@@ -23,6 +36,24 @@ public class RoadMapBuilderImpl implements RoadMapBuilder {
         this.courierSpeedMs = courierSpeedMs;
     }
 
+
+    /**
+     * Creates a valid road map from an ordered list of delivery requests.
+     *
+     * The road map starts at the warehouse, then goes to each delivery location in the order of the list of delivery
+     * requests, and finally goes back to the warehouse.
+     *
+     * The courier takes the shortest path between each location. If it arrives before the start of the time window,
+     * it waits until the start of the time window. If it arrives after the end of the time window, the road map is
+     * invalid and an exception is thrown.
+     *
+     * If no path is found between two locations, the road map is invalid and an exception is thrown.
+     *
+     * @param sortedRequests the sorted list of delivery requests
+     * @param map            the map on which the road map is built
+     * @return the built road map
+     * @throws ImpossibleRoadMapException if the road map cannot be built
+     */
     @Override
     public RoadMap buildRoadMapFromSortedRequests(List<DeliveryRequest> sortedRequests, Map map) throws ImpossibleRoadMapException {
         // TODO : handle error where there are no requests
